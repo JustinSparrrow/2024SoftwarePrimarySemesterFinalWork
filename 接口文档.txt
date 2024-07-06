@@ -44,10 +44,10 @@
 测试时：localhost:81/accountupdate
 实际使用时：服务器IP:81/accountupdate
 （2）请求参数
-①username（必填）		//userid不可更改
-②phone（必填）
-③email（必填）
-④password（必填）
+①username（选填）		//userid不可更改
+②phone（选填）
+③email（选填）
+④password（选填）
 以上参数需要设置默认的初始值为原数据
 （3）后端响应示例
 {
@@ -110,12 +110,12 @@
 测试时：localhost:81/qupdate
 实际使用时：服务器IP:81/qupdate
 （5）请求参数
-①qid（必填）
-②qmajor（必填）
-③qtype（必填）
-④qcontent（必填）
-⑤qanswer（必填）
-⑥qimg（必填）
+①qid（选填）
+②qmajor（选填）
+③qtype（选填）
+④qcontent（选填）
+⑤qanswer（选填）
+⑥qimg（选填）
 以上参数需要设置默认的初始值为原数据
 （6）后端响应示例
 {
