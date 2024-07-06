@@ -16,7 +16,7 @@
 测试时：localhost:81/accountinsert
 实际使用时：服务器IP:81/accountinsert
 （2）请求参数
-①username（必填）
+①username（必填）		//userid自动生成
 ②phone（选填）
 ③email（选填）
 ④password（必填）
@@ -25,21 +25,7 @@
 "success":1			//1表成功，0表失败
 }
 
-3.用户数据增加
-（1）Url
-测试时：localhost:81/accountinsert
-实际使用时：服务器IP:81/accountinsert
-（2）请求参数
-①username（必填）
-②phone（选填）
-③email（选填）
-④password（必填）
-（3）后端响应示例
-{
-"success":1			//1表成功，0表失败
-}
-
-4.用户数据删除
+3.用户数据删除
 （1）Url
 测试时：localhost:81/accountdelete
 实际使用时：服务器IP:81/accountdelete
@@ -53,16 +39,15 @@
 "success":1			//1表成功，0表失败
 }
 
-5.用户数据修改
+4.用户数据修改
 （1）Url
 测试时：localhost:81/accountupdate
 实际使用时：服务器IP:81/accountupdate
 （2）请求参数
-①userid（必填）
-②username（必填）
-③phone（必填）
-④email（必填）
-⑤password（必填）
+①username（必填）		//userid不可更改
+②phone（必填）
+③email（必填）
+④password（必填）
 以上参数需要设置默认的初始值为原数据
 （3）后端响应示例
 {
@@ -70,7 +55,7 @@
 }
 
 
-6.用户数据查询
+5.用户数据查询
 （1）Url
 测试时：localhost:81/accountselect
 实际使用时：服务器IP:81/accountselect
@@ -80,6 +65,7 @@
 ③phone（选填）
 ④email（选填）
 ⑤password（选填）
+⑥admin (选填)
 （3）后端响应示例
 {
 "userid":"114514",
@@ -90,12 +76,12 @@
 "admin":1 	//1表示管理员，0表示普通用户
 }
 
-7.试题增加
+6.试题增加
 （1）Url
 测试时：localhost:81/qinsert
 实际使用时：服务器IP:81/qinsert
 （2）请求参数
-①qmajor（必填）
+①qmajor（必填）		//qid自动生成无需填写
 ②qtype（必填）
 ③qcontent（必填）
 ④qanswer（必填）
@@ -105,7 +91,7 @@
 "success":1			//1表成功，0表失败
 }
 
-8.试题删除
+7.试题删除
 （4）Url
 测试时：localhost:81/qdelete
 实际使用时：服务器IP:81/qdelete
@@ -119,7 +105,7 @@
 "success":1			//1表成功，0表失败
 }
 
-9.试题修改
+8.试题修改
 （4）Url
 测试时：localhost:81/qupdate
 实际使用时：服务器IP:81/qupdate
@@ -137,17 +123,16 @@
 }
 
 
-10.试题查询
+9.试题查询
 （1）Url
 测试时：localhost:81/qselect
 实际使用时：服务器IP:81/qselect
 （2）请求参数
-①qid（必填）
-②qmajor（必填）
-③qtype（必填）
-④qcontent（必填）
-⑤qanswer（必填）
-⑥qimg（必填）
+①qid（选填）
+②qmajor（选填）
+③qtype（选填）
+④qcontent（选填）
+⑤qanswer（选填）
 （3）后端响应示例
 {
 "qid":"114514",
@@ -159,7 +144,7 @@
 }								//判断题传"A"表正确，传"B"表错误
 
 
-11.生成试卷
+10.生成试卷
 （1）Url
 测试时：localhost:81/papercreate
 实际使用时：服务器IP:81/papercreate
@@ -170,7 +155,7 @@
 "success":1			//1表成功，0表失败
 }
 
-12.用户作答保存（点击上一题/下一题/提交时对当页作答进行保存）
+11.用户作答保存（点击上一题/下一题/提交时对当页作答进行保存）
 （7）Url
 测试时：localhost:81/papersave
 实际使用时：服务器IP:81/papersave
@@ -183,7 +168,7 @@
 }
 
 
-13.试题提交
+12.试题提交
 （1）Url
 测试时：localhost:81/papersubmit
 实际使用时：服务器IP:81/papersubmit

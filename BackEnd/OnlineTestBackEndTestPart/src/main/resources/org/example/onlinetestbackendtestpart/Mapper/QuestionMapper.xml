@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.onlinetestbackendtestpart.Mapper.QuestionMapper">
+    <insert id="insertQuestion">
+        insert into questions values();
+    </insert>
+
+    <delete id="deleteQuestion">
+        delete from questions where qid in
+        <foreach collection="qids" item="qid" open="(" close=")" separator=",">
+             #{qid}
+        </foreach>
+    </delete>
+
+    <select id="selectQuestion" resultType="org.example.onlinetestbackendtestpart.pojo.Question">
+        select * from questions where 1
+        <if test="qid!=null">
+            and qid=#{qid}
+        </if>
+        <if test="qmajor!=null">
+            and qmajor like concat('%',#{qmajor},'%')
+        </if>
+        <if test="qtype!=null">
+            and qtype=#{qtype}
+        </if>
+        <if test="qcontent!=null">
+            and qcontent like concat('%',#{qcontent},'%')
+        </if>
+    </select>
+</mapper>
