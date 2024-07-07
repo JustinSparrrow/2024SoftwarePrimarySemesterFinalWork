@@ -29,4 +29,24 @@
             and qcontent like concat('%',#{qcontent},'%')
         </if>
     </select>
+
+    <update id="updateQuestion">
+        update questions set qid=qid
+        <if test="qmajor!=null">
+            ,qmajor =#{qmajor}
+        </if>
+        <if test="qtype!=null">
+            ,qtype = #{qtype}
+        </if>
+        <if test="qcontent!=null">
+            ,qcontent=#{qcontent}
+        </if>
+        <if test="qanswer!=null">
+            ,qanswer=#{qanswer}
+        </if>
+        <if test="qimg!=null">
+            ,qimg=#{qimg}
+        </if>
+        where qid=#{qid}
+    </update>
 </mapper>

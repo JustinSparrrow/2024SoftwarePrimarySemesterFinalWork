@@ -13,7 +13,6 @@ class OnlineTestBackEndTestPartApplicationTests {
     QuestionMapper questionMapper;
     @Test
     void contextLoads() {
-        System.out.println(questionMapper.selectQuestion(new Question()));
     }
 
 }

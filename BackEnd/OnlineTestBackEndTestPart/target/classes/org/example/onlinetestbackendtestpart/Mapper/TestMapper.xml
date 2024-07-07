@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.onlinetestbackendtestpart.Mapper.TestMapper">
+    <select id="paperCheck" resultType="org.example.onlinetestbackendtestpart.pojo.UserToQuestion">
+        select * from test where userid=#{userid};
+    </select>
+
+    <select id="repostQuestions" resultType="org.example.onlinetestbackendtestpart.pojo.PostQuestion">
+        select A.qid qid,A.qmajor qmajor,A.qtype qtype,A.qcontent qcontent,A.qanswer qanswer,A.qimg qimg,B.userAnswer useranswer from
+        (select * from questions where qid in
+        <foreach collection="qids" item="qid" separator="," open="(" close=")">
+            #{qid}
+        </foreach>) A
+        ,
+        (select * from test where qid in
+        <foreach collection="qids" item="qid" separator="," open="(" close=")">
+            #{qid}
+        </foreach>) B
+        where A.qid=B.qid;
+    </select>
+
+    <select id="qSelectAll" resultType="org.example.onlinetestbackendtestpart.pojo.Question">
+        select * from questions;
+    </select>
+
+    <insert id="paperCreate">
+        insert into  test(userid, qid, qAnswer) VALUES
+        <foreach collection="questions" item="question" separator=",">
+            (#{userid},#{question.qid},#{question.qanswer})
+        </foreach>
+    </insert>
+
+    <update id="answerSave">
+        update test set userAnswer=#{useranwser} where rid=#{rid};
+    </update>
+</mapper>

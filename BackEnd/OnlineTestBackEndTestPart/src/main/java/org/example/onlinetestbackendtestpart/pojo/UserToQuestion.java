@@ -1,25 +1,25 @@
 package org.example.onlinetestbackendtestpart.pojo;
 
 public class UserToQuestion {
-    private String rid;
-    private String userid;
+    private Integer rid;
+    private Integer userid;
     private String useranswer;
-    private String qid;
+    private Integer qid;
     private String qanswer;
 
-    public String getRid() {
+    public Integer getRid() {
         return rid;
     }
 
-    public void setRid(String rid) {
+    public void setRid(Integer rid) {
         this.rid = rid;
     }
 
-    public String getUserid() {
+    public Integer getUserid() {
         return userid;
     }
 
-    public void setUserid(String userid) {
+    public void setUserid(Integer userid) {
         this.userid = userid;
     }
 
@@ -31,11 +31,11 @@ public class UserToQuestion {
         this.useranswer = useranswer;
     }
 
-    public String getQid() {
+    public Integer getQid() {
         return qid;
     }
 
-    public void setQid(String qid) {
+    public void setQid(Integer qid) {
         this.qid = qid;
     }
 

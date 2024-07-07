@@ -8,6 +8,7 @@ import java.util.List;
 @Mapper
 public interface QuestionMapper {
     public void insertQuestion(Question question);
-    public void deleteQuestion(String[] qids);
+    public void deleteQuestion(int[] qids);
     public List<Question> selectQuestion(Question question);
+    public void updateQuestion(Question question);
 }

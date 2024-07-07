@@ -1,24 +1,44 @@
 package org.example.onlinetestbackendtestpart.pojo;
 
 public class Result {
-    private int successs;
+    private int success;
+    private Object data;
 
-    public int getSuccesss() {
-        return successs;
+    public int getSuccess() {
+        return success;
     }
 
-    public void setSuccesss(int successs) {
-        this.successs = successs;
+    public void setSuccess(int success) {
+        this.success = success;
     }
 
-    public Result(int successs) {
-        this.successs = successs;
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
+
+    public Result(int success, Object data) {
+        this.success = success;
+        this.data = data;
+    }
+
+    public Result(int success) {
+        this.success = success;
     }
 
     @Override
     public String toString() {
-        return "{\n" +
-                "\"successs\":" + successs +"\n"+
-                '}';
+        return data!=null?
+                "{\n" +
+                "\"success\":" + success +",\n"+
+                "\"data\":" + data.toString() +"\n"+
+                '}':
+                "{\n" +
+                        "\"success\":" + success +",\n"+
+                        "\"data\":null\n"+
+                        '}';
     }
 }

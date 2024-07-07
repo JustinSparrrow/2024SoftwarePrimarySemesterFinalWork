@@ -16,31 +16,40 @@ public class QuestionController {
     QuestionMapper questionMapper;
 
     @RequestMapping("/qinsert")
-    public String qinsert(Question question) {
+    public Result qinsert(Question question) {
         try{
             questionMapper.insertQuestion(question);
         }catch (Exception e){
             e.printStackTrace();
-            return new Result(0).toString();
+            return new Result(0);
         }
-        return new Result(1).toString();
+        return new Result(1);
     }
 
     @RequestMapping("/qdelete")
-    public String qdelete(String[] qid) {
+    public Result qdelete(int[] qid) {
         try{
             questionMapper.deleteQuestion(qid);
         }catch (Exception e){
             e.printStackTrace();
-            return new Result(0).toString();
+            return new Result(0);
         }
-        return new Result(1).toString();
+        return new Result(1);
     }
 
     @RequestMapping("/qselect")
-    public String qselect(Question question) {
-        return questionMapper.selectQuestion(question).toString();
+    public Result qselect(Question question) {
+        return new Result(1, questionMapper.selectQuestion(question));
     }
 
-
+    @RequestMapping("/qupdate")
+    public Result qupdate(Question question) {
+        try{
+            questionMapper.updateQuestion(question);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(0);
+        }
+        return new Result(1);
+    }
 }

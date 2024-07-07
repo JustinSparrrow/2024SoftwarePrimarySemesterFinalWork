@@ -7,8 +7,8 @@
 ②password（必填）
 （3）后端响应示例
 {
-"username":"mafty",
-"password":"114514"
+"success":1,			
+"data":null
 }
 
 2.用户数据增加
@@ -22,7 +22,8 @@
 ④password（必填）
 （3）后端响应示例
 {
-"success":1			//1表成功，0表失败
+"success":1,			//1表成功，0表失败
+"data":null
 }
 
 3.用户数据删除
@@ -36,7 +37,8 @@
 要求支持批量删除
 （3）后端响应示例
 {
-"success":1			//1表成功，0表失败
+"success":1,			//1表成功，0表失败
+"data":null
 }
 
 4.用户数据修改
@@ -44,14 +46,16 @@
 测试时：localhost:81/accountupdate
 实际使用时：服务器IP:81/accountupdate
 （2）请求参数
-①username（选填）		//userid不可更改
-②phone（选填）
-③email（选填）
-④password（选填）
+①userid（必填）		//userid不可更改，但需要填入要进行更改的的用户的id
+②username（选填）		
+③phone（选填）
+④email（选填）
+⑤password（选填）
 以上参数需要设置默认的初始值为原数据
 （3）后端响应示例
 {
-"success":1			//1表成功，0表失败
+"success":1,			//1表成功，0表失败
+"data":null
 }
 
 
@@ -68,12 +72,15 @@
 ⑥admin (选填)
 （3）后端响应示例
 {
+"success":1
+"data":{
 "userid":"114514",
 "username":"mafty",
 "phone":"1145141919",
 "email":"1145141919@qq.com",
 "password":"1145141919810",
 "admin":1 	//1表示管理员，0表示普通用户
+}
 }
 
 6.试题增加
@@ -88,7 +95,8 @@
 ⑤qimg（选填）
 （3）后端响应示例
 {
-"success":1			//1表成功，0表失败
+"success":1,			//1表成功，0表失败
+"data":null
 }
 
 7.试题删除
@@ -102,7 +110,8 @@
 要求支持批量删除
 （6）后端响应示例
 {
-"success":1			//1表成功，0表失败
+"success":1,			//1表成功，0表失败
+"data":null
 }
 
 8.试题修改
@@ -110,7 +119,7 @@
 测试时：localhost:81/qupdate
 实际使用时：服务器IP:81/qupdate
 （5）请求参数
-①qid（选填）
+①qid（必填）			//qid不可更改，但需要填入要更改的题目的qid
 ②qmajor（选填）
 ③qtype（选填）
 ④qcontent（选填）
@@ -119,9 +128,9 @@
 以上参数需要设置默认的初始值为原数据
 （6）后端响应示例
 {
-"success":1			//1表成功，0表失败
+"success":1,			//1表成功，0表失败
+"data":null
 }
-
 
 9.试题查询
 （1）Url
@@ -135,16 +144,29 @@
 ⑤qanswer（选填）
 （3）后端响应示例
 {
-"qid":"114514",
-"qmajor":"math/chinese/computer",	//专业之间用"/"分割
-"qtype":1,						//0是非，1单选，2多选
-"qcontent":"马驾驭",
-"qanswer":"B",						//单选就传单个字母比如"A"，					
-"qimg":"../pictures/114514.jpg"		//如果是多选就传多个比如"ABC"，
-}								//判断题传"A"表正确，传"B"表错误
-
-
-10.生成试卷
+    "success": 1,
+    "data": [
+        {
+            "qid": "1",
+            "qmajor": "math/chinese",
+            "qtype": 0,
+            "qcontent": "我是真的马夫蒂吗",
+            "qanswer": "A",
+            "qimg": null
+        },
+        {
+            "qid": "4",
+            "qmajor": "math/english",
+            "qtype": 0,
+            "qcontent": "你能分的清这是现实吗？A.能 B.不能",
+            "qanswer": "B",
+            "qimg": null
+        }
+    ]
+}
+//专业之间用"/"分割，0是非，1单选，2多选，单选就传单个字母比如"A"，如果是多选就传多个比如"ABC"，判断题传"A"表正确，传"B"表错误
+							
+10进入考试（后端判断是否有未完成的试卷）
 （1）Url
 测试时：localhost:81/papercreate
 实际使用时：服务器IP:81/papercreate
@@ -152,19 +174,49 @@
 ①userid
 （3）后端响应示例
 {
-"success":1			//1表成功，0表失败
+    "success": 1,
+    "data": [
+        {
+            "qid": 1,
+            "qmajor": "math/chinese",
+            "qtype": 0,
+            "qcontent": "我是真的马夫蒂吗",
+            "qanswer": "A",
+            "qimg": null,
+            "useranswer": null
+        },
+        {
+            "qid": 3,
+            "qmajor": "computerScience/genshinImpact",
+            "qtype": 2,
+            "qcontent": "米哈游的游戏有A.鸣潮 B.王者荣耀 C.原神 D.绝区零",
+            "qanswer": "ABC",
+            "qimg": null,
+            "useranswer": null
+        },
+        {
+            "qid": 4,
+            "qmajor": "math/english",
+            "qtype": 0,
+            "qcontent": "你能分的清这是现实吗？A.能 B.不能",
+            "qanswer": "B",
+            "qimg": null,
+            "useranswer": null
+        }
+    ]
 }
 
 11.用户作答保存（点击上一题/下一题/提交时对当页作答进行保存）
 （7）Url
-测试时：localhost:81/papersave
-实际使用时：服务器IP:81/papersave
+测试时：localhost:81/answersave
+实际使用时：服务器IP:81/answersave
 （8）请求参数
 ①rid
 ②useranswer
 （9）后端响应示例
 {
-"success":1			//1表成功，0表失败
+"success":1,			//1表成功，0表失败
+"data":null
 }
 
 
@@ -176,5 +228,8 @@
 ①userid
 （3）后端响应示例
 {
-"score":19	
+"success":1,			//1表成功，0表失败
+"data":{
+"score":80
+}
 }

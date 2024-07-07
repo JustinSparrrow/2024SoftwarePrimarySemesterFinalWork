@@ -1,18 +1,18 @@
 package org.example.onlinetestbackendtestpart.pojo;
 
 public class User {
-    private String userid;
+    private Integer userid;
     private String username;
     private String email;
     private String phone;
     private String password;
     private Integer admin;
 
-    public String getUserid() {
+    public Integer getUserid() {
         return userid;
     }
 
-    public void setUserid(String userid) {
+    public void setUserid(Integer userid) {
         this.userid = userid;
     }
 
