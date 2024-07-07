@@ -22,4 +22,25 @@ public class TestController {
             return new Result(0);
         }
     }
+
+    @RequestMapping("/answersave")
+    public Result answersave(UserToQuestion userToQuestion) {
+        try{
+            testService.answerSave(userToQuestion);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(0);
+        }
+        return new Result(1);
+    }
+
+    @RequestMapping("/papersubmit")
+    public Result papersubmit(int userid) {
+        try{
+            return new Result(1,testService.getGrade(userid));
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(0);
+        }
+    }
 }

@@ -13,4 +13,6 @@ public interface TestMapper {
     public List<PostQuestion> repostQuestions(List<Integer> qids);
     public List<Question> qSelectAll();
     public void paperCreate(int userid,List<PostQuestion> questions);
+    public void answerSave(int rid,String useranswer);
+    public int questionCorrect(int userid);
 }

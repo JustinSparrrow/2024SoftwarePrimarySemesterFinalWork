@@ -44,4 +44,14 @@ public class TestService {
         questionsResult.sort(byqid);                        //排序后发送
         return questionsResult;
     }
+
+    public void answerSave(UserToQuestion userToQuestion) {
+        testMapper.answerSave(userToQuestion.getRid(), userToQuestion.getUseranswer());
+    }
+
+    public float getGrade(int userid)
+    {
+        return (int)(testMapper.questionCorrect(userid) * 1000.0f / quantity)/10.0f;
+    }
+
 }

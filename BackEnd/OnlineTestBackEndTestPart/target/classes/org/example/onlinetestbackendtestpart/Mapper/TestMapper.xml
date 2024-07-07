@@ -33,6 +33,10 @@
     </insert>
 
     <update id="answerSave">
-        update test set userAnswer=#{useranwser} where rid=#{rid};
+        update test set userAnswer=#{useranswer} where rid=#{rid};
     </update>
+
+    <select id="questionCorrect" resultType="int">
+        select count(*) from test where userid=#{userid} and userAnswer=qAnswer ;
+    </select>
 </mapper>
