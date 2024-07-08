@@ -5,6 +5,7 @@ import org.example.onlinetestbackendtestpart.Service.TestService;
 import org.example.onlinetestbackendtestpart.pojo.Result;
 import org.example.onlinetestbackendtestpart.pojo.UserToQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +14,7 @@ public class TestController {
     @Autowired
     TestService testService;
 
+    @CrossOrigin(origins = "")
     @RequestMapping("/entertest")
     public Result entertest(int userid) {
         try{
@@ -23,6 +25,7 @@ public class TestController {
         }
     }
 
+    @CrossOrigin(origins = "")
     @RequestMapping("/answersave")
     public Result answersave(UserToQuestion userToQuestion) {
         try{
@@ -34,6 +37,7 @@ public class TestController {
         return new Result(1);
     }
 
+    @CrossOrigin(origins = "")
     @RequestMapping("/papersubmit")
     public Result papersubmit(int userid) {
         try{
