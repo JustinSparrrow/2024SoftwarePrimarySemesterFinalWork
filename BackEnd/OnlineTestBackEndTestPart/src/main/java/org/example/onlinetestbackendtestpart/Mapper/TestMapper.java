@@ -15,4 +15,5 @@ public interface TestMapper {
     public void paperCreate(int userid,List<PostQuestion> questions);
     public void answerSave(int rid,String useranswer);
     public int questionCorrect(int userid);
+    public void testOver(int userid);
 }

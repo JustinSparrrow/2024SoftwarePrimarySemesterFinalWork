@@ -39,4 +39,8 @@
     <select id="questionCorrect" resultType="int">
         select count(*) from test where userid=#{userid} and userAnswer=qAnswer ;
     </select>
+
+    <delete id="testOver">
+        delete from test where  userid=#{userid};
+    </delete>
 </mapper>
