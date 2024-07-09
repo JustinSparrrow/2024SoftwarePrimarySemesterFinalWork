@@ -15,7 +15,7 @@ public class QuestionService {
     @Autowired
     QuestionMapper questionMapper;
     public void insertQuestion(Question question, MultipartFile file) {
-        if(file != null) {
+        if(file != null) {  //如果存在图片数据则生成uuid并存入本地存储空间，将存储地址存入数据库
             String id= UUID.randomUUID().toString();
             String path="D:\\College\\MySQL\\ServerFileData\\"+id+".jpg";
             try{
@@ -38,7 +38,7 @@ public class QuestionService {
     }
 
     public void updateQuestion(Question question, MultipartFile file) {
-        if(file!=null) {
+        if(file!=null) {    //如果存在图片数据则生成uuid并存入本地存储空间，将存储地址存入数据库
             String id= UUID.randomUUID().toString();
             String path="D:\\College\\MySQL\\ServerFileData\\"+id+".jpg";
             try{

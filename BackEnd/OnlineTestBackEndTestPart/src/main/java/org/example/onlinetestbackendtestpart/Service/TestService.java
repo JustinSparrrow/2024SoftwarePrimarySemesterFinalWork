@@ -51,7 +51,7 @@ public class TestService {
 
     public float getGrade(int userid)
     {
-        float score=(int)(testMapper.questionCorrect(userid) * 1000.0f / quantity)/10.0f;
+        float score=(int)(testMapper.questionCorrect(userid) * 1000.0f / quantity)/10.0f;   //按照回答正确的题目数量占比抽取题目总数百分制计算分数
         testMapper.testOver(userid);
         return score;
     }
