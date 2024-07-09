@@ -13,8 +13,8 @@
 
 2.用户数据增加
 （1）Url
-测试时：localhost:81/accountinsert
-实际使用时：服务器IP:81/accountinsert
+测试时：localhost:81/accountInsert
+实际使用时：服务器IP:81/accountInsert
 （2）请求参数
 ①username（必填）		//userid自动生成
 ②phone（选填）
@@ -28,8 +28,8 @@
 
 3.用户数据删除
 （1）Url
-测试时：localhost:81/accountdelete
-实际使用时：服务器IP:81/accountdelete
+测试时：localhost:81/accountDelete
+实际使用时：服务器IP:81/accountDelete
 （2）请求参数
 ①userid
 ②userid
@@ -43,8 +43,8 @@
 
 4.用户数据修改
 （1）Url
-测试时：localhost:81/accountupdate
-实际使用时：服务器IP:81/accountupdate
+测试时：localhost:81/accountUpdate
+实际使用时：服务器IP:81/accountUpdate
 （2）请求参数
 ①userid（必填）		//userid不可更改，但需要填入要进行更改的的用户的id
 ②username（选填）		
@@ -61,8 +61,8 @@
 
 5.用户数据查询
 （1）Url
-测试时：localhost:81/accountselect
-实际使用时：服务器IP:81/accountselect
+测试时：localhost:81/accountSelect
+实际使用时：服务器IP:81/accountSelect
 （2）请求参数
 ①userid（选填）
 ②username（选填）
@@ -85,8 +85,8 @@
 
 6.试题增加
 （1）Url
-测试时：localhost:81/qinsert
-实际使用时：服务器IP:81/qinsert
+测试时：localhost:81/qInsert
+实际使用时：服务器IP:81/qInsert
 （2）请求参数
 ①qmajor（必填）		//qid自动生成无需填写
 ②qtype（必填）
@@ -101,8 +101,8 @@
 
 7.试题删除
 （4）Url
-测试时：localhost:81/qdelete
-实际使用时：服务器IP:81/qdelete
+测试时：localhost:81/qDelete
+实际使用时：服务器IP:81/qDelete
 （5）请求参数
 ①qid
 ②qid
@@ -115,10 +115,10 @@
 }
 
 8.试题修改
-（4）Url
-测试时：localhost:81/qupdate
-实际使用时：服务器IP:81/qupdate
-（5）请求参数
+（1）Url
+测试时：localhost:81/qUpdate
+实际使用时：服务器IP:81/qUpdate
+（2）请求参数
 ①qid（必填）			//qid不可更改，但需要填入要更改的题目的qid
 ②qmajor（选填）
 ③qtype（选填）
@@ -126,7 +126,7 @@
 ⑤qanswer（选填）
 ⑥img（选填）
 以上参数需要设置默认的初始值为原数据
-（6）后端响应示例
+（3）后端响应示例
 {
 "success":1,			//1表成功，0表失败
 "data":null
@@ -134,8 +134,8 @@
 
 9.试题查询
 （1）Url
-测试时：localhost:81/qselect
-实际使用时：服务器IP:81/qselect
+测试时：localhost:81/qSelect
+实际使用时：服务器IP:81/qSelect
 （2）请求参数
 ①qid（选填）
 ②qmajor（选填）
@@ -165,13 +165,59 @@
     ]
 }
 //专业之间用"/"分割，0是非，1单选，2多选，单选就传单个字母比如"A"，如果是多选就传多个比如"ABC"，判断题传"A"表正确，传"B"表错误
-							
-10进入考试（后端判断是否有未完成的试卷）
+
+10.查询是否有未完成的试卷（不加专业参数）
 （1）Url
-测试时：localhost:81/papercreate
-实际使用时：服务器IP:81/papercreate
+测试时：localhost:81/paperExistCheck
+实际使用时：服务器IP:81/paperExistCheck
 （2）请求参数
 ①userid
+（3）后端响应示例
+{											//此为有未完成的试卷的案例
+    "success": 1,
+    "data": [
+        {
+            "qid": 1,
+            "qmajor": "math",
+            "qtype": 0,
+            "qcontent": "我是真的马夫蒂吗",
+            "qanswer": "A",
+            "qimg": null,
+            "useranswer": null
+        },
+        {
+            "qid": 4,
+            "qmajor": "math",
+            "qtype": 0,
+            "qcontent": "你能分的清这是现实吗？A.能 B.不能",
+            "qanswer": "B",
+            "qimg": null,
+            "useranswer": null
+        },
+        {
+            "qid": 9,
+            "qmajor": "chinese",
+            "qtype": 0,
+            "qcontent": "你喜欢hinata吗A.喜欢 B.不喜欢",
+            "qanswer": "A",
+            "qimg": "D:\\College\\MySQL\\ServerFileData\\e63afc5d-b0b2-406f-9b07-719c4c0c53f6.jpg",
+            "useranswer": null
+        }
+    ]
+}
+
+{								//此为没有的案例
+    "success": 0,
+    "data": "不存在已创建的试卷"
+}
+							
+11.从头进入考试（加入专业参数）
+（1）Url
+测试时：localhost:81/testEnter
+实际使用时：服务器IP:81/testEnter
+（2）请求参数
+①userid
+②major
 （3）后端响应示例
 {
     "success": 1,
@@ -206,10 +252,10 @@
     ]
 }
 
-11.用户作答保存（点击上一题/下一题/提交时对当页作答进行保存）
+12.用户作答保存（点击上一题/下一题/提交时对当页作答进行保存）
 （7）Url
-测试时：localhost:81/answersave
-实际使用时：服务器IP:81/answersave
+测试时：localhost:81/answerSave
+实际使用时：服务器IP:81/answerSave
 （8）请求参数
 ①rid
 ②useranswer
@@ -220,10 +266,10 @@
 }
 
 
-12.试题提交
+13.试题提交
 （1）Url
-测试时：localhost:81/papersubmit
-实际使用时：服务器IP:81/papersubmit
+测试时：localhost:81/paperSubmit
+实际使用时：服务器IP:81/paperSubmit
 （2）请求参数
 ①userid
 （3）后端响应示例

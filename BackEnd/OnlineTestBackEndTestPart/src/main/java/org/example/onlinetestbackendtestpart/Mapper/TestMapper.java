@@ -11,7 +11,7 @@ import java.util.List;
 public interface TestMapper {
     public List<UserToQuestion> paperCheck(int userid);
     public List<PostQuestion> repostQuestions(List<Integer> qids);
-    public List<Question> qSelectAll();
+    public List<Question> qSelectBy2Major(String major1, String major2);
     public void paperCreate(int userid,List<PostQuestion> questions);
     public void answerSave(int rid,String useranswer);
     public int questionCorrect(int userid);

@@ -7,6 +7,10 @@
         select * from test where userid=#{userid};
     </select>
 
+    <select id="qSelectBy2Major" resultType="org.example.onlinetestbackendtestpart.pojo.Question">
+        select * from questions where qmajor=#{major1} or qmajor=#{major2};
+    </select>
+
     <select id="repostQuestions" resultType="org.example.onlinetestbackendtestpart.pojo.PostQuestion">
         select A.qid qid,A.qmajor qmajor,A.qtype qtype,A.qcontent qcontent,A.qanswer qanswer,A.qimg qimg,B.userAnswer useranswer from
         (select * from questions where qid in
@@ -19,10 +23,6 @@
             #{qid}
         </foreach>) B
         where A.qid=B.qid;
-    </select>
-
-    <select id="qSelectAll" resultType="org.example.onlinetestbackendtestpart.pojo.Question">
-        select * from questions;
     </select>
 
     <insert id="paperCreate">

@@ -17,8 +17,7 @@ public class TestService {
     @Autowired
     TestMapper testMapper;
 
-
-    public List<PostQuestion> enterTest(int userid) {
+    public List<PostQuestion> paperExistCheck(int userid) {
         List<PostQuestion> questionsResult=new ArrayList<>();
         Comparator<PostQuestion> byqid=Comparator.comparing(PostQuestion::getQid);
 
@@ -31,8 +30,16 @@ public class TestService {
             questionsResult.sort(byqid);                    //排序后发送
             return questionsResult;
         }
+        return null;
+    }
 
-        List<Question> questions=testMapper.qSelectAll();   //若不存在未提交的试卷
+
+    public List<PostQuestion> testEnter(int userid,String major) {
+        List<PostQuestion> questionsResult=new ArrayList<>();
+        Comparator<PostQuestion> byqid=Comparator.comparing(PostQuestion::getQid);
+        String[] qmajor=major.split("/");
+
+        List<Question> questions=testMapper.qSelectBy2Major(qmajor[0],qmajor[1]);   //若不存在未提交的试卷
         Random random=new Random();                         //对题库进行抽取
         random.setSeed(System.currentTimeMillis());
         Collections.shuffle(questions,random);
