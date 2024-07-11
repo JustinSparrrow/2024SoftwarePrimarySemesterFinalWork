@@ -14,7 +14,7 @@ import java.util.UUID;
 public class QuestionService {
     @Autowired
     QuestionMapper questionMapper;
-    final String path="D:\\College\\MySQL\\ServerFileData\\";
+    final String path="/root/MySQLServer";
     public void insertQuestion(StorageQuestion storageQuestion, MultipartFile file) {
         if(file != null) {  //如果存在图片数据则生成uuid并存入本地存储空间，将存储地址存入数据库
             String id= UUID.randomUUID().toString();

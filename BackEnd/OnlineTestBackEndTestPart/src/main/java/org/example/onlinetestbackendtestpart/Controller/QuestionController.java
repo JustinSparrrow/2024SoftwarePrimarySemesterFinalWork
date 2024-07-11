@@ -4,18 +4,15 @@ import org.example.onlinetestbackendtestpart.Service.QuestionService;
 import org.example.onlinetestbackendtestpart.pojo.StorageQuestion;
 import org.example.onlinetestbackendtestpart.pojo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class QuestionController {
     @Autowired
     QuestionService questionService;
 
-    @CrossOrigin(origins = "")
     @RequestMapping("/qInsert")
     public Result qInsert(StorageQuestion storageQuestion, @RequestParam(name = "img",required = false)MultipartFile file) {
         try{
@@ -27,7 +24,6 @@ public class QuestionController {
         return new Result(1);
     }
 
-    @CrossOrigin(origins = "")
     @RequestMapping("/qDelete")
     public Result qDelete(int[] qid) {
         try{
@@ -39,7 +35,6 @@ public class QuestionController {
         return new Result(1);
     }
 
-    @CrossOrigin(origins = "")
     @RequestMapping("/qSelect")
     public Result qSelect(StorageQuestion storageQuestion) {
         try{
@@ -50,7 +45,6 @@ public class QuestionController {
         }
     }
 
-    @CrossOrigin(origins = "")
     @RequestMapping("/qUpdate")
     public Result qUpdate(StorageQuestion storageQuestion, @RequestParam(name = "img",required = false)MultipartFile file) {
         try{

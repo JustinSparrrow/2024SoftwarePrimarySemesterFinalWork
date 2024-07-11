@@ -8,16 +8,17 @@ import org.example.onlinetestbackendtestpart.pojo.UserToQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class TestController {
     @Autowired
     TestService testService;
 
-    @CrossOrigin(origins = "")
     @RequestMapping("/paperExistCheck")
     public Result paperExistCheck(int userid) {
         try{
@@ -30,7 +31,6 @@ public class TestController {
         }
     }
 
-    @CrossOrigin(origins = "")
     @RequestMapping("/testEnter")
     public Result testEnter(int userid,String major) {
         try{
@@ -41,7 +41,6 @@ public class TestController {
         }
     }
 
-    @CrossOrigin(origins = "")
     @RequestMapping("/answerSave")
     public Result answerSave(UserToQuestion userToQuestion) {
         try{
@@ -53,7 +52,6 @@ public class TestController {
         }
     }
 
-    @CrossOrigin(origins = "")
     @RequestMapping("/paperSubmit")
     public Result paperSubmit(int userid) {
         try{
