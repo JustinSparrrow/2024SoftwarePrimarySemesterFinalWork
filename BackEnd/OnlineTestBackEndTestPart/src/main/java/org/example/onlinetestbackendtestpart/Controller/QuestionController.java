@@ -1,7 +1,7 @@
 package org.example.onlinetestbackendtestpart.Controller;
 
 import org.example.onlinetestbackendtestpart.Service.QuestionService;
-import org.example.onlinetestbackendtestpart.pojo.Question;
+import org.example.onlinetestbackendtestpart.pojo.StorageQuestion;
 import org.example.onlinetestbackendtestpart.pojo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,9 +17,9 @@ public class QuestionController {
 
     @CrossOrigin(origins = "")
     @RequestMapping("/qInsert")
-    public Result qInsert(Question question, @RequestParam(name = "img",required = false)MultipartFile file) {
+    public Result qInsert(StorageQuestion storageQuestion, @RequestParam(name = "img",required = false)MultipartFile file) {
         try{
-            questionService.insertQuestion(question,file);
+            questionService.insertQuestion(storageQuestion,file);
         }catch (Exception e){
             e.printStackTrace();
             return new Result(0);
@@ -41,9 +41,9 @@ public class QuestionController {
 
     @CrossOrigin(origins = "")
     @RequestMapping("/qSelect")
-    public Result qSelect(Question question) {
+    public Result qSelect(StorageQuestion storageQuestion) {
         try{
-        return new Result(1, questionService.selectQuestion(question));
+        return new Result(1, questionService.selectQuestion(storageQuestion));
         } catch (Exception e){
             e.printStackTrace();
             return new Result(0);
@@ -52,9 +52,9 @@ public class QuestionController {
 
     @CrossOrigin(origins = "")
     @RequestMapping("/qUpdate")
-    public Result qUpdate(Question question, @RequestParam(name = "img",required = false)MultipartFile file) {
+    public Result qUpdate(StorageQuestion storageQuestion, @RequestParam(name = "img",required = false)MultipartFile file) {
         try{
-            questionService.updateQuestion(question,file);
+            questionService.updateQuestion(storageQuestion,file);
         }catch (Exception e){
             e.printStackTrace();
             return new Result(0);

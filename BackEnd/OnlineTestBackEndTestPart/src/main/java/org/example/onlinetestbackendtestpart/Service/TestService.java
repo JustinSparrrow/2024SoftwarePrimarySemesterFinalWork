@@ -2,12 +2,11 @@ package org.example.onlinetestbackendtestpart.Service;
 
 import org.example.onlinetestbackendtestpart.Mapper.TestMapper;
 import org.example.onlinetestbackendtestpart.pojo.PostQuestion;
-import org.example.onlinetestbackendtestpart.pojo.Question;
+import org.example.onlinetestbackendtestpart.pojo.StorageQuestion;
 import org.example.onlinetestbackendtestpart.pojo.UserToQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.management.timer.Timer;
 import java.util.*;
 
 @Component
@@ -26,7 +25,7 @@ public class TestService {
         {
             List<Integer>qids=new ArrayList<>();
             for(UserToQuestion userToQuestion:userToQuestions)qids.add(userToQuestion.getQid());
-            questionsResult=testMapper.repostQuestions(qids);
+            for(StorageQuestion storageQuestion:testMapper.repostQuestions(qids))questionsResult.add(storageQuestion.postReady());
             questionsResult.sort(byqid);                    //排序后发送
             return questionsResult;
         }
@@ -39,13 +38,13 @@ public class TestService {
         Comparator<PostQuestion> byqid=Comparator.comparing(PostQuestion::getQid);
         String[] qmajor=major.split("/");
 
-        List<Question> questions=testMapper.qSelectBy2Major(qmajor[0],qmajor[1]);   //若不存在未提交的试卷
+        List<StorageQuestion> storageQuestions =testMapper.qSelectBy2Major(qmajor[0],qmajor[1]);   //若不存在未提交的试卷
         Random random=new Random();                         //对题库进行抽取
         random.setSeed(System.currentTimeMillis());
-        Collections.shuffle(questions,random);
+        Collections.shuffle(storageQuestions,random);
         int count=0;
-        while(count<quantity&&count<questions.size()) {
-            questionsResult.add(new PostQuestion(questions.get(count++)));
+        while(count<quantity&&count< storageQuestions.size()) {
+            questionsResult.add(storageQuestions.get(count++).postReady());
         }
         testMapper.paperCreate(userid,questionsResult);
         questionsResult.sort(byqid);                        //排序后发送

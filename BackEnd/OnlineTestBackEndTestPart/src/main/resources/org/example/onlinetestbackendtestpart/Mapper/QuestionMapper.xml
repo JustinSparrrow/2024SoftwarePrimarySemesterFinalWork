@@ -14,7 +14,7 @@
         </foreach>
     </delete>
 
-    <select id="selectQuestion" resultType="org.example.onlinetestbackendtestpart.pojo.Question">
+    <select id="selectQuestion" resultType="org.example.onlinetestbackendtestpart.pojo.StorageQuestion">
         select * from questions where 1
         <if test="qid!=null">
             and qid=#{qid}

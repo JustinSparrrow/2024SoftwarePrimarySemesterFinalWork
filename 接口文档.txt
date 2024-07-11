@@ -91,8 +91,9 @@
 ①qmajor（必填）		//qid自动生成无需填写
 ②qtype（必填）
 ③qcontent（必填）
-④qanswer（必填）
-⑤img（选填）			//这里上传图片给后端，后端接收存储到本地文件，之后前端的数据请求后端会返回本地文件地址给前端直接访问
+④qchoice（必填）
+⑤qanswer（必填）
+⑥img（选填）			//这里上传图片给后端，后端接收存储到本地文件，之后前端的数据请求后端会返回本地文件地址给前端直接访问
 （3）后端响应示例
 {
 "success":1,			//1表成功，0表失败
@@ -122,9 +123,10 @@
 ①qid（必填）			//qid不可更改，但需要填入要更改的题目的qid
 ②qmajor（选填）
 ③qtype（选填）
-④qcontent（选填）
-⑤qanswer（选填）
-⑥img（选填）
+④qcontent（选填
+⑤qchoice（必填）
+⑥qanswer（选填）
+⑦img（选填）
 以上参数需要设置默认的初始值为原数据
 （3）后端响应示例
 {
@@ -141,26 +143,54 @@
 ②qmajor（选填）
 ③qtype（选填）
 ④qcontent（选填）
-⑤qanswer（选填）
+⑤qchoice（必填）
+⑥qanswer（选填）
 （3）后端响应示例
 {
     "success": 1,
     "data": [
         {
-            "qid": "1",
-            "qmajor": "math/chinese",
+            "qid": 1,
+            "qmajor": "math",
             "qtype": 0,
             "qcontent": "我是真的马夫蒂吗",
+            "qchoice": [
+                "是",
+                "不是"
+            ],
             "qanswer": "A",
-            "qimg": null
+            "qimg": null,
+            "useranswer": null
         },
         {
-            "qid": "4",
-            "qmajor": "math/english",
-            "qtype": 0,
-            "qcontent": "你能分的清这是现实吗？A.能 B.不能",
-            "qanswer": "B",
-            "qimg": null
+            "qid": 2,
+            "qmajor": "english",
+            "qtype": 1,
+            "qcontent": "原神",
+            "qchoice": [
+                "好",
+                "很好",
+                "非常好",
+                "特别好"
+            ],
+            "qanswer": "D",
+            "qimg": null,
+            "useranswer": null
+        },
+        {
+            "qid": 5,
+            "qmajor": "english",
+            "qtype": 1,
+            "qcontent": "谁策划了9.11事件",
+            "qchoice": [
+                "孙笑川",
+                "陈睿",
+                "GoodEvening",
+                "哈基米"
+            ],
+            "qanswer": "A",
+            "qimg": null,
+            "useranswer": null
         }
     ]
 }
@@ -173,7 +203,7 @@
 （2）请求参数
 ①userid
 （3）后端响应示例
-{											//此为有未完成的试卷的案例
+{						//存在未完成试卷的示例
     "success": 1,
     "data": [
         {
@@ -181,26 +211,42 @@
             "qmajor": "math",
             "qtype": 0,
             "qcontent": "我是真的马夫蒂吗",
+            "qchoice": [
+                "是",
+                "不是"
+            ],
             "qanswer": "A",
             "qimg": null,
             "useranswer": null
         },
         {
-            "qid": 4,
-            "qmajor": "math",
-            "qtype": 0,
-            "qcontent": "你能分的清这是现实吗？A.能 B.不能",
-            "qanswer": "B",
+            "qid": 2,
+            "qmajor": "english",
+            "qtype": 1,
+            "qcontent": "原神",
+            "qchoice": [
+                "好",
+                "很好",
+                "非常好",
+                "特别好"
+            ],
+            "qanswer": "D",
             "qimg": null,
             "useranswer": null
         },
         {
-            "qid": 9,
-            "qmajor": "chinese",
-            "qtype": 0,
-            "qcontent": "你喜欢hinata吗A.喜欢 B.不喜欢",
+            "qid": 5,
+            "qmajor": "english",
+            "qtype": 1,
+            "qcontent": "谁策划了9.11事件",
+            "qchoice": [
+                "孙笑川",
+                "陈睿",
+                "GoodEvening",
+                "哈基米"
+            ],
             "qanswer": "A",
-            "qimg": "D:\\College\\MySQL\\ServerFileData\\e63afc5d-b0b2-406f-9b07-719c4c0c53f6.jpg",
+            "qimg": null,
             "useranswer": null
         }
     ]

@@ -5,6 +5,7 @@ public class PostQuestion {
     private String qmajor;
     private Integer qtype;
     private String qcontent;
+    private String[] qchoice;
     private String qanswer;
     private String qimg;
     private String useranswer;
@@ -65,18 +66,15 @@ public class PostQuestion {
         this.useranswer = useranswer;
     }
 
-    @Override
-    public String toString() {
-        return "{\n" +
-                "\"qid\":\"" + qid + "\",\n" +
-                "\"qmajor\":\"" + qmajor + "\",\n" +
-                "\"qtype\":" + qtype + ",\n" +
-                "\"qcontent\":\"" + qcontent + "\",\n" +
-                "\"qanswer\":\"" + qanswer + "\"\n" +
-                '}';
+    public String[] getQchoice() {
+        return qchoice;
     }
 
-    public PostQuestion(Integer qid, String qmajor, Integer qtype, String qcontent, String qanswer, String qimg, String useranswer) {
+    public void setQchoice(String[] qchoice) {
+        this.qchoice = qchoice;
+    }
+
+    public PostQuestion(Integer qid, String qmajor, Integer qtype, String qcontent,String[] qchoice, String qanswer, String qimg, String useranswer) {
         this.qid = qid;
         this.qmajor = qmajor;
         this.qtype = qtype;
@@ -86,13 +84,12 @@ public class PostQuestion {
         this.useranswer = useranswer;
     }
     
-    public PostQuestion(Question question) {
-        this.qid = question.getQid();
-        this.qmajor = question.getQmajor();
-        this.qtype = question.getQtype();
-        this.qcontent = question.getQcontent();
-        this.qanswer = question.getQanswer();
-        this.qimg = question.getQimg();
-        this.useranswer=null;
+    public StorageQuestion storageReady()
+    {
+        StorageQuestion storageQuestion =new StorageQuestion(qid,qmajor,qtype,null,qanswer,qimg);
+        String fullContent=qcontent;
+        for(String i:qchoice)fullContent+="/"+i;
+        storageQuestion.setQcontent(fullContent);
+        return storageQuestion;
     }
 }

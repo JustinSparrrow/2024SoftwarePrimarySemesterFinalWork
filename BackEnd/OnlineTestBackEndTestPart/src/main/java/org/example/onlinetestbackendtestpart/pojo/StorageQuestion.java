@@ -1,6 +1,6 @@
 package org.example.onlinetestbackendtestpart.pojo;
 
-public class Question {
+public class StorageQuestion {
     private Integer qid;
     private String qmajor;
     private Integer qtype;
@@ -67,7 +67,7 @@ public class Question {
                 '}';
     }
 
-    public Question(Integer qid, String qmajor, Integer qtype, String qcontent, String qanswer, String qimg) {
+    public StorageQuestion(Integer qid, String qmajor, Integer qtype, String qcontent, String qanswer, String qimg) {
         this.qid = qid;
         this.qmajor = qmajor;
         this.qtype = qtype;
@@ -76,4 +76,14 @@ public class Question {
         this.qimg = qimg;
     }
 
+    public PostQuestion postReady()
+    {
+        PostQuestion postQuestion=new PostQuestion(qid,qmajor,qtype,null,null,qanswer,qimg,null);
+        String[] strs=qcontent.split("/");
+        String[] qchoice=new String[strs.length-1];
+        postQuestion.setQcontent(strs[0]);
+        for(int i=1;i<strs.length;i++)qchoice[i-1]=strs[i];
+        postQuestion.setQchoice(qchoice);
+        return postQuestion;
+    }
 }

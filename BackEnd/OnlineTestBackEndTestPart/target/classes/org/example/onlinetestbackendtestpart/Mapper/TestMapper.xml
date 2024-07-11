@@ -7,11 +7,11 @@
         select * from test where userid=#{userid};
     </select>
 
-    <select id="qSelectBy2Major" resultType="org.example.onlinetestbackendtestpart.pojo.Question">
+    <select id="qSelectBy2Major" resultType="org.example.onlinetestbackendtestpart.pojo.StorageQuestion">
         select * from questions where qmajor=#{major1} or qmajor=#{major2};
     </select>
 
-    <select id="repostQuestions" resultType="org.example.onlinetestbackendtestpart.pojo.PostQuestion">
+    <select id="repostQuestions" resultType="org.example.onlinetestbackendtestpart.pojo.StorageQuestion">
         select A.qid qid,A.qmajor qmajor,A.qtype qtype,A.qcontent qcontent,A.qanswer qanswer,A.qimg qimg,B.userAnswer useranswer from
         (select * from questions where qid in
         <foreach collection="qids" item="qid" separator="," open="(" close=")">
@@ -27,8 +27,8 @@
 
     <insert id="paperCreate">
         insert into  test(userid, qid, qAnswer) VALUES
-        <foreach collection="questions" item="question" separator=",">
-            (#{userid},#{question.qid},#{question.qanswer})
+        <foreach collection="questions" item="storageQuestion" separator=",">
+            (#{userid},#{storageQuestion.qid},#{storageQuestion.qanswer})
         </foreach>
     </insert>
 
