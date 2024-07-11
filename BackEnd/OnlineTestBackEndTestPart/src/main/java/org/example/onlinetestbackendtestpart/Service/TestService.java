@@ -44,7 +44,7 @@ public class TestService {
         random.setSeed(System.currentTimeMillis());
         Collections.shuffle(questions,random);
         int count=0;
-        while(count<quantity) {
+        while(count<quantity&&count<questions.size()) {
             questionsResult.add(new PostQuestion(questions.get(count++)));
         }
         testMapper.paperCreate(userid,questionsResult);
