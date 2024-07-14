@@ -17,15 +17,15 @@ public class UserService {
     UserMapper userMapper;
 
     public String login(int userid, String password) {
-        String encryption=DigestUtils.md5DigestAsHex(password.getBytes());
-        User user=new User(userid,null,null,null,encryption,null);
-        User searchResult=userMapper.userSelect(user).get(0);
-        if( searchResult!=null)
+        String encryption=DigestUtils.md5DigestAsHex(password.getBytes());                      //对密码加密
+        User user=new User(userid,null,null,null,encryption,null);  //匹配用户密码是否正确
+        List<User> searchResult=userMapper.userSelect(user);
+        if( !searchResult.isEmpty())
         {
             Map<String,Object> map=new HashMap<>();
             map.put("userid",userid);
             map.put("password",encryption);
-            map.put("admin",searchResult.getAdmin());
+            map.put("admin",searchResult.get(0).getAdmin());
             return JWTUtils.generateToken(map);
         }
         return null;
@@ -41,13 +41,13 @@ public class UserService {
     }
 
     public void userUpdate(User user) {
-        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+        if(user.getPassword()!=null)user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         userMapper.userUpdate(user);
     }
 
     public List<User> userSelect(User user){
         List<User> users=userMapper.userSelect(user);
-        for(User userIns:users)userIns.setPassword("不可以偷看哦~ ^_^");
+        for(User userIns:users)userIns.setPassword("~password~ ^_^");
         return users;
     }
 }

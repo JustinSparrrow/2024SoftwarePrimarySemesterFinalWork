@@ -36,9 +36,9 @@ public class UserController {
     }
 
     @RequestMapping("/User/userDelete")
-    public Result userDelete(int[] userids) {
+    public Result userDelete(int[] userid) {
         try{
-            userService.userDelete(userids);
+            userService.userDelete(userid);
             return new Result(1);
         }catch (Exception e){
             e.printStackTrace();

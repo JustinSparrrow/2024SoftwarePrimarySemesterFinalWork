@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class JWTUtils {
     private static String KEY="GenshinImpact";
-    private static Long expire=600*1000L;
+    private static Long expire=3600*1000L;
 
     public static String generateToken(Map<String, Object> claims){
         return  Jwts.builder()

@@ -5,6 +5,7 @@ import org.example.onlinetestbackend.Mapper.QuestionMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.DigestUtils;
 
 @SpringBootTest
 class OnlineTestBackEndApplicationTests {
@@ -16,7 +17,7 @@ class OnlineTestBackEndApplicationTests {
 
     @Test
     void contextLoads() {
-        System.out.println(testController.testEnter(2,"english/math"));
+        System.out.println(DigestUtils.md5DigestAsHex("123456".getBytes()));
     }
 
 }
