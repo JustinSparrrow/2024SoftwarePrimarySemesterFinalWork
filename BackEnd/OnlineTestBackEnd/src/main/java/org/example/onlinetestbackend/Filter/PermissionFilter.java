@@ -13,28 +13,34 @@ import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
 
-@WebFilter(urlPatterns = {"/User/*","/Question/*"})     //不针对“/Test”，此类行为不需要管理员权限
-public class PermissionFilter implements Filter  {
+@WebFilter(urlPatterns = {"/User/*", "/Question/*"}) // 对 "/User/*" 和 "/Question/*" 路径下的请求进行过滤
+public class PermissionFilter implements Filter {
+    @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         String url = request.getRequestURL().toString();
         String jwt = request.getHeader("Authorization");
-        Claims claims = JWTUtils.parseToken(jwt);
 
         try {
-            if (    claims.get("admin", Integer.class)==1                //如果是管理员就直接放行
-                    || url.contains("User/userUpdate") && parseInt(request.getParameter("userid"))==claims.get("userid",Integer.class)
-                    && claims.get("admin",Integer.class)==null)//更改自己的信息也放行(但不能给自己改管理员权限)
-            {
+            // 解析 JWT 令牌
+            Claims claims = JWTUtils.parseToken(jwt);
+
+            // 检查是否为管理员或者用户更新自己的信息
+            if (claims.get("admin", Integer.class) == 1 // 如果是管理员，直接放行
+                    || (url.contains("User/userUpdate") && parseInt(request.getParameter("userid")) == claims.get("userid", Integer.class)
+                    && claims.get("admin", Integer.class) == null)) { // 用户更新自己的信息也放行（但不能更改管理员权限）
                 chain.doFilter(request, response);
                 return;
             }
-            Result result=new Result(0,"no permission");
+
+            // 其他情况返回无权限错误信息
+            Result result = new Result(0, "no permission");
             resp.getWriter().write(JSONObject.toJSONString(result));
-        }catch (Exception e){                           //其余情况全部拦截
+        } catch (Exception e) {
             e.printStackTrace();
-            Result result=new Result(0,"system wrong");
+            // 出现异常时返回系统错误信息
+            Result result = new Result(0, "system wrong");
             resp.getWriter().write(JSONObject.toJSONString(result));
         }
     }

@@ -1,12 +1,13 @@
 package org.example.onlinetestbackend.pojo;
 
 public class UserToQuestion {
-    private Integer rid;
-    private Integer userid;
-    private String useranswer;
-    private Integer qid;
-    private String qanswer;
+    private Integer rid; // 记录ID
+    private Integer userid; // 用户ID
+    private String useranswer; // 用户的答案
+    private Integer qid; // 问题ID
+    private String qanswer; // 正确答案
 
+    // Getter 和 Setter 方法
     public Integer getRid() {
         return rid;
     }
@@ -47,6 +48,7 @@ public class UserToQuestion {
         this.qanswer = qanswer;
     }
 
+    // 构造方法
     public UserToQuestion(Integer rid, Integer userid, String useranswer, Integer qid, String qanswer) {
         this.rid = rid;
         this.userid = userid;
@@ -55,6 +57,7 @@ public class UserToQuestion {
         this.qanswer = qanswer;
     }
 
+    // 重写 toString 方法，方便打印对象内容
     @Override
     public String toString() {
         return "{\n" +

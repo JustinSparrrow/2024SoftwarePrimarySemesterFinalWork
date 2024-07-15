@@ -1,39 +1,43 @@
 package org.example.onlinetestbackend.Filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.onlinetestbackend.Utils.JWTUtils;
 import org.example.onlinetestbackend.pojo.Result;
 
-@WebFilter(urlPatterns = "/*")              //对于所有操作都需要登录校验
+@WebFilter(urlPatterns = "/*") // 对所有操作都需要登录校验
 public class LoginFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         try {
-            if (request.getRequestURI().toString().contains("login")) {     //如果是登录则直接放行
+            // 如果请求是登录操作，则直接放行
+            if (request.getRequestURI().toString().contains("login")) {
                 chain.doFilter(request, resp);
                 return;
             }
 
-            String jwt = request.getHeader("Authorization");            //获取JWT令牌
-            if(jwt != null) {                                      //校验JWT令牌，校验成功则放行
-                try{
+            // 获取请求头中的 JWT 令牌
+            String jwt = request.getHeader("Authorization");
+            if (jwt != null) {
+                // 校验 JWT 令牌，校验成功则放行
+                try {
                     JWTUtils.parseToken(jwt);
                     chain.doFilter(request, resp);
                     return;
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
-                    Result result=new Result(0,"wrong jwt");
+                    // 如果 JWT 令牌无效，返回错误信息
+                    Result result = new Result(0, "wrong jwt");
                     resp.getWriter().write(JSONObject.toJSONString(result));
                     return;
                 }
             }
-            Result result=new Result(0,"didnt login");
+
+            // 如果没有 JWT 令牌，返回未登录错误信息
+            Result result = new Result(0, "didnt login");
             resp.getWriter().write(JSONObject.toJSONString(result));
         } catch (Exception e) {
             e.printStackTrace();

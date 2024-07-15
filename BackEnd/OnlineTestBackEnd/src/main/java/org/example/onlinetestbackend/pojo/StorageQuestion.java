@@ -1,13 +1,14 @@
 package org.example.onlinetestbackend.pojo;
 
 public class StorageQuestion {
-    private Integer qid;
-    private String qmajor;
-    private Integer qtype;
-    private String qcontent;
-    private String qanswer;
-    private String qimg;
+    private Integer qid; // 问题ID
+    private String qmajor; // 问题所属专业
+    private Integer qtype; // 问题类型
+    private String qcontent; // 问题内容，可能包含问题和选项
+    private String qanswer; // 问题答案
+    private String qimg; // 问题图片的路径
 
+    // Getter 和 Setter 方法
     public Integer getQid() {
         return qid;
     }
@@ -56,17 +57,7 @@ public class StorageQuestion {
         this.qimg = qimg;
     }
 
-    @Override
-    public String toString() {
-        return "{\n" +
-                "\"qid\":\"" + qid + "\",\n" +
-                "\"qmajor\":\"" + qmajor + "\",\n" +
-                "\"qtype\":" + qtype + ",\n" +
-                "\"qcontent\":\"" + qcontent + "\",\n" +
-                "\"qanswer\":\"" + qanswer + "\"\n" +
-                '}';
-    }
-
+    // 构造方法
     public StorageQuestion(Integer qid, String qmajor, Integer qtype, String qcontent, String qanswer, String qimg) {
         this.qid = qid;
         this.qmajor = qmajor;
@@ -76,14 +67,27 @@ public class StorageQuestion {
         this.qimg = qimg;
     }
 
-    public PostQuestion postReady()
-    {
-        PostQuestion postQuestion=new PostQuestion(qid,qmajor,qtype,null,null,qanswer,qimg,null);
-        String[] strs=qcontent.split("/");
-        String[] qchoice=new String[strs.length-1];
+    // 将 StorageQuestion 转换为 PostQuestion
+    public PostQuestion postReady() {
+        PostQuestion postQuestion = new PostQuestion(qid, qmajor, qtype, null, null, qanswer, qimg, null);
+        String[] strs = qcontent.split("/");
+        String[] qchoice = new String[strs.length - 1];
         postQuestion.setQcontent(strs[0]);
-        for(int i=1;i<strs.length;i++)qchoice[i-1]=strs[i];
+        for (int i = 1; i < strs.length; i++) qchoice[i - 1] = strs[i];
         postQuestion.setQchoice(qchoice);
         return postQuestion;
+    }
+
+    // 重写 toString 方法，方便打印对象内容
+    @Override
+    public String toString() {
+        return "{\n" +
+                "\"qid\":\"" + qid + "\",\n" +
+                "\"qmajor\":\"" + qmajor + "\",\n" +
+                "\"qtype\":" + qtype + ",\n" +
+                "\"qcontent\":\"" + qcontent + "\",\n" +
+                "\"qanswer\":\"" + qanswer + "\",\n" +
+                "\"qimg\":\"" + qimg + "\"\n" +
+                '}';
     }
 }
