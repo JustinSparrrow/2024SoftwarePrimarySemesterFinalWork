@@ -148,7 +148,7 @@ export default {
 <style scoped>
 .container {
 	padding: 10px;
-	background-image: url(../../images/restaurant.webp);
+	background-image: url(../../static/images/restaurant.webp);
 	background-size: cover;
 	width: 100vw;
 	height: 100vh;

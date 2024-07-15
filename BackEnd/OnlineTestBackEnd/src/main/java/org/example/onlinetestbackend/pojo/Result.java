@@ -1,7 +1,7 @@
 package org.example.onlinetestbackend.pojo;
 
 public class Result {
-    private int success;
+    private Integer success;
     private Object data;
 
     public int getSuccess() {

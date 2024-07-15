@@ -5,27 +5,68 @@
 			<text space="emsp"><p>欢迎登陆</p></text>
 		</view>
 		<view class="input-group">
-			<text>用户：</text><input type="text" placeholder="请输入用户名"/>
+			<text>用户：</text><input type="text" placeholder="请输入用户名" v-model:value="id">
 		</view>
 		<view class="input-group">
-			<text>密码：</text><input type="password" placeholder="请输入密码"/>
+			<text>密码：</text><input type="password" placeholder="请输入密码" v-model:value="psw">
 		</view>
-		<view class="button-group">
+		<view class="button-group" >
 			<button type="default">注册</button>
-			<button type="default">登录</button>
+			<button type="default" @click="login()">登录</button>
 		</view>
 	</view>
 </template>
 
 <script>
 export default {
-
+	data() {
+		return {
+			id:null,
+			psw:null
+		}
+	},
+	methods: {
+		login() {
+			uni.request({
+				method:'POST',
+				url:"http://localhost:81/login",
+				header:{'Content-Type':'application/json'},
+				data:{
+					userid:parseInt(this.id),
+					password:this.psw
+				},
+				success:res=>{
+					//var result= JSON.parse(res)
+					console.log(res)
+					if(res.data.success==1)
+					{this.$JWT=res.data.data
+					uni.showToast({
+						title:'成功登录',
+						duration:1000
+					})
+					uni.navigateTo({
+						url:'/pages/index/index'
+					})}
+					else{
+						uni.showToast({
+							title:'登录失败',
+							icon:'none',
+							duration:1000
+						})
+					}
+				},
+				fail: () => {
+					console.log(this.url)
+				}
+			})
+		}
+	},
 }
 </script>
 
 <style lang="scss">
 .container {
-	background-image: url(../../images/背景7.jpg);
+	background-image: url(../../static/images/背景7.jpg);
 	background-size: cover;
 	background-position: center center;
 	padding: 10px;

@@ -4,7 +4,9 @@ import org.example.onlinetestbackend.Service.UserService;
 import org.example.onlinetestbackend.pojo.Result;
 import org.example.onlinetestbackend.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -13,9 +15,9 @@ public class UserController {
     UserService userService;
 
     @RequestMapping("/login")
-    public Result login(int userid,String password) {
+    public Result login(@RequestBody User user) {
         try{
-            String jwt=userService.login(userid,password);
+            String jwt=userService.login(user.getUserid(),user.getPassword());
             if(jwt!=null)return new Result(1,jwt);
             return new Result(0,"ID或密码错误");
         }catch (Exception e){

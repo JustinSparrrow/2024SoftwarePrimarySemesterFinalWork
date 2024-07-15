@@ -4,7 +4,7 @@
 	  <guidance></guidance>
     <!-- 用户信息 -->
     <view class="userinfo global">
-      <image src="../../images/背景2.jpg"></image>
+      <image src="../../static/images/背景2.jpg"></image>
       <view>
         <view class="name box">张三</view>
         <view class="box">注册时间:2023.6.20</view>
@@ -77,7 +77,7 @@ export default {
 <style>
 .container {
  padding: 10px;
- background-image: url(../../images/restaurant.webp);
+ background-image: url(../../static/images/restaurant.webp);
  background-size: cover;
  width: 100vw;
  height: 100vh;

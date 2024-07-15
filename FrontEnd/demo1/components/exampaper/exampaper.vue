@@ -1,7 +1,7 @@
 <template>
 	<view class="exampaper">
 		<view class="pic">
-			<image src="../../images/背景4.jpg" mode="aspectFill"></image>
+			<image src="../../static/images/背景4.jpg" mode="aspectFill"></image>
 		</view>
 		<view class="text">
 			<view class="title">
