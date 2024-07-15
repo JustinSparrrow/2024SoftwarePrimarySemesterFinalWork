@@ -56,11 +56,11 @@ public class User {
         this.admin = admin;
     }
 
-    public User(Integer userid, String username, String email, String phone, String password, Integer admin) {
+    public User(Integer userid, String username, String phone, String email, String password, Integer admin) {
         this.userid = userid;
         this.username = username;
-        this.email = email;
         this.phone = phone;
+        this.email = email;
         this.password = password;
         this.admin = admin;
     }

@@ -47,6 +47,14 @@ public class UserToQuestion {
         this.qanswer = qanswer;
     }
 
+    public UserToQuestion(Integer rid, Integer userid, String useranswer, Integer qid, String qanswer) {
+        this.rid = rid;
+        this.userid = userid;
+        this.useranswer = useranswer;
+        this.qid = qid;
+        this.qanswer = qanswer;
+    }
+
     @Override
     public String toString() {
         return "{\n" +

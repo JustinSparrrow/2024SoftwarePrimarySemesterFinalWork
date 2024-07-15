@@ -22,7 +22,7 @@
         <if test="phone!=null">
             ,phone = #{phone}
         </if>
-        <if test="email=null">
+        <if test="email!=null">
             ,email=#{email}
         </if>
         <if test="password!=null">

@@ -22,7 +22,7 @@ public class UserService {
         List<User> searchResult=userMapper.userSelect(user);
         if( !searchResult.isEmpty())
         {
-            Map<String,Object> map=new HashMap<>();
+            Map<String,Object> map=new HashMap<>();             //将用户id，密码，管理员标记放入jwt令牌后送回
             map.put("userid",userid);
             map.put("password",encryption);
             map.put("admin",searchResult.get(0).getAdmin());
@@ -32,7 +32,7 @@ public class UserService {
     }
 
     public void userInsert(User user) {
-        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));//对密码加密
         userMapper.userInsert(user);
     }
 
@@ -41,13 +41,14 @@ public class UserService {
     }
 
     public void userUpdate(User user) {
-        if(user.getPassword()!=null)user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+        if(user.getPassword()!=null)user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));//对密码加密
+        System.out.println(user.getUserid()+"is changing:"+user.getEmail());
         userMapper.userUpdate(user);
     }
 
     public List<User> userSelect(User user){
         List<User> users=userMapper.userSelect(user);
-        for(User userIns:users)userIns.setPassword("~password~ ^_^");
+        for(User userIns:users)userIns.setPassword("~password~ ^_^");    //让所有查询操作都无法得到加密后的密码
         return users;
     }
 }

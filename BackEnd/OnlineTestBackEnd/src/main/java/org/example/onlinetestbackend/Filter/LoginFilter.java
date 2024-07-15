@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.onlinetestbackend.Utils.JWTUtils;
 import org.example.onlinetestbackend.pojo.Result;
 
-@WebFilter(urlPatterns = "/*",filterName = "AAAFilter")
+@WebFilter(urlPatterns = "/*")              //对于所有操作都需要登录校验
 public class LoginFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException {
@@ -21,8 +21,7 @@ public class LoginFilter implements Filter {
             }
 
             String jwt = request.getHeader("Authorization");            //获取JWT令牌
-            System.out.println("jwt="+jwt);
-            if(jwt != null) {                                      //校验JWT令牌
+            if(jwt != null) {                                      //校验JWT令牌，校验成功则放行
                 try{
                     JWTUtils.parseToken(jwt);
                     chain.doFilter(request, resp);
