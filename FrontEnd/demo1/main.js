@@ -18,5 +18,6 @@ export function createApp() {
   return {
     app
   }
+  const UrlBase = 'http://localhost:81'
 }
 // #endif

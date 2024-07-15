@@ -114,6 +114,14 @@ export default {
       { id: 2, name: 'User B', age:'17', sex:'女', email: 'userB@example.com', phone:'11223344556' },
       // 其他用户数据
     ];
+  },
+  onLaunch(){
+  	let token=localStorage.getItem("JWT")
+  	if(!token){
+  		uni.reLaunch({
+  			url:'/pages/login/login'
+  		})
+  	}
   }
 };
 </script>

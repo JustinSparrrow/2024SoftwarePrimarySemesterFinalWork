@@ -36,10 +36,9 @@ export default {
 					password:this.psw
 				},
 				success:res=>{
-					//var result= JSON.parse(res)
 					console.log(res)
 					if(res.data.success==1)
-					{this.$JWT=res.data.data
+					{localStorage.setItem("JWT",res.data.data)
 					uni.showToast({
 						title:'成功登录',
 						duration:1000

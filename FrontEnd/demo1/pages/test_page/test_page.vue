@@ -26,6 +26,14 @@
 				
 			}
 		},
+		onLaunch:function(){
+			let token=localStorage.getItem("JWT")
+			if(!token){
+				uni.reLaunch({
+					url:"/pages/login/login"
+				})
+			}
+		},
 		methods: {
 			filters: {
 			    dateFormat: function (value) {
