@@ -1,5 +1,5 @@
 <template>
-  <view class="container">
+  <scroll-view scroll-y="" class="container">
     <!-- 导航栏 -->
     <guidance></guidance>
     <!-- 题库信息 -->
@@ -21,7 +21,7 @@
     </view> 
   
   
-  </view>
+  </scroll-view>
 </template>
 
 <script>
