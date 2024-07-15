@@ -73,6 +73,10 @@
         </view>
       </view>
     </view>
+	<!-- 底部标识 -->
+	    <view class="footer">
+	      <text>------在线考试系统 由 思古目开诶次炯比哦 团队联合开发------</text>
+	    </view>
   </view>
 </template>
 
@@ -197,6 +201,7 @@ body, html {
 /* 设置页面容器样式 */
 .container {
   display: flex;
+  flex-direction: column;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
@@ -418,5 +423,17 @@ body, html {
 
 .modal .button-group .register:hover {
   text-decoration: underline;
+}
+
+/* 底部标识样式 */
+.footer {
+  width: 100%;
+  text-align: center;
+  padding: 10rpx;
+  position: absolute;
+  bottom: 0;
+  color: #007BFF;
+  font-size: 35rpx;
+  font-weight: bold;
 }
 </style>
