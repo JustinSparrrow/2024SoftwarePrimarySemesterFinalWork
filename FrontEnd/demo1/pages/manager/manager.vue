@@ -33,7 +33,7 @@
 			<view v-for="question in paginatedQuestions" :key="question.qid" class="question">
 				<view class="question-details">
 					<checkbox-group v-model="selectedQuestionIds">
-						<checkbox :value="question.qid"></checkbox>
+						<checkbox :value="String(question.qid)"></checkbox>
 					</checkbox-group>
 					<view class="question-information">
 						<text><strong>题目：</strong>{{ question.qcontent.split('/')[0] }}</text>
@@ -93,7 +93,7 @@
 				</view>
 				<view class="actions">
 					<button type="button" @click="cancelEdit">取消</button>
-					<button type="submit" @click="updateQuestion">保存</button>
+					<button type="submit">保存</button>
 				</view>
 			</form>
 		</view>
@@ -162,14 +162,14 @@
 			},
 			filterQuestions() {
 				this.filteredQuestions = this.questions.filter(question => {
-					const typeMatch = this.selectedType ? question.qtype == this.selectedType : true;
-					const subjectMatch = this.selectedSubject ? question.qmajor == this.selectedSubject : true;
+					const typeMatch = this.selectedType ? question.qtype === Number(this.selectedType) : true;
+					const subjectMatch = this.selectedSubject ? question.qsubject === this.selectedSubject : true;
 					return typeMatch && subjectMatch;
 				});
 			},
 			selectAll(event) {
 				if (event.detail.value.length) {
-					this.selectedQuestionIds = this.filteredQuestions.map(question => question.qid);
+					this.selectedQuestionIds = this.filteredQuestions.map(question => String(question.qid));
 				} else {
 					this.selectedQuestionIds = [];
 				}
@@ -184,13 +184,13 @@
 							'Authorization': token,
 							'Content-Type': 'application/json'
 						},
-						data: {
+						data: JSON.stringify({
 							qids: this.selectedQuestionIds
-						},
+						}),
 						success: (res) => {
 							if (res.data.success === 1) {
 								this.questions = this.questions.filter(
-									question => !this.selectedQuestionIds.includes(question.qid)
+									question => !this.selectedQuestionIds.includes(String(question.qid))
 								);
 								this.filterQuestions();
 								this.selectedQuestionIds = [];
@@ -207,8 +207,7 @@
 			editQuestion(question) {
 				this.editQuestionData = {
 					...question,
-					qcontent: question.qcontent.split('/')[0],
-					qchoice: question.qchoice
+					qcontent: `${question.qcontent}/${question.qchoice.join('/')}`
 				};
 				this.showEditModal = true;
 			},
@@ -222,9 +221,9 @@
 							'Authorization': token,
 							'Content-Type': 'application/json'
 						},
-						data: {
-							qids: [qid]
-						},
+						data: JSON.stringify({
+							qids: [String(qid)]
+						}),
 						success: (res) => {
 							if (res.data.success === 1) {
 								this.questions = this.questions.filter(q => q.qid !== qid);
@@ -253,7 +252,7 @@
 							'Authorization': token,
 							'Content-Type': 'application/json'
 						},
-						data: updateData,
+						data: JSON.stringify(updateData),
 						success: (res) => {
 							if (res.data.success === 1) {
 								const index = this.questions.findIndex(q => q.qid === this.editQuestionData
