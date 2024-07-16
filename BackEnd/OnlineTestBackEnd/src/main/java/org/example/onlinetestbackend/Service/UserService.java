@@ -17,37 +17,6 @@ public class UserService {
     UserMapper userMapper;
 
     /**
-     * 用户登录
-     * @param userid 用户ID
-     * @param password 用户密码
-     * @return 成功登录返回JWT令牌，否则返回null
-     */
-    public String login(int userid, String password) {
-        // 特殊处理admin用户
-        if(userid == 10000){
-            Map<String, Object> adminClaims = new HashMap<>();
-            adminClaims.put("userid", 10000);
-            adminClaims.put("admin", 1);
-            return JWTUtils.generateToken(adminClaims);
-        }
-        // 对密码进行MD5加密
-        String encryption = DigestUtils.md5DigestAsHex(password.getBytes());
-        // 创建一个包含用户ID和加密密码的User对象
-        User user = new User(userid, null, null, null, encryption, null);
-        // 匹配用户密码是否正确
-        List<User> searchResult = userMapper.userSelect(user);
-        if (!searchResult.isEmpty()) {
-            // 用户存在，生成JWT令牌
-            Map<String, Object> map = new HashMap<>();
-            map.put("userid", userid);
-            map.put("password", encryption);
-            map.put("admin", searchResult.get(0).getAdmin());
-            return JWTUtils.generateToken(map);
-        }
-        return null; // 用户不存在或密码错误
-    }
-
-    /**
      * 插入新用户
      * @param user 用户对象
      */
