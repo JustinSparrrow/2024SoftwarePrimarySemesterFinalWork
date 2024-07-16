@@ -1,28 +1,25 @@
-<!-- 试题添加 -->
 <template>
   <view class="container">
-    <form @submit.prevent="addQuestion">
-     <view class="box">
-     	 <input v-model="user.name" type="text" placeholder="姓名" required>
-     </view>
-      <view class="box">
-      	<input  v-model="user.age" type="text" placeholder="年龄" required>
-      </view>
-     <view class="box">
-     	 <input v-model="user.sex" type="text" placeholder="性别" required>
-     </view>
-      <view class="box">
-      	<input  v-model="user.email" type="text" placeholder="邮箱" required>
-      </view>
-     <view class="box">
-     	 <input v-model="user.phone" type="text" placeholder="电话号码" required>
-     </view>
-
-    </form>
-	<view class="actions">
-		<button type="submit">保存</button>
-	</view>
-    <p v-if="message">{{ message }}</p>
+    <view class="form-card">
+      <form @submit.prevent="updateUser">
+        <view class="box">
+          <input v-model="user.username" type="text" placeholder="用户名" required>
+        </view>
+        <view class="box">
+          <input v-model="user.email" type="email" placeholder="邮箱" required>
+        </view>
+        <view class="box">
+          <input v-model="user.phone" type="tel" placeholder="电话号码" required>
+        </view>
+        <view class="box">
+          <input v-model="user.password" type="password" placeholder="密码" required>
+        </view>
+        <view class="actions">
+          <button type="submit">保存</button>
+        </view>
+      </form>
+      <p v-if="message">{{ message }}</p>
+    </view>
   </view>
 </template>
 
@@ -31,21 +28,21 @@ export default {
   data() {
     return {
       user: {
-        name: '',
-        age: '',
-        sex: '',
+        username: '',
         email: '',
         phone: '',
+        password: '',
+        admin: 0, // 默认值，可以根据需要进行设置
       },
       message: ''
     };
   },
   methods: {
-    addQuestion() {
+    updateUser() {
       uni.request({
-        url: 'https://your-backend-url/addQuestion',
+        url: 'http://119.3.215.15:81/User/userUpdate',
         method: 'POST',
-        data: this.question,
+        data: this.user,
         success: (res) => {
           this.message = '用户修改成功';
           this.clearForm();
@@ -56,12 +53,12 @@ export default {
       });
     },
     clearForm() {
-      this.question = {
-        name: '',
-        age: '',
-        sex: '',
+      this.user = {
+        username: '',
         email: '',
         phone: '',
+        password: '',
+        admin: 0,
       };
     }
   }
@@ -70,38 +67,66 @@ export default {
 
 <style scoped>
 .container {
-	padding: 10px;
-	background-image: url(../../static/images/restaurant.webp);
-	background-size: cover;
-	width: 100vw;
-	height: 100vh;
+  padding: 20px;
+  background-image: url(../../static/images/restaurant.webp);
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+.form-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 400px;
+}
+
 form {
   display: flex;
   flex-direction: column;
 }
-.box{
-	border: 1px solid #ccc;
+
+.box {
+  margin-bottom: 15px;
 }
-input{
-  margin-bottom: 10px;
-  padding: 5px;
+
+input {
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
 }
-.actions{
-	padding: 10px;
+
+.actions {
+  text-align: center;
 }
-.actions button{
-  width: 30%; /* 按钮宽度 */
-  height: 45px;
+
+.actions button {
+  width: 100%;
+  padding: 10px;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   background-color: #3498db;
   color: #fff;
   font-size: 18px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
+.actions button:hover {
+  background-color: #2980b9;
+}
+
 p {
-  margin-top: 10px;
+  margin-top: 20px;
   color: green;
+  text-align: center;
+  font-size: 16px;
 }
 </style>

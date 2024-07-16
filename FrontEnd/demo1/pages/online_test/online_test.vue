@@ -4,8 +4,12 @@
 		<guidance></guidance>
 		<!-- 题库信息 -->
 		<view class="on-item">
-			<exampaper></exampaper>
-			<exampaper></exampaper>
+			<view v-for="(paper, index) in examPapers" :key="index" class="exampaper"
+				:class="{ selected: selectedPaperIndex === index }" @click="selectPaper(index)">
+				<view>{{ paper.title }}</view>
+				<view>{{ paper.author }}</view>
+				<view>{{ paper.date }}</view>
+			</view>
 		</view>
 		<!-- 专业选择 -->
 		<view class="select">
@@ -16,13 +20,17 @@
 				</view>
 			</picker>
 			<view class="start">
-				<navigator url="/pages/test_page/test_page"><button class="start-button">开始考试</button></navigator>
+				<button @click="startExam" class="start-button">开始考试</button>
 			</view>
 		</view>
 	</scroll-view>
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex';
+
 	export default {
 		data() {
 			return {
@@ -30,16 +38,99 @@
 					['计算机科学与技术', '软件工程', '人工智能'],
 					['通信工程', '数字媒体技术', '网络安全']
 				],
-				multiIndex: [0, 0]
+				multiIndex: [0, 0],
+				examPapers: [],
+				selectedPaperIndex: null
 			};
 		},
+		computed: {
+			...mapState(['userId']) // 从 Vuex 获取用户ID
+		},
+		created() {
+			this.fetchExamPapers();
+		},
 		methods: {
+			fetchExamPapers() {
+				uni.request({
+					url: 'http://119.3.215.15:81//Test/paperExistCheck',
+					method: 'GET',
+					success: (res) => {
+						if (res.data.success === 1) {
+							this.examPapers = res.data.data;
+						} else {
+							uni.showToast({
+								title: '获取题库失败',
+								icon: 'none',
+								duration: 2000
+							});
+						}
+					},
+					fail: (err) => {
+						uni.showToast({
+							title: '请求失败',
+							icon: 'none',
+							duration: 2000
+						});
+						console.error(err);
+					}
+				});
+			},
 			bindMultiPickChange(e) {
 				console.log('picker发送选择改变，携带值为', e.detail.value);
 				this.multiIndex = e.detail.value;
+			},
+			selectPaper(index) {
+				this.selectedPaperIndex = index;
+			},
+			startExam() {
+				if (this.selectedPaperIndex === null) {
+					uni.showToast({
+						title: '请选择考试',
+						icon: 'none',
+						duration: 2000
+					});
+					return;
+				}
+				const selectedMajor = `${this.multiArry[0][this.multiIndex[0]]}/${this.multiArry[1][this.multiIndex[1]]}`;
+				uni.request({
+					url: 'http://119.3.215.15:81/Test/testEnter',
+					method: 'POST',
+					data: {
+						userid: this.userId, // 使用实际用户ID
+						major: selectedMajor
+					},
+					success: (res) => {
+						if (res.data.success === 1) {
+							this.examPapers = res.data.data;
+							uni.showToast({
+								title: '试卷生成成功',
+								icon: 'success',
+								duration: 2000
+							});
+							// 跳转到考试页面
+							uni.navigateTo({
+								url: `/pages/test_page/test_page?paperId=${this.examPapers[this.selectedPaperIndex].id}`
+							});
+						} else {
+							uni.showToast({
+								title: '试卷生成失败',
+								icon: 'none',
+								duration: 2000
+							});
+						}
+					},
+					fail: (err) => {
+						uni.showToast({
+							title: '请求失败',
+							icon: 'none',
+							duration: 2000
+						});
+						console.error(err);
+					}
+				});
 			}
 		}
-	}
+	};
 </script>
 
 <style lang="scss">
@@ -70,6 +161,11 @@
 		border-radius: 10px;
 		overflow: hidden;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		cursor: pointer;
+	}
+
+	.exampaper.selected {
+		border: 2px solid #3498db;
 	}
 
 	.select {
