@@ -10,9 +10,10 @@
       <navigator url="/pages/user_manage/user_manage">用户管理</navigator>
     </view>
     
-    <!-- 右侧 登录/用户头像 -->
+    <!-- 右侧 登录/个人信息管理 -->
     <view class="navbar-right">
-      <navigator url="/pages/login/login">登录</navigator>
+      <navigator v-if="!isLoggedIn" url="/pages/login/login">登录</navigator>
+      <navigator v-else url="/pages/user/user">个人信息管理</navigator>
     </view>
   </view>
 </template>
@@ -23,21 +24,21 @@ export default {
   data() {
     return {
       isLoggedIn: false,
-      userAvatar: '' // 假设头像路径存储在此
+	  isAdmin: false
     };
   },
   created() {
     // 模拟获取登录状态和用户头像
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-      this.isLoggedIn = true;
-      this.userAvatar = user.avatar; // 设置用户头像
-    }
-  },
-  methods: {
-    goToUserProfile() {
-      // 跳转到用户个人信息页面
-      this.$router.push('/pages/user/user');
+    const token = localStorage.getItem('JWT');
+    if (token) {
+      // 检查JWT令牌的有效性，可以发送请求到后端验证
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1])); // 使用 Base64 解码 JWT 的 payload 部分
+        this.isLoggedIn = true;
+        this.isAdmin = payload.isAdmin === 1;
+      } catch (e) {
+        console.error('Error parsing token from localStorage: ', e);
+      }
     }
   }
 }
@@ -74,13 +75,6 @@ export default {
   display: flex;
   align-items: center;
   margin-right: 3%;
-}
-
-.avatar {
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  cursor: pointer;
 }
 
 a {

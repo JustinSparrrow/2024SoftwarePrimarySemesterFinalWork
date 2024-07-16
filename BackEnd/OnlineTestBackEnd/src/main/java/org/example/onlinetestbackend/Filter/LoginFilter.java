@@ -14,7 +14,7 @@ public class LoginFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         try {
             // 如果请求是登录操作，则直接放行
-            if (request.getRequestURI().toString().contains("login")) {
+            if (request.getRequestURI().toString().contains("login") || request.getRequestURI().toString().contains("register")) {
                 chain.doFilter(request, resp);
                 return;
             }
