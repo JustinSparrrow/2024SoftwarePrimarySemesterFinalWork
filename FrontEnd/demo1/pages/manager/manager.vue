@@ -93,7 +93,7 @@
 				</view>
 				<view class="actions">
 					<button type="button" @click="cancelEdit">取消</button>
-					<button type="submit">保存</button>
+					<button type="submit" @click="updateQuestion">保存</button>
 				</view>
 			</form>
 		</view>
@@ -162,8 +162,8 @@
 			},
 			filterQuestions() {
 				this.filteredQuestions = this.questions.filter(question => {
-					const typeMatch = this.selectedType ? question.qtype === this.selectedType : true;
-					const subjectMatch = this.selectedSubject ? question.qsubject === this.selectedSubject : true;
+					const typeMatch = this.selectedType ? question.qtype == this.selectedType : true;
+					const subjectMatch = this.selectedSubject ? question.qmajor == this.selectedSubject : true;
 					return typeMatch && subjectMatch;
 				});
 			},
@@ -207,7 +207,8 @@
 			editQuestion(question) {
 				this.editQuestionData = {
 					...question,
-					qcontent: `${question.qcontent}/${question.qchoice.join('/')}`
+					qcontent: question.qcontent.split('/')[0],
+					qchoice: question.qchoice
 				};
 				this.showEditModal = true;
 			},
