@@ -100,46 +100,47 @@
 			};
 		},
 		created() {
-		  // 在应用启动时检查登录状态
-		  try {
-		    const token = localStorage.getItem('JWT');
-		    if (token) {
-		      // 检查JWT令牌的有效性，可以发送请求到后端验证
-		      this.isLoggedIn = true;
-		    }
-		  } catch (e) {
-		    console.error('Error parsing token from localStorage: ', e);
-		  }
+			// 在应用启动时检查登录状态
+			try {
+				const token = localStorage.getItem('JWT');
+				if (token) {
+					// 检查JWT令牌的有效性，可以发送请求到后端验证
+					this.isLoggedIn = true;
+				}
+			} catch (e) {
+				console.error('Error parsing token from localStorage: ', e);
+			}
 		},
 		methods: {
 			handleSubmit() {
 				this.login();
 			},
-			login(){
-				var formData=new FormData();
-				formData.append("userid",this.username)
-				formData.append("password",this.password)
-				let fly=new Fly;
-				fly.post('http://localhost:81/login',formData)
-				.then(res=>{
-					if (res.data.success == 1) {
-						localStorage.setItem("JWT", res.data.data)
-						this.isLoggedIn = true;
-						uni.showToast({
-							title: '成功登录',
-							duration: 1000
-						})
-						uni.navigateTo({
-							url: '/pages/index/index'
-						})
-					} else {
-						uni.showToast({
-							title: '登录失败',
-							icon: 'none',
-							duration: 1000
-						})
-					}
-				})
+			login() {
+				var formData = new FormData();
+				formData.append("userid", this.username)
+				formData.append("password", this.password)
+				let fly = new Fly;
+				fly.post('http://119.3.215.15:81/login', formData)
+					.then(res => {
+						if (res.data.success == 1) {
+							localStorage.setItem("JWT", res.data.data)
+							this.isLoggedIn = true;
+							uni.showToast({
+								title: '成功登录',
+								duration: 1000
+							})
+							uni.navigateTo({
+								url: '/pages/index/index'
+							})
+						} else {
+							uni.showToast({
+								title: '登录失败',
+								icon: 'none',
+								duration: 1000
+							})
+						}
+					})
+			},
 			showRegister() {
 				this.showRegisterModal = true;
 			},

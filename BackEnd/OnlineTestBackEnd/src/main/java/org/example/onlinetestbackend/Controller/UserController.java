@@ -4,14 +4,12 @@ import org.example.onlinetestbackend.Service.UserService;
 import org.example.onlinetestbackend.pojo.Result;
 import org.example.onlinetestbackend.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class UserController {
     @Autowired
@@ -23,7 +21,7 @@ public class UserController {
      * @return 登录结果，成功返回1和JWT，失败返回0和错误信息
      */
     @RequestMapping("/login")
-    public Result login(@RequestBody User user) {
+    public Result login(User user) {
         try {
             String jwt = userService.login(user.getUserid(), user.getPassword());
             if (jwt != null) {
