@@ -82,6 +82,7 @@
 </template>
 
 <script>
+	import Fly from 'flyio/dist/npm/fly';
 	export default {
 		data() {
 			return {
@@ -114,42 +115,31 @@
 			handleSubmit() {
 				this.login();
 			},
-			login() {
-				uni.request({
-					method: 'POST',
-					url: "http://localhost:81/login",
-					header: {
-						'Content-Type': 'application/json'
-					},
-					data: {
-						userid: this.username,
-						password: this.password
-					},
-					success: res => {
-						console.log(res)
-						if (res.data.success == 1) {
-							localStorage.setItem("JWT", res.data.data)
-							this.isLoggedIn = true;
-							uni.showToast({
-								title: '成功登录',
-								duration: 1000
-							})
-							uni.navigateTo({
-								url: '/pages/index/index'
-							})
-						} else {
-							uni.showToast({
-								title: '登录失败',
-								icon: 'none',
-								duration: 1000
-							})
-						}
-					},
-					fail: () => {
-						console.log(this.url)
+			login(){
+				var formData=new FormData();
+				formData.append("userid",this.username)
+				formData.append("password",this.password)
+				let fly=new Fly;
+				fly.post('http://localhost:81/login',formData)
+				.then(res=>{
+					if (res.data.success == 1) {
+						localStorage.setItem("JWT", res.data.data)
+						this.isLoggedIn = true;
+						uni.showToast({
+							title: '成功登录',
+							duration: 1000
+						})
+						uni.navigateTo({
+							url: '/pages/index/index'
+						})
+					} else {
+						uni.showToast({
+							title: '登录失败',
+							icon: 'none',
+							duration: 1000
+						})
 					}
 				})
-			},
 			showRegister() {
 				this.showRegisterModal = true;
 			},

@@ -13,7 +13,7 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         try {
-            // 如果请求是登录操作，则直接放行
+            // 如果请求是登录操作和注册操作，则直接放行
             if (request.getRequestURI().toString().contains("login") || request.getRequestURI().toString().contains("register")) {
                 chain.doFilter(request, resp);
                 return;
