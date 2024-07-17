@@ -142,16 +142,23 @@
 						},
 						success: (res) => {
 							if (res.data.success === 1) {
-								this.questions = res.data.data.map(question => {
-									const [qcontent, ...qchoices] = question.qcontent.split('/');
-									return {
-										...question,
-										qcontent,
-										qchoice: qchoices
-									};
-								});
-								this.filteredQuestions = this.questions;
-							} else {
+							    console.log("questions", res.data.data);
+							    this.questions = res.data.data.map(question => {
+							        // 如果 qcontent 为 null 或 undefined，设置默认值为空字符串
+							        const qcontent = question.qcontent || '';
+							        console.log("qcontent", qcontent);
+							
+							        // 如果 qcontent 为空，则 qchoices 为空数组
+							        const [content, ...qchoices] = qcontent ? qcontent.split('/') : [qcontent];
+							
+							        return {
+							            ...question,
+							            qcontent: content,
+							            qchoice: qchoices.length ? qchoices : question.qchoice // 保留原有的 qchoice，如果分割后为空
+							        };
+							    });
+							    this.filteredQuestions = this.questions;
+							}else {
 								console.error('获取题目失败:', res.data.data);
 							}
 						},

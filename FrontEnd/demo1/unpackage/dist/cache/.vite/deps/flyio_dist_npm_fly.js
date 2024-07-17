@@ -3,9 +3,9 @@ var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 
-// ../../../../../../大二小学期/Gitee/FrontEnd/demo1/node_modules/flyio/dist/npm/fly.js
+// ../../../../../../Users/moqi/Desktop/作业/大二小学期/2024年Java程序设计实践 (2)/mjymfdlxlszwxx-sweethome/FrontEnd/demo1/node_modules/flyio/dist/npm/fly.js
 var require_fly = __commonJS({
-  "../../../../../../大二小学期/Gitee/FrontEnd/demo1/node_modules/flyio/dist/npm/fly.js"(exports, module) {
+  "../../../../../../Users/moqi/Desktop/作业/大二小学期/2024年Java程序设计实践 (2)/mjymfdlxlszwxx-sweethome/FrontEnd/demo1/node_modules/flyio/dist/npm/fly.js"(exports, module) {
     (function webpackUniversalModuleDefinition(root, factory) {
       if (typeof exports === "object" && typeof module === "object")
         module.exports = factory();
