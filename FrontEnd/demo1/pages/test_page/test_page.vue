@@ -30,19 +30,19 @@
 					</div>
 					<div class="options">
 						<!-- 是非题 -->
-						<div v-if="currentQuestion.qtype === 0" class="option-container">
+						<div v-if="currentQuestion.qtype == 0" class="option-container">
 							<button @click="selectAnswer('A', currentQuestionIndex)">是</button>
 							<button @click="selectAnswer('B', currentQuestionIndex)">否</button>
 						</div>
 						<!-- 单选题 -->
-						<div v-if="currentQuestion.qtype === 1" class="option-container">
+						<div v-if="currentQuestion.qtype == 1" class="option-container">
 							<button v-for="(option, index) in currentQuestion.qcontent.split('/').slice(1)" :key="index"
 								@click="selectAnswer(option, currentQuestionIndex)">
 								{{ option }}
 							</button>
 						</div>
 						<!-- 多选题 -->
-						<div v-if="currentQuestion.qtype === 2" class="option-container">
+						<div v-if="currentQuestion.qtype == 2" class="option-container">
 							<button v-for="(option, index) in currentQuestion.qcontent.split('/').slice(1)" :key="index"
 								@click="toggleAnswer(option, currentQuestionIndex)">
 								{{ option }}
@@ -53,7 +53,7 @@
 				<div class="navigation-buttons">
 					<button @click="prevQuestion" :disabled="currentQuestionIndex === 0">上一题</button>
 					<button @click="nextQuestion" :disabled="currentQuestionIndex === questions.length - 1">下一题</button>
-					<button @click="submitExam" :disabled="!isAllAnswered">提交试卷</button>
+					<button @click="submitExam" >提交试卷</button>
 				</div>
 			</div>
 		</div>
@@ -144,7 +144,7 @@
 				}
 				const answers = this.userAnswers[index];
 				const answerIndex = answers.indexOf(option);
-				if (answerIndex === -1) {
+				if (answerIndex == -1) {
 					answers.push(option);
 				} else {
 					answers.splice(answerIndex, 1);

@@ -1,5 +1,6 @@
 package org.example.onlinetestbackend.Controller;
 
+import com.alibaba.fastjson.JSONObject;
 import org.example.onlinetestbackend.Service.QuestionService;
 import org.example.onlinetestbackend.pojo.StorageQuestion;
 import org.example.onlinetestbackend.pojo.Result;
@@ -67,9 +68,10 @@ public class QuestionController {
      * @return 更新结果，成功返回1，失败返回0
      */
     @RequestMapping("/Question/qUpdate")
-    public Result qUpdate(StorageQuestion storageQuestion, @RequestParam(name = "img",required = false)MultipartFile file) {
+    public Result qUpdate(@RequestBody JSONObject jsonObject) {
         try{
-            questionService.updateQuestion(storageQuestion,file);
+            StorageQuestion storageQuestion=jsonObject.toJavaObject(StorageQuestion.class);
+            questionService.updateQuestion(storageQuestion,null);
             return new Result(1);
         }catch (Exception e){
             e.printStackTrace();
