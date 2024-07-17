@@ -19,7 +19,7 @@
 					<label for="questionImage">上传图片</label>
 					<input type="file" @change="handleFileUpload">
 				</view>
-				<button @click="insertQuestion">添加题目</button>
+				<button @click="insertQuestion()">添加题目</button>
 			</view>
 
 			<view class="section">
@@ -28,7 +28,7 @@
 					<label for="deleteQuestionId">题目ID</label>
 					<input v-model="deleteQuestionId" type="number" id="deleteQuestionId" placeholder="请输入要删除的题目ID">
 				</view>
-				<button @click="deleteQuestion">删除题目</button>
+				<button @click="deleteQuestion()">删除题目</button>
 			</view>
 
 			<view class="section">
@@ -53,7 +53,7 @@
 					<label for="updateQuestionImage">上传图片</label>
 					<input type="file" @change="handleUpdateFileUpload">
 				</view>
-				<button @click="updateQuestion">更新题目</button>
+				<button @click="updateQuestion()">更新题目</button>
 			</view>
 		</view>
 
@@ -69,9 +69,9 @@
 				</view>
 			</view>
 			<view class="navigation-buttons">
-				<button @click="prevQuestion" :disabled="currentQuestionIndex === 0">上一题</button>
-				<button @click="nextQuestion" :disabled="currentQuestionIndex === questions.length - 1">下一题</button>
-				<button @click="submitExam" :disabled="!isAllAnswered">提交试卷</button>
+				<button @click="prevQuestion()" :disabled="currentQuestionIndex === 0">上一题</button>
+				<button @click="nextQuestion()" :disabled="currentQuestionIndex === questions.length - 1">下一题</button>
+				<button @click="submitExam()" :disabled="!isAllAnswered">提交试卷</button>
 			</view>
 			<view v-if="!currentQuestion">
 				<text>请选择考试题目</text>

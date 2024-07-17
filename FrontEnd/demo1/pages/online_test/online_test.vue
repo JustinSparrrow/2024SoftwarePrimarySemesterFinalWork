@@ -20,7 +20,7 @@
 				</view>
 			</picker>
 			<view class="start">
-				<button @click="startExam" class="start-button">开始考试</button>
+				<button @click="startExam()" class="start-button">开始考试</button>
 			</view>
 		</view>
 	</scroll-view>

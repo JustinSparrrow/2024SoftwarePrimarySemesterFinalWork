@@ -27,7 +27,7 @@
 				<view class="announcement-section">
 					<view class="section-title">
 						公告栏
-						<button v-if="isAdmin" @click="addAnnouncement">添加公告</button>
+						<button v-if="isAdmin" @click="addAnnouncement()">添加公告</button>
 					</view>
 					<view class="announcement" v-for="(announcement, index) in announcements" :key="index">
 						<text>{{ announcement.text }}</text><br>
@@ -59,11 +59,11 @@
 			</view>
 		</view>
 		<!-- 公告编辑弹窗 -->
-		<view v-if="showAnnouncementModal" class="modal-overlay" @click.self="closeAnnouncementModal">
+		<view v-if="showAnnouncementModal" class="modal-overlay" @click.self="closeAnnouncementModal()">
 			<view class="modal">
 				<view class="modal-header">
 					<h2>{{ editIndex === -1 ? '添加公告' : '编辑公告' }}</h2>
-					<button class="close-button" @click="closeAnnouncementModal">&times;</button>
+					<button class="close-button" @click="closeAnnouncementModal()">&times;</button>
 				</view>
 				<form @submit.prevent="saveAnnouncement">
 					<view class="input-group">

@@ -92,7 +92,7 @@
 					<input type="text" id="edit-answer" v-model="editQuestionData.qanswer" required />
 				</view>
 				<view class="actions">
-					<button type="button" @click="cancelEdit">取消</button>
+					<button type="button" @click="cancelEdit()">取消</button>
 					<button type="submit">保存</button>
 				</view>
 			</form>

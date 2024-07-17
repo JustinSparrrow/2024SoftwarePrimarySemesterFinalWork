@@ -20,7 +20,7 @@ public class UserController {
      * @return 插入结果，成功返回1，失败返回0
      */
     @RequestMapping("/User/userInsert")
-    public Result userInsert(@RequestBody User user) {
+    public Result userInsert(User user) {
         try {
             userService.userInsert(user);
             return new Result(1);
@@ -52,7 +52,7 @@ public class UserController {
      * @return 更新结果，成功返回1，失败返回0
      */
     @RequestMapping("/User/userUpdate")
-    public Result userUpdate(@RequestBody User user) {
+    public Result userUpdate(User user) {
         try {
             userService.userUpdate(user);
             return new Result(1);
@@ -68,7 +68,7 @@ public class UserController {
      * @return 查询结果，成功返回1和用户信息，失败返回0
      */
     @RequestMapping("/User/userSelect")
-    public Result userSelect(@RequestBody User user) {
+    public Result userSelect(User user) {
         try {
             return new Result(1, userService.userSelect(user));
         } catch (Exception e) {

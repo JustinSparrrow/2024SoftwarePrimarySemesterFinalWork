@@ -26,18 +26,18 @@
 						<!-- 按钮组 -->
 						<view class="button-group">
 							<button type="submit" @click="handleSubmit()">登录</button>
-							<a href="#" class="register" @click.prevent="showRegister">注册</a>
+							<a href="#" class="register" @click.prevent="showRegister()">注册</a>
 						</view>
 					</form>
 				</view>
 			</view>
 
 			<!-- 注册弹窗 -->
-			<view v-if="showRegisterModal" class="modal-overlay" @click.self="closeRegister">
+			<view v-if="showRegisterModal" class="modal-overlay" @click.self="closeRegister()">
 				<view class="modal">
 					<view class="modal-header">
 						<h2>注册</h2>
-						<button class="close-button" @click="closeRegister">&times;</button>
+						<button class="close-button" @click="closeRegister()">&times;</button>
 					</view>
 					<form @submit.prevent="handleRegister">
 						<!-- 昵称 -->

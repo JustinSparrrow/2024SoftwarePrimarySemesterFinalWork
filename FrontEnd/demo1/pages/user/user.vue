@@ -25,14 +25,14 @@
 					<input type="tel" id="phone" v-model="userData.phone" placeholder="修改电话号码" />
 				</view>
 				<view class="submit">
-					<button type="submit" @click="submitForm">保存</button>
+					<button type="submit" @click="submitForm()">保存</button>
 				</view>
 			</form>
 		</view>
 		<!-- 导航列表 -->
 		<view class="nav global">
-			<button type="button" @click="showChangePasswordModal">修改密码</button>
-			<button type="button" @click="logout">退出登录</button>
+			<button type="button" @click="showChangePasswordModal()">修改密码</button>
+			<button type="button" @click="logout()">退出登录</button>
 		</view>
 		<!-- 修改密码弹窗 -->
 		<view v-if="showPasswordModal" class="change-password-modal">
@@ -50,7 +50,7 @@
 					<input type="password" id="confirm-password" v-model="passwordData.confirmPassword" required />
 				</view>
 				<view class="actions">
-					<button type="button" @click="cancelChangePassword">取消</button>
+					<button type="button" @click="cancelChangePassword()">取消</button>
 					<button type="submit">保存</button>
 				</view>
 			</form>
