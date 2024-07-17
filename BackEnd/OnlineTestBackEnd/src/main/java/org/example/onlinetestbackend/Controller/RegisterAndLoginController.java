@@ -1,7 +1,7 @@
 package org.example.onlinetestbackend.Controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson2.JSON;
 import org.example.onlinetestbackend.Service.RegisterAndLoginService;
 import org.example.onlinetestbackend.pojo.Result;
 import org.example.onlinetestbackend.pojo.User;

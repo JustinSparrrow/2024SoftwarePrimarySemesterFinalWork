@@ -25,11 +25,11 @@
         where A.qid=B.qid;
     </select>
 
-    <insert id="paperCreate">
-        insert into  test(userid, qid, qAnswer) VALUES
+    <insert id="testCreate">
+        insert into test(userid, qid, qAnswer) VALUE
         <foreach collection="questions" item="storageQuestion" separator=",">
             (#{userid},#{storageQuestion.qid},#{storageQuestion.qanswer})
-        </foreach>
+        </foreach>;
     </insert>
 
     <update id="answerSave">

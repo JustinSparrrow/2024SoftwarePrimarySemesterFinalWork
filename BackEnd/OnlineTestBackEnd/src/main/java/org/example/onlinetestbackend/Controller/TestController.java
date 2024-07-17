@@ -1,13 +1,12 @@
 package org.example.onlinetestbackend.Controller;
 
+import com.alibaba.fastjson.JSONObject;
 import org.example.onlinetestbackend.Service.TestService;
 import org.example.onlinetestbackend.pojo.PostQuestion;
 import org.example.onlinetestbackend.pojo.Result;
 import org.example.onlinetestbackend.pojo.UserToQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,12 +17,12 @@ public class TestController {
 
     /**
      * 检查用户是否有已创建的试卷
-     * @param userid 用户ID
      * @return 查询结果，若存在已创建试卷返回1和试卷信息，否则返回0和提示信息
      */
     @RequestMapping("/Test/paperExistCheck")
-    public Result paperExistCheck(int userid) {
+    public Result paperExistCheck(@RequestBody JSONObject jsonObject) {
         try{
+            int userid = jsonObject.getInteger("userid");
             return new Result(testService.paperExistCheck(userid));
         }catch (Exception e){
             e.printStackTrace();
@@ -33,13 +32,13 @@ public class TestController {
 
     /**
      * 进入考试，生成试卷
-     * @param userid 用户ID
-     * @param major 专业
      * @return 生成的试卷，成功返回1和试卷信息，失败返回0
      */
     @RequestMapping("/Test/testCreate")
-    public Result testCreate(int userid, String major) {
+    public Result testCreate(@RequestBody JSONObject jsonObject) {
         try{
+            int userid = jsonObject.getInteger("userid");
+            String major = jsonObject.getString("major");
             testService.testCreate(userid, major);
             return new Result(1 );
         }catch (Exception e){
@@ -50,12 +49,12 @@ public class TestController {
 
     /**
      * 进入考试，生成试卷
-     * @param userid 用户ID
      * @return 生成的试卷，成功返回1和试卷信息，失败返回0
      */
     @RequestMapping("/Test/paperFetch")
-    public Result paperFetch(int userid) {
+    public Result paperFetch(@RequestParam JSONObject jsonObject) {
         try{
+            int userid = jsonObject.getInteger("userid");
             return new Result(1 ,testService.paperFetch(userid));
         }catch (Exception e){
             e.printStackTrace();
