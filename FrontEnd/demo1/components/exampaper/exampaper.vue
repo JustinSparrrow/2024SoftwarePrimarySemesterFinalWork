@@ -36,7 +36,7 @@
 				const token = localStorage.getItem('JWT');
 				if (token) {
 					uni.request({
-						url: 'http://119.3.215.15:81//Test/paperExistCheck',
+						url: 'http://localhost:81//Test/paperExistCheck',
 						method: 'GET',
 						header: {
 							'Authorization': token,

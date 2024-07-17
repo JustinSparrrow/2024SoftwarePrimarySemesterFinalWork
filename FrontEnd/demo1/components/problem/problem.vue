@@ -63,7 +63,7 @@
 				const token = localStorage.getItem('JWT');
 				if (token) {
 					uni.request({
-						url: 'http://119.3.215.15:81/Question/qSelect',
+						url: 'http://localhost:81/Question/qSelect',
 						method: 'GET',
 						header: {
 							'Authorization': token,
