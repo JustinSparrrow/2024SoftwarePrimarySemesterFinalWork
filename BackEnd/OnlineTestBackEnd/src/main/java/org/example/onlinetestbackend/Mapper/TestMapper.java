@@ -22,7 +22,7 @@ public interface TestMapper {
      * @param qids 问题 ID 列表
      * @return 包含 StorageQuestion 对象的列表
      */
-    public List<StorageQuestion> repostQuestions(List<Integer> qids);
+    public List<StorageQuestion> repostQuestions(List<Integer> qids,int userid);
 
     /**
      * 根据两个专业选取问题
