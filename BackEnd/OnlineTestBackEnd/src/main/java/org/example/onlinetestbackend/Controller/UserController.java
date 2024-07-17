@@ -55,6 +55,7 @@ public class UserController {
     public Result userUpdate(@RequestBody JSONObject jsonObject) {
         try {
             User user=jsonObject.toJavaObject(User.class);
+            user.setPassword(null);
             userService.userUpdate(user);
             return new Result(1);
         } catch (Exception e) {

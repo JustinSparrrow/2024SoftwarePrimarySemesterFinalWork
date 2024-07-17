@@ -3,9 +3,9 @@
 		<view class="form-group">
 			<label for="question-type">题目类型</label>
 			<select v-model="question.type" id="question-type" required>
-				<option value="single">单选题</option>
-				<option value="multiple">多选题</option>
-				<option value="truefalse">是非题</option>
+				<option value="0">单选题</option>
+				<option value="1">多选题</option>
+				<option value="2">是非题</option>
 			</select>
 		</view>
 		<view class="form-group" v-if="question.type !== 'truefalse'">
