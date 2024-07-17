@@ -1,13 +1,13 @@
 {
-  "hash": "1c7a1a11",
-  "configHash": "9f90ee78",
+  "hash": "4b143626",
+  "configHash": "19fb545c",
   "lockfileHash": "8507c699",
-  "browserHash": "4eb6e4b1",
+  "browserHash": "7901eb4c",
   "optimized": {
     "flyio/dist/npm/fly": {
       "src": "../../../../../node_modules/flyio/dist/npm/fly.js",
       "file": "flyio_dist_npm_fly.js",
-      "fileHash": "362905a8",
+      "fileHash": "4c30c970",
       "needsInterop": true
     }
   },
