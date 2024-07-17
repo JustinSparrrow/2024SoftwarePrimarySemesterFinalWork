@@ -1,7 +1,6 @@
 <template>
 	<view class="container">
 		<view class="form-card">
-			<form @submit.prevent="handleSubmit">
 				<view class="box">
 					<input v-model="user.username" type="text" placeholder="用户名" required>
 				</view>
@@ -15,9 +14,8 @@
 					<input v-model="user.password" type="password" placeholder="密码" required>
 				</view>
 				<view class="actions">
-					<button type="submit">保存</button>
+					<button @click="handleSubmit()">保存</button>
 				</view>
-			</form>
 			<p v-if="message">{{ message }}</p>
 		</view>
 	</view>
@@ -49,7 +47,7 @@
 					header: {
 						"JWT": localStorage.getItem("JWT")
 					},
-					data: this.user,
+					data: JSON.stringify(this.user),
 					success: (res) => {
 						console.log('Response:', res); // 添加响应日志
 						if (res.data.success === 1) {

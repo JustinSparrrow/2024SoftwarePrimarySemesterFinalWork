@@ -1,53 +1,51 @@
 <template>
 	<view class="container">
-		<form @submit.prevent="addQuestion">
-			<view class="form-group">
-				<label for="question-type">题目类型</label>
-				<select v-model="question.type" id="question-type" required>
-					<option value="single">单选题</option>
-					<option value="multiple">多选题</option>
-					<option value="truefalse">是非题</option>
-				</select>
-			</view>
-			<view class="form-group" v-if="question.type !== 'truefalse'">
-				<label for="title">题目内容</label>
-				<input v-model="question.title" id="title" type="text" placeholder="题目内容" required />
-			</view>
-			<view class="form-group" v-if="question.type !== 'truefalse'">
-				<label for="optionA">选项A</label>
-				<input v-model="question.optionA" id="optionA" type="text" placeholder="选项A" required />
-			</view>
-			<view class="form-group" v-if="question.type !== 'truefalse'">
-				<label for="optionB">选项B</label>
-				<input v-model="question.optionB" id="optionB" type="text" placeholder="选项B" required />
-			</view>
-			<view class="form-group" v-if="question.type !== 'truefalse'">
-				<label for="optionC">选项C</label>
-				<input v-model="question.optionC" id="optionC" type="text" placeholder="选项C" required />
-			</view>
-			<view class="form-group" v-if="question.type !== 'truefalse'">
-				<label for="optionD">选项D</label>
-				<input v-model="question.optionD" id="optionD" type="text" placeholder="选项D" required />
-			</view>
-			<view class="form-group" v-if="question.type === 'truefalse'">
-				<label for="title">题目内容</label>
-				<input v-model="question.title" id="title" type="text" placeholder="是非题仅输入题目内容" required />
-			</view>
-			<view class="form-group">
-				<label for="answer">答案</label>
-				<input v-model="question.answer" id="answer" type="text"
-					:placeholder="question.type === 'truefalse' ? '答案（true/false）' : '答案（A/B/C/D）'" required />
-			</view>
-			<view class="form-group">
-				<label for="explanation">答案解析</label>
-				<textarea v-model="question.explanation" id="explanation" cols="30" rows="4"
-					placeholder="输入答案解析"></textarea>
-			</view>
-			<view class="form-group actions">
-				<button type="submit">提交</button>
-			</view>
-			<p v-if="message">{{ message }}</p>
-		</form>
+		<view class="form-group">
+			<label for="question-type">题目类型</label>
+			<select v-model="question.type" id="question-type" required>
+				<option value="single">单选题</option>
+				<option value="multiple">多选题</option>
+				<option value="truefalse">是非题</option>
+			</select>
+		</view>
+		<view class="form-group" v-if="question.type !== 'truefalse'">
+			<label for="title">题目内容</label>
+			<input v-model="question.title" id="title" type="text" placeholder="题目内容" required />
+		</view>
+		<view class="form-group" v-if="question.type !== 'truefalse'">
+			<label for="optionA">选项A</label>
+			<input v-model="question.optionA" id="optionA" type="text" placeholder="选项A" required />
+		</view>
+		<view class="form-group" v-if="question.type !== 'truefalse'">
+			<label for="optionB">选项B</label>
+			<input v-model="question.optionB" id="optionB" type="text" placeholder="选项B" required />
+		</view>
+		<view class="form-group" v-if="question.type !== 'truefalse'">
+			<label for="optionC">选项C</label>
+			<input v-model="question.optionC" id="optionC" type="text" placeholder="选项C" required />
+		</view>
+		<view class="form-group" v-if="question.type !== 'truefalse'">
+			<label for="optionD">选项D</label>
+			<input v-model="question.optionD" id="optionD" type="text" placeholder="选项D" required />
+		</view>
+		<view class="form-group" v-if="question.type === 'truefalse'">
+			<label for="title">题目内容</label>
+			<input v-model="question.title" id="title" type="text" placeholder="是非题仅输入题目内容" required />
+		</view>
+		<view class="form-group">
+			<label for="answer">答案</label>
+			<input v-model="question.answer" id="answer" type="text"
+				:placeholder="question.type === 'truefalse' ? '答案（true/false）' : '答案（A/B/C/D）'" required />
+		</view>
+		<view class="form-group">
+			<label for="explanation">答案解析</label>
+			<textarea v-model="question.explanation" id="explanation" cols="30" rows="4"
+				placeholder="输入答案解析"></textarea>
+		</view>
+		<view class="form-group actions">
+			<button @click="addQuestion()">提交</button>
+		</view>
+		<p v-if="message">{{ message }}</p>
 	</view>
 </template>
 
@@ -88,7 +86,7 @@
 						header: {
 							'Authorization': token,
 							'Content-Type': 'application/json',
-							"JWT":localStorage.getItem("JWT")
+							"JWT": localStorage.getItem("JWT")
 						},
 						data: this.question,
 						success: (res) => {

@@ -2,6 +2,7 @@
 	<scroll-view scroll-y="true" class="container">
 		<!-- 导航栏 -->
 		<guidance></guidance>
+		<problem></problem>
 		<!-- 题库信息 -->
 		<view class="on-item">
 			<view v-for="(paper, index) in examPapers" :key="index" class="exampaper"

@@ -1,5 +1,6 @@
 package org.example.onlinetestbackend.Controller;
 
+import com.alibaba.fastjson.JSONObject;
 import org.example.onlinetestbackend.Service.UserService;
 import org.example.onlinetestbackend.pojo.Result;
 import org.example.onlinetestbackend.pojo.User;
@@ -48,12 +49,12 @@ public class UserController {
 
     /**
      * 更新用户信息
-     * @param user 用户对象，包含更新后的用户信息
      * @return 更新结果，成功返回1，失败返回0
      */
     @RequestMapping("/User/userUpdate")
-    public Result userUpdate(User user) {
+    public Result userUpdate(@RequestBody JSONObject jsonObject) {
         try {
+            User user=jsonObject.toJavaObject(User.class);
             userService.userUpdate(user);
             return new Result(1);
         } catch (Exception e) {
