@@ -73,9 +73,6 @@
 				<button @click="nextQuestion()" :disabled="currentQuestionIndex === questions.length - 1">下一题</button>
 				<button @click="submitExam()" :disabled="!isAllAnswered">提交试卷</button>
 			</view>
-			<view v-if="!currentQuestion">
-				<text>请选择考试题目</text>
-			</view>
 		</view>
 	</view>
 </template>
@@ -114,8 +111,13 @@
 				this.isAdmin = userid && userid === '1000000';
 			},
 			fetchQuestions() {
-				const fly = new Fly;
-				fly.get('http://localhost:81/Question/qSelect')
+				var formData = new FormData();
+				formData.append("userid",parseInt(localStorage.getItem("userId")))
+				let fly = new Fly;
+				fly.config.headers={
+					JWT:localStorage.getItem("JWT")
+				}
+				fly.post('http://localhost:81/Test/paperFetch',formData)
 					.then(res => {
 						if (res.data.success === 1) {
 							this.questions = res.data.data;

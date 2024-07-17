@@ -47,13 +47,13 @@
 			...mapState(['userId']) // 从 Vuex 获取用户ID
 		},
 		created() {
-			this.fetchExamPapers();
+			this.paperExistCheck();
 		},
 		methods: {
-			fetchExamPapers() {
+			paperExistCheck() {
 				uni.request({
 					url: 'http://localhost:81/Test/paperExistCheck',
-					method: 'GET',
+					method: 'POST',
 					header:{
 						"JWT":localStorage.getItem("JWT")
 					},
@@ -64,7 +64,7 @@
 						if (res.data.success === 1) {
 							this.examPapers = res.data.data;
 							uni.navigateTo({
-								url: `/pages/test_page/test_page}`
+								url: `/pages/test_page/test_page`
 							});
 						}
 					},
@@ -81,13 +81,10 @@
 			bindMultiPickChange(e) {
 				this.multiIndex = e.detail.value;
 			},
-			selectPaper(index) {
-				this.selectedPaperIndex = index;
-			},
 			startExam() {
 				const selectedMajor = `${this.multiArry[0][this.multiIndex[0]]}/${this.multiArry[1][this.multiIndex[1]]}`;
 				uni.request({
-					url: 'http://localhost:81/Test/testEnter',
+					url: 'http://localhost:81/Test/testCreate',
 					method: 'POST',
 					header:{
 						"JWT":localStorage.getItem("JWT")
@@ -106,7 +103,7 @@
 							});
 							// 跳转到考试页面
 							uni.navigateTo({
-								url: `/pages/test_page/test_page?paperId=${this.examPapers[this.selectedPaperIndex].id}`
+								url: '/pages/test_page/test_page'
 							});
 						} else {
 							uni.showToast({

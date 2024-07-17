@@ -37,7 +37,7 @@ public interface TestMapper {
      * @param userid 用户 ID
      * @param questions 包含 PostQuestion 对象的列表
      */
-    public void paperCreate(int userid, List<PostQuestion> questions);
+    public void testCreate(int userid, List<StorageQuestion> questions);
 
     /**
      * 保存用户答案
@@ -58,4 +58,5 @@ public interface TestMapper {
      * @param userid 用户 ID
      */
     public void testOver(int userid);
+
 }

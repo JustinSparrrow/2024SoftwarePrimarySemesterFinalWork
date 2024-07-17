@@ -23,22 +23,18 @@ public class TestService {
      * @return 返回用户未提交的试卷问题列表，如果没有则返回null
      */
     public int paperExistCheck(int userid) {
-        List<PostQuestion> questionsResult = new ArrayList<>();
-        Comparator<PostQuestion> byqid = Comparator.comparing(PostQuestion::getQid);
-
         List<UserToQuestion> userToQuestions = testMapper.paperCheck(userid);
-        if (!userToQuestions.isEmpty()) return 0;
-        return 1;
+        if (!userToQuestions.isEmpty()) return 1;
+        return 0;
     }
 
     /**
      * 生成新的试卷
      * @param userid 用户ID
      * @param major 用户选择的专业
-     * @return 返回生成的试卷问题列表
      */
     public void testCreate(int userid, String major) {
-        List<PostQuestion> questionsResult = new ArrayList<>();
+        List<StorageQuestion> questionsResult = new ArrayList<>();
         String[] qmajor = major.split("/");
 
         List<StorageQuestion> storageQuestions = testMapper.qSelectBy2Major(qmajor[0], qmajor[1]);  // 若不存在未提交的试卷
@@ -47,9 +43,9 @@ public class TestService {
         Collections.shuffle(storageQuestions, random);
         int count = 0;
         while (count < quantity && count < storageQuestions.size()) {
-            questionsResult.add(storageQuestions.get(count++).postReady());
+            questionsResult.add(storageQuestions.get(count++));
         }
-        testMapper.paperCreate(userid, questionsResult);
+        testMapper.testCreate(userid, questionsResult);
     }
 
     public List<PostQuestion> paperFetch(int userid) {
