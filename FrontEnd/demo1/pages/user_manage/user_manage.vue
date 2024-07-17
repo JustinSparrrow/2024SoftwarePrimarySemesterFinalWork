@@ -1,3 +1,55 @@
+<template>
+	<view class="container">
+		<!-- 筛选框 -->
+		<view class="filter-box">
+			<text>筛选:<input v-model="filterKeyword" type="text" placeholder="输入关键词筛选"></text>
+			<button @click="filterUsers">筛选</button>
+		</view>
+
+		<!-- 用户列表 -->
+		<view class="user-list">
+			<view v-for="(user, index) in paginatedUsers" :key="user.id" class="user-item">
+				<!-- 添加选项框 -->
+				<checkbox-group v-model="selectedUsers">
+					<checkbox :value="user.id"></checkbox>
+				</checkbox-group>
+				<text><strong>ID：</strong>{{ user.id }}</text>
+				<text><strong>姓名：</strong>{{ user.name }}</text>
+				<text><strong>邮箱：</strong>{{ user.email }}</text>
+				<text><strong>电话：</strong>{{ user.phone }}</text>
+				<text><strong>是否为管理员</strong>{{ user.admin }}</text>
+				<!-- 其他用户信息根据需求展示-->
+				<view class="actions">
+					<navigator url="/pages/change_user/change_user"> <button @tap="editUser(user)">编辑</button>
+					</navigator>
+					<button @tap="deleteUser(user.id)">删除</button>
+				</view>
+			</view>
+		</view>
+
+		<view class="down">
+			<!-- 全选按钮 -->
+			<view class="select-all">
+				<checkbox-group v-model="allSelected">
+					<checkbox @change="selectAll($event.target.checked)">全选</checkbox>
+				</checkbox-group>
+			</view>
+
+			<!-- 删除选中按钮 -->
+			<view class="delete-selected">
+				<button @tap="deleteSelected">删除选中</button>
+			</view>
+		</view>
+
+		<!-- 分页 -->
+		<view class="pagination">
+			<button @click="previousPage" :disabled="currentPage === 1">上一页</button>
+			<text>{{ currentPage }} / {{ totalPages }}</text>
+			<button @click="nextPage" :disabled="currentPage === totalPages">下一页</button>
+		</view>
+	</view>
+</template>
+
 <script>
 	export default {
 		data() {
@@ -61,8 +113,7 @@
 			},
 			// 筛选用户
 			filterUsers() {
-				this.currentPage = 1; // 重新筛选后从第一页开始显示
-				// 只要修改了 filterKeyword， filteredUsers 计算属性会自动更新
+				// 此方法会重新计算 `filteredUsers` 的值，因为 `filterKeyword` 发生了变化
 			},
 			// 全选
 			selectAll(checked) {
