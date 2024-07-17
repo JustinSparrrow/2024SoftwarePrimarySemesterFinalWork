@@ -1,11 +1,13 @@
 package org.example.onlinetestbackend.Controller;
 
+import com.alibaba.fastjson.JSONObject;
 import org.example.onlinetestbackend.Service.TestService;
 import org.example.onlinetestbackend.pojo.PostQuestion;
 import org.example.onlinetestbackend.pojo.Result;
 import org.example.onlinetestbackend.pojo.UserToQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,9 +24,9 @@ public class TestController {
      * @return 查询结果，若存在已创建试卷返回1和试卷信息，否则返回0和提示信息
      */
     @RequestMapping("/Test/paperExistCheck")
-    public Result paperExistCheck(int userid) {
+    public Result paperExistCheck(@RequestBody JSONObject jsonObject) {
         try{
-            List<PostQuestion> resultQuestion = testService.paperExistCheck(userid);
+            List<PostQuestion> resultQuestion = testService.paperExistCheck(Integer.parseInt(jsonObject.get("userid").toString()));
             if(resultQuestion == null) return new Result(0, "不存在已创建的试卷");
             return new Result(1, resultQuestion);
         }catch (Exception e){
@@ -40,8 +42,10 @@ public class TestController {
      * @return 生成的试卷，成功返回1和试卷信息，失败返回0
      */
     @RequestMapping("/Test/testEnter")
-    public Result testEnter(int userid, String major) {
+    public Result testEnter(@RequestBody JSONObject jsonObject) {
         try{
+            int userid = Integer.parseInt(jsonObject.get("userid").toString());
+            String major=jsonObject.get("major").toString();
             return new Result(1, testService.testEnter(userid, major));
         }catch (Exception e){
             e.printStackTrace();
@@ -55,7 +59,7 @@ public class TestController {
      * @return 保存结果，成功返回1，失败返回0
      */
     @RequestMapping("/Test/answerSave")
-    public Result answerSave(UserToQuestion userToQuestion) {
+    public Result answerSave(@RequestBody UserToQuestion userToQuestion) {
         try{
             testService.answerSave(userToQuestion);
             return new Result(1);
@@ -71,8 +75,9 @@ public class TestController {
      * @return 成绩结果，成功返回1和成绩信息，失败返回0
      */
     @RequestMapping("/Test/paperSubmit")
-    public Result paperSubmit(int userid) {
+    public Result paperSubmit(@RequestBody JSONObject jsonObject) {
         try{
+            int userid = Integer.parseInt(jsonObject.get("userid").toString());
             return new Result(1, testService.getGrade(userid));
         }catch (Exception e){
             e.printStackTrace();

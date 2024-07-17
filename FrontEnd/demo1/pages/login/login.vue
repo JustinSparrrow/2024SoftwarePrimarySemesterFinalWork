@@ -42,13 +42,8 @@
 					<form @submit.prevent="handleRegister">
 						<!-- 昵称 -->
 						<view class="input-group">
-							<label for="nickname">昵称</label>
-							<input type="text" v-model="nickname" id="nickname" placeholder="昵称" required />
-						</view>
-						<!-- 姓名 -->
-						<view class="input-group">
-							<label for="fullname">姓名</label>
-							<input type="text" v-model="fullname" id="fullname" placeholder="姓名" required />
+							<label for="nickname">ID</label>
+							<input type="text" v-model="regUsername" id="nickname" placeholder="昵称" required />
 						</view>
 						<!-- 密码 -->
 						<view class="input-group">
@@ -61,14 +56,23 @@
 							<input type="password" v-model="confirmPassword" id="confirm-password" placeholder="确认密码"
 								required />
 						</view>
+						<!-- 邮箱 -->
+						<view class="input-group">
+							<label for="email">邮箱</label>
+							<input type="text" v-model="regEmail" id="regEmail" placeholder="邮箱" required />
+						</view>
+						<!-- 获取验证码按钮 -->
+						<view class="button-group">
+							<button @click="handelSendEmail()">发送验证码</button>
+						</view>
 						<!-- 验证码 -->
-						<!-- <view class="input-group">
-              <label for="captcha">验证码</label>
-              <input type="text" v-model="captcha" id="captcha" placeholder="验证码" required />
-            </view> -->
+						<view class="input-group">
+							<label for="captcha">验证码</label>
+							<input type="text" v-model="captcha" id="captcha" placeholder="验证码" required />
+						</view>
 						<!-- 提交按钮 -->
 						<view class="button-group">
-							<button type="submit" @click="handleRegister">注册</button>
+							<button type="submit" @click="handleRegister()">注册</button>
 						</view>
 					</form>
 				</view>
@@ -93,9 +97,11 @@
 				nickname: '',
 				regUsername: '',
 				regPassword: '',
+				regEmail:'',
 				confirmPassword: '',
 				fullname: '',
 				captcha: '',
+				userId:'',
 				isLoggedIn: false,
 			};
 		},
@@ -148,6 +154,44 @@
 			closeRegister() {
 				this.showRegisterModal = false;
 			},
+			handelSendEmail(){
+				//检查邮箱格式
+				var email = this.regEmail;
+				var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+				if(!reg.test(email)){
+					alert("邮箱格式不正确");
+					return;
+				};
+				//发送验证码
+				uni.request({
+					method: 'POST',
+					url: "http://localhost:81/sendCode",
+					header: {
+						'Content-Type': 'application/json',
+					},
+					data: {
+						"email":this.regEmail,
+					},
+					success: res => {
+						console.log(res)
+						if (res.data.success == 1) {
+							uni.showToast({
+								title: '发送成功',
+								duration: 1002
+							})
+						} else {
+							uni.showToast({
+								title: '发送失败',
+								icon: 'none',
+								duration: 1002
+							})
+						}
+					},
+					fail: () => {
+						console.log(this.url)
+					}
+				})
+			},
 			handleRegister() {
 				// 检查密码是否匹配
 				if (this.regPassword !== this.confirmPassword) {
@@ -168,14 +212,13 @@
 					data: {
 						username: this.regUsername,
 						password: this.regPassword,
+						email:this.regEmail,
+						code:this.captcha,
 					},
 					success: res => {
-						console.log(res)
+						this.userId=res.data.data;
 						if (res.data.success == 1) {
-							uni.showToast({
-								title: '注册成功',
-								duration: 1002
-							})
+							alert("注册成功,您的ID是"+this.userId)
 							this.closeRegister();
 						} else {
 							uni.showToast({
@@ -184,6 +227,9 @@
 								duration: 1002
 							})
 						}
+						this.username=this.userId;
+						this.password=this.regPassword;
+						this.login();
 					},
 					fail: () => {
 						console.log(this.url)

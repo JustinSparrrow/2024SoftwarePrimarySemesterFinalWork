@@ -1,5 +1,7 @@
 package org.example.onlinetestbackend.Controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
 import org.example.onlinetestbackend.Service.RegisterAndLoginService;
 import org.example.onlinetestbackend.pojo.Result;
 import org.example.onlinetestbackend.pojo.User;
@@ -41,12 +43,12 @@ public class RegisterAndLoginController {
 
     /**
      * 发送邮箱验证码
-     * @param email
+     * @param json
      */
     @RequestMapping("/sendCode")
-    public Result sendCode(String email) {
+    public Result sendCode(@RequestBody JSONObject json) {
         try {
-            if(registerAndLoginService.sendCode(email))
+            if(registerAndLoginService.sendCode(json.get("email").toString()))
             return new Result(1, "发送成功");
             else return new Result(0,"该邮箱已被注册");
         } catch (Exception e){
@@ -57,16 +59,16 @@ public class RegisterAndLoginController {
 
     /**
      * 新用户注册
-     * @param user 用户对象，包含用户ID和密码
-     * @param code 6位验证码
+     * @param json
      * @return 注册结果，成功返回1和JWT，失败返回0和错误信息
      */
     @RequestMapping("/register")
-    public Result register(User user,String code) {
+    public Result register(@RequestBody JSONObject json) {
         try {
-            if(registerAndLoginService.register(user,code))
-            return new Result(1, "注册成功");
-            else return new Result(0, "注册失败");
+            User user = JSON.parseObject(json.toString(), User.class);
+            user.setAdmin(0);
+            String code=json.getString("code");
+            return new Result(1, registerAndLoginService.register(user,code));
         } catch (Exception e){
             e.printStackTrace();
             return new Result(0, "注册失败");

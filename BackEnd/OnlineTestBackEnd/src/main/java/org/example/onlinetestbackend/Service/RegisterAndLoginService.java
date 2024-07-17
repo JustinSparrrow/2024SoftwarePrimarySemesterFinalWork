@@ -78,13 +78,21 @@ public class RegisterAndLoginService {
         return true;
     }
 
-    public boolean register(User user,String code) {
+    public String register(User user,String code) {
         // 和数据库内的验证码对照，成功则插入用户数据到users表，返回true，否则false
+        System.out.println(user.getPassword());
         if(registerAndLoginMapper.checkCode(user.getEmail()).equals(DigestUtils.md5DigestAsHex(code.getBytes()))){
+            user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+            System.out.println(user.getPassword());
             userMapper.userInsert(user);
             registerAndLoginMapper.cleanCode(user.getEmail());
-            return true;
+            try{
+            return userMapper.userSelect(user).get(0).getUserid().toString();
+            } catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
         }
-        return false;
+        return null;
     }
 }
