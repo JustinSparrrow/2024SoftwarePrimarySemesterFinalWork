@@ -14,7 +14,7 @@
 			<view class="navigation-buttons">
 				<button @click="prevQuestion()" :disabled="currentQuestionIndex === 0">上一题</button>
 				<button @click="nextQuestion()" :disabled="currentQuestionIndex === questions.length - 1">下一题</button>
-				<button @click="submitExam()" :disabled="!isAllAnswered">提交试卷</button>
+				<button @click="submitExam()" :disabled="isAllAnswered">提交试卷</button>
 			</view>
 		</view>
 	</view>
@@ -41,7 +41,7 @@
 				userAnswers: [],
 				currentQuestion: null,
 				totalQuestions: 0,
-				isAllAnswered: false,
+				isAllAnswered: true,
 			};
 		},
 		created() {
@@ -84,124 +84,124 @@
 						});
 					});
 			},
-			handleFileUpload(event) {
-				this.newQuestionImage = event.target.files[0];
-			},
-			handleUpdateFileUpload(event) {
-				this.updateQuestionImage = event.target.files[0];
-			},
-			insertQuestion() {
-				const formData = new FormData();
-				formData.append('text', this.newQuestionText);
-				formData.append('options', this.newQuestionOptions);
-				formData.append('answer', this.newQuestionAnswer);
-				if (this.newQuestionImage) {
-					formData.append('img', this.newQuestionImage);
-				}
+			// handleFileUpload(event) {
+			// 	this.newQuestionImage = event.target.files[0];
+			// },
+			// handleUpdateFileUpload(event) {
+			// 	this.updateQuestionImage = event.target.files[0];
+			// },
+			// insertQuestion() {
+			// 	const formData = new FormData();
+			// 	formData.append('text', this.newQuestionText);
+			// 	formData.append('options', this.newQuestionOptions);
+			// 	formData.append('answer', this.newQuestionAnswer);
+			// 	if (this.newQuestionImage) {
+			// 		formData.append('img', this.newQuestionImage);
+			// 	}
 
-				const fly = new Fly;
-				fly.config.headers={
-					JWT:localStorage.getItem("JWT")
-				}
-				fly.post('http://localhost:81/Question/qInsert', formData)
-					.then(res => {
-						if (res.data.success === 1) {
-							uni.showToast({
-								title: '添加题目成功',
-								icon: 'none',
-								duration: 2000
-							});
-							this.fetchQuestions();
-						} else {
-							uni.showToast({
-								title: '添加题目失败',
-								icon: 'none',
-								duration: 2000
-							});
-						}
-					})
-					.catch(err => {
-						console.error(err);
-						uni.showToast({
-							title: '添加题目失败',
-							icon: 'none',
-							duration: 2000
-						});
-					});
-			},
-			deleteQuestion() {
-				const fly = new Fly;
-				fly.config.headers={
-					JWT:localStorage.getItem("JWT")
-				}
-				fly.post('http://localhost:81/Question/qDelete', {
-						qid: this.deleteQuestionId
-					})
-					.then(res => {
-						if (res.data.success === 1) {
-							uni.showToast({
-								title: '删除题目成功',
-								icon: 'none',
-								duration: 2000
-							});
-							this.fetchQuestions();
-						} else {
-							uni.showToast({
-								title: '删除题目失败',
-								icon: 'none',
-								duration: 2000
-							});
-						}
-					})
-					.catch(err => {
-						console.error(err);
-						uni.showToast({
-							title: '删除题目失败',
-							icon: 'none',
-							duration: 2000
-						});
-					});
-			},
-			updateQuestion() {
-				const formData = new FormData();
-				formData.append('id', this.updateQuestionId);
-				formData.append('text', this.updateQuestionText);
-				formData.append('options', this.updateQuestionOptions);
-				formData.append('answer', this.updateQuestionAnswer);
-				if (this.updateQuestionImage) {
-					formData.append('img', this.updateQuestionImage);
-				}
+			// 	const fly = new Fly;
+			// 	fly.config.headers={
+			// 		JWT:localStorage.getItem("JWT")
+			// 	}
+			// 	fly.post('http://localhost:81/Question/qInsert', formData)
+			// 		.then(res => {
+			// 			if (res.data.success === 1) {
+			// 				uni.showToast({
+			// 					title: '添加题目成功',
+			// 					icon: 'none',
+			// 					duration: 2000
+			// 				});
+			// 				this.fetchQuestions();
+			// 			} else {
+			// 				uni.showToast({
+			// 					title: '添加题目失败',
+			// 					icon: 'none',
+			// 					duration: 2000
+			// 				});
+			// 			}
+			// 		})
+			// 		.catch(err => {
+			// 			console.error(err);
+			// 			uni.showToast({
+			// 				title: '添加题目失败',
+			// 				icon: 'none',
+			// 				duration: 2000
+			// 			});
+			// 		});
+			// },
+			// deleteQuestion() {
+			// 	const fly = new Fly;
+			// 	fly.config.headers={
+			// 		JWT:localStorage.getItem("JWT")
+			// 	}
+			// 	fly.post('http://localhost:81/Question/qDelete', {
+			// 			qid: this.deleteQuestionId
+			// 		})
+			// 		.then(res => {
+			// 			if (res.data.success === 1) {
+			// 				uni.showToast({
+			// 					title: '删除题目成功',
+			// 					icon: 'none',
+			// 					duration: 2000
+			// 				});
+			// 				this.fetchQuestions();
+			// 			} else {
+			// 				uni.showToast({
+			// 					title: '删除题目失败',
+			// 					icon: 'none',
+			// 					duration: 2000
+			// 				});
+			// 			}
+			// 		})
+			// 		.catch(err => {
+			// 			console.error(err);
+			// 			uni.showToast({
+			// 				title: '删除题目失败',
+			// 				icon: 'none',
+			// 				duration: 2000
+			// 			});
+			// 		});
+			// },
+			// updateQuestion() {
+			// 	const formData = new FormData();
+			// 	formData.append('id', this.updateQuestionId);
+			// 	formData.append('text', this.updateQuestionText);
+			// 	formData.append('options', this.updateQuestionOptions);
+			// 	formData.append('answer', this.updateQuestionAnswer);
+			// 	if (this.updateQuestionImage) {
+			// 		formData.append('img', this.updateQuestionImage);
+			// 	}
 
-				const fly = new Fly;
-				fly.config.headers={
-					JWT:localStorage.getItem("JWT")
-				}
-				fly.post('http://localhost:81/Question/qUpdate', formData)
-					.then(res => {
-						if (res.data.success === 1) {
-							uni.showToast({
-								title: '更新题目成功',
-								icon: 'none',
-								duration: 2000
-							});
-							this.fetchQuestions();
-						} else {
-							uni.showToast({
-								title: '更新题目失败',
-								icon: 'none',
-								duration: 2000
-							});
-						}
-					})
-					.catch(err => {
-						console.error(err);
-						uni.showToast({
-							title: '更新题目失败',
-							icon: 'none',
-							duration: 2000
-						});
-					});
-			},
+			// 	const fly = new Fly;
+			// 	fly.config.headers={
+			// 		JWT:localStorage.getItem("JWT")
+			// 	}
+			// 	fly.post('http://localhost:81/Question/qUpdate', formData)
+			// 		.then(res => {
+			// 			if (res.data.success === 1) {
+			// 				uni.showToast({
+			// 					title: '更新题目成功',
+			// 					icon: 'none',
+			// 					duration: 2000
+			// 				});
+			// 				this.fetchQuestions();
+			// 			} else {
+			// 				uni.showToast({
+			// 					title: '更新题目失败',
+			// 					icon: 'none',
+			// 					duration: 2000
+			// 				});
+			// 			}
+			// 		})
+			// 		.catch(err => {
+			// 			console.error(err);
+			// 			uni.showToast({
+			// 				title: '更新题目失败',
+			// 				icon: 'none',
+			// 				duration: 2000
+			// 			});
+			// 		});
+			// },
 			prevQuestion() {
 				if (this.currentQuestionIndex > 0) {
 					this.currentQuestionIndex--;
@@ -215,28 +215,27 @@
 				}
 			},
 			submitExam() {
-				if (this.isAllAnswered) {
+				if (true) {
 					const fly = new Fly;
 					const userId = localStorage.getItem('userid');
 					const userAnswers = this.userAnswers.map((answer, index) => ({
 						qid: this.questions[index].id,
 						answer,
 					}));
-					
+					var formData = new FormData();
+					formData.append("userid",localStorage.getItem("userId") )
 					fly.config.headers={
 						JWT:localStorage.getItem("JWT")
 					}
-					fly.post('http://localhost:81/Test/paperSubmit', {
-							userid: userId,
-							answers: userAnswers
-						},)
+					fly.post('http://localhost:81/Test/paperSubmit', formData,)
 						.then(res => {
 							if (res.data.success === 1) {
-								uni.showToast({
-									title: '提交成功',
-									icon: 'none',
-									duration: 2000
-								});
+								var score=res.data.data
+								console.log(score)
+								alert("提交成功，您的分数是"+score.toString())
+								uni.navigateTo({
+									url:'/pages/index/index',
+								})
 							} else {
 								uni.showToast({
 									title: '提交失败',
