@@ -21,7 +21,8 @@
         (select * from test where qid in
         <foreach collection="qids" item="qid" separator="," open="(" close=")">
             #{qid}
-        </foreach>) B
+        </foreach>
+        AND userid=#{userid}) B
         where A.qid=B.qid;
     </select>
 

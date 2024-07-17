@@ -58,7 +58,7 @@ public class TestService {
             for (UserToQuestion userToQuestion : userToQuestions) {
                 qids.add(userToQuestion.getQid());
             }
-            for (StorageQuestion storageQuestion : testMapper.repostQuestions(qids)) {
+            for (StorageQuestion storageQuestion : testMapper.repostQuestions(qids,userid)) {
                 questionsResult.add(storageQuestion.postReady());
             }
             questionsResult.sort(byqid);  // 排序后发送

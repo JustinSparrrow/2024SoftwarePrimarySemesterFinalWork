@@ -1,63 +1,6 @@
 <template>
 	<view class="container">
-		<view v-if="isAdmin" class="admin-section">
-			<view class="section">
-				<view class="section-title">添加新题目</view>
-				<view class="input-group">
-					<label for="questionText">题目文本</label>
-					<input v-model="newQuestionText" type="text" id="questionText" placeholder="请输入题目文本">
-				</view>
-				<view class="input-group">
-					<label for="questionOptions">题目选项（用逗号分隔）</label>
-					<input v-model="newQuestionOptions" type="text" id="questionOptions" placeholder="请输入选项">
-				</view>
-				<view class="input-group">
-					<label for="questionAnswer">正确答案</label>
-					<input v-model="newQuestionAnswer" type="text" id="questionAnswer" placeholder="请输入正确答案">
-				</view>
-				<view class="input-group">
-					<label for="questionImage">上传图片</label>
-					<input type="file" @change="handleFileUpload">
-				</view>
-				<button @click="insertQuestion()">添加题目</button>
-			</view>
-
-			<view class="section">
-				<view class="section-title">删除题目</view>
-				<view class="input-group">
-					<label for="deleteQuestionId">题目ID</label>
-					<input v-model="deleteQuestionId" type="number" id="deleteQuestionId" placeholder="请输入要删除的题目ID">
-				</view>
-				<button @click="deleteQuestion()">删除题目</button>
-			</view>
-
-			<view class="section">
-				<view class="section-title">更新题目</view>
-				<view class="input-group">
-					<label for="updateQuestionId">题目ID</label>
-					<input v-model="updateQuestionId" type="number" id="updateQuestionId" placeholder="请输入要更新的题目ID">
-				</view>
-				<view class="input-group">
-					<label for="updateQuestionText">题目文本</label>
-					<input v-model="updateQuestionText" type="text" id="updateQuestionText" placeholder="请输入新的题目文本">
-				</view>
-				<view class="input-group">
-					<label for="updateQuestionOptions">题目选项（用逗号分隔）</label>
-					<input v-model="updateQuestionOptions" type="text" id="updateQuestionOptions" placeholder="请输入新的选项">
-				</view>
-				<view class="input-group">
-					<label for="updateQuestionAnswer">正确答案</label>
-					<input v-model="updateQuestionAnswer" type="text" id="updateQuestionAnswer" placeholder="请输入新的正确答案">
-				</view>
-				<view class="input-group">
-					<label for="updateQuestionImage">上传图片</label>
-					<input type="file" @change="handleUpdateFileUpload">
-				</view>
-				<button @click="updateQuestion()">更新题目</button>
-			</view>
-		</view>
-
-		<view v-else class="user-section">
+		<view class="user-section">
 			<view class="question-section" v-if="currentQuestion">
 				<view class="question-text">
 					题目{{ currentQuestionIndex + 1 }}/{{ questions.length }}：{{ currentQuestion.text }}
