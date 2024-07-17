@@ -155,6 +155,9 @@
 				}
 
 				const fly = new Fly;
+				fly.config.headers={
+					JWT:localStorage.getItem("JWT")
+				}
 				fly.post('http://localhost:81/Question/qInsert', formData)
 					.then(res => {
 						if (res.data.success === 1) {
@@ -183,6 +186,9 @@
 			},
 			deleteQuestion() {
 				const fly = new Fly;
+				fly.config.headers={
+					JWT:localStorage.getItem("JWT")
+				}
 				fly.post('http://localhost:81/Question/qDelete', {
 						qid: this.deleteQuestionId
 					})
@@ -222,6 +228,9 @@
 				}
 
 				const fly = new Fly;
+				fly.config.headers={
+					JWT:localStorage.getItem("JWT")
+				}
 				fly.post('http://localhost:81/Question/qUpdate', formData)
 					.then(res => {
 						if (res.data.success === 1) {
@@ -268,13 +277,14 @@
 						qid: this.questions[index].id,
 						answer,
 					}));
-
+					
+					fly.config.headers={
+						JWT:localStorage.getItem("JWT")
+					}
 					fly.post('http://localhost:81/Test/paperSubmit', {
 							userid: userId,
 							answers: userAnswers
-						},{Headers:{
-						"JWT":localStorage.getItem("JWT")
-					}})
+						},)
 						.then(res => {
 							if (res.data.success === 1) {
 								uni.showToast({

@@ -120,7 +120,7 @@
 				formData.append("userid", this.username)
 				formData.append("password", this.password)
 				let fly = new Fly;
-				fly.post('http://119.3.215.15:81/login', formData)
+				fly.post('http://localhost:81/login', formData,)
 					.then(res => {
 						if (res.data.success == 1) {
 							localStorage.setItem("JWT", res.data.data)
@@ -164,7 +164,6 @@
 					url: "http://localhost:81/register",
 					header: {
 						'Content-Type': 'application/json',
-						"JWT":localStorage.getItem("JWT")
 					},
 					data: {
 						username: this.regUsername,
