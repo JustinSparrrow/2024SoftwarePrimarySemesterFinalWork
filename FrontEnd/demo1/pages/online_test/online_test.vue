@@ -63,11 +63,8 @@
 					success: (res) => {
 						if (res.data.success === 1) {
 							this.examPapers = res.data.data;
-						} else {
-							uni.showToast({
-								title: '获取题库失败',
-								icon: 'none',
-								duration: 2000
+							uni.navigateTo({
+								url: `/pages/test_page/test_page}`
 							});
 						}
 					},
@@ -82,21 +79,12 @@
 				});
 			},
 			bindMultiPickChange(e) {
-				console.log('picker发送选择改变，携带值为', e.detail.value);
 				this.multiIndex = e.detail.value;
 			},
 			selectPaper(index) {
 				this.selectedPaperIndex = index;
 			},
 			startExam() {
-				if (this.selectedPaperIndex === null) {
-					uni.showToast({
-						title: '请选择考试',
-						icon: 'none',
-						duration: 2000
-					});
-					return;
-				}
 				const selectedMajor = `${this.multiArry[0][this.multiIndex[0]]}/${this.multiArry[1][this.multiIndex[1]]}`;
 				uni.request({
 					url: 'http://localhost:81/Test/testEnter',
