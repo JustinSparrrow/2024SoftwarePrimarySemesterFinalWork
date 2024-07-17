@@ -24,9 +24,7 @@ public class TestController {
     @RequestMapping("/Test/paperExistCheck")
     public Result paperExistCheck(int userid) {
         try{
-            List<PostQuestion> resultQuestion = testService.paperExistCheck(userid);
-            if(resultQuestion.isEmpty()) return new Result(0, "不存在已创建的试卷");
-            return new Result(1);
+            return new Result(testService.paperExistCheck(userid));
         }catch (Exception e){
             e.printStackTrace();
             return new Result(0);
@@ -58,8 +56,7 @@ public class TestController {
     @RequestMapping("/Test/paperFetch")
     public Result paperFetch(int userid) {
         try{
-            testService.paperFetch(userid);
-            return new Result(1 );
+            return new Result(1 ,testService.paperFetch(userid));
         }catch (Exception e){
             e.printStackTrace();
             return new Result(0);

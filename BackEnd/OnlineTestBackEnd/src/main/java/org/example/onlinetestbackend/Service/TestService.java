@@ -22,7 +22,37 @@ public class TestService {
      * @param userid 用户ID
      * @return 返回用户未提交的试卷问题列表，如果没有则返回null
      */
-    public List<PostQuestion> paperExistCheck(int userid) {
+    public int paperExistCheck(int userid) {
+        List<PostQuestion> questionsResult = new ArrayList<>();
+        Comparator<PostQuestion> byqid = Comparator.comparing(PostQuestion::getQid);
+
+        List<UserToQuestion> userToQuestions = testMapper.paperCheck(userid);
+        if (!userToQuestions.isEmpty()) return 0;
+        return 1;
+    }
+
+    /**
+     * 生成新的试卷
+     * @param userid 用户ID
+     * @param major 用户选择的专业
+     * @return 返回生成的试卷问题列表
+     */
+    public void testCreate(int userid, String major) {
+        List<PostQuestion> questionsResult = new ArrayList<>();
+        String[] qmajor = major.split("/");
+
+        List<StorageQuestion> storageQuestions = testMapper.qSelectBy2Major(qmajor[0], qmajor[1]);  // 若不存在未提交的试卷
+        Random random = new Random();  // 对题库进行抽取
+        random.setSeed(System.currentTimeMillis());
+        Collections.shuffle(storageQuestions, random);
+        int count = 0;
+        while (count < quantity && count < storageQuestions.size()) {
+            questionsResult.add(storageQuestions.get(count++).postReady());
+        }
+        testMapper.paperCreate(userid, questionsResult);
+    }
+
+    public List<PostQuestion> paperFetch(int userid) {
         List<PostQuestion> questionsResult = new ArrayList<>();
         Comparator<PostQuestion> byqid = Comparator.comparing(PostQuestion::getQid);
 
@@ -39,30 +69,6 @@ public class TestService {
             return questionsResult;
         }
         return null;
-    }
-
-    /**
-     * 生成新的试卷
-     * @param userid 用户ID
-     * @param major 用户选择的专业
-     * @return 返回生成的试卷问题列表
-     */
-    public List<PostQuestion> testEnter(int userid, String major) {
-        List<PostQuestion> questionsResult = new ArrayList<>();
-        Comparator<PostQuestion> byqid = Comparator.comparing(PostQuestion::getQid);
-        String[] qmajor = major.split("/");
-
-        List<StorageQuestion> storageQuestions = testMapper.qSelectBy2Major(qmajor[0], qmajor[1]);  // 若不存在未提交的试卷
-        Random random = new Random();  // 对题库进行抽取
-        random.setSeed(System.currentTimeMillis());
-        Collections.shuffle(storageQuestions, random);
-        int count = 0;
-        while (count < quantity && count < storageQuestions.size()) {
-            questionsResult.add(storageQuestions.get(count++).postReady());
-        }
-        testMapper.paperCreate(userid, questionsResult);
-        questionsResult.sort(byqid);  // 排序后发送
-        return questionsResult;
     }
 
     /**
