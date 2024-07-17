@@ -25,7 +25,7 @@ public class RegisterAndLoginController {
      * @return 登录结果，成功返回1和JWT，失败返回0和错误信息
      */
     @RequestMapping("/login")
-    public Result login(@RequestBody User user) {
+    public Result login(User user) {
         try {
             String jwt = registerAndLoginService.login(user.getUserid(), user.getPassword());
             if (jwt != null) {
