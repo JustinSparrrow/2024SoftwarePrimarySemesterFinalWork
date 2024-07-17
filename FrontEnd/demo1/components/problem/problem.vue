@@ -61,14 +61,18 @@
 		methods: {
 			fetchQuestion() {
 				const token = localStorage.getItem('JWT');
-				if (token) {
+				const userId = localStorage.getItem('userid');
+				if (token && userId) {
+					const formData = new FormData();
+					formData.append("userid", userId);
 					uni.request({
-						url: 'http://localhost:81/Question/qSelect',
-						method: 'GET',
+						url: 'http://localhost:81/Test/paperExistCheck',
+						method: 'POST',
 						header: {
 							'Authorization': token,
 							'Content-Type': 'application/json'
 						},
+						data: formData,
 						success: (res) => {
 							if (res.data.success === 1) {
 								const questionData = res.data.data[0]; // 假设返回的是问题列表，取第一个问题
@@ -84,6 +88,8 @@
 							console.error('请求失败:', err);
 						}
 					});
+				} else {
+					console.error('未能找到有效的JWT或用户ID');
 				}
 			},
 			radioChange(event) {

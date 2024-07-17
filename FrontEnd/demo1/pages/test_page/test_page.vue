@@ -1,25 +1,3 @@
-<!-- <template>
-	<view class="container">
-		<view class="user-section">
-			<view class="question-section" v-if="currentQuestion">
-				<view class="question-text">
-					题目{{ currentQuestionIndex + 1 }}/{{ questions.length }}：{{ currentQuestion.text }}
-				</view>
-				<view class="options">
-					<view v-for="(option, index) in currentQuestion.options" :key="index">
-						<input type="checkbox" :value="option" v-model="userAnswers[currentQuestionIndex]">{{ option }}
-					</view>
-				</view>
-			</view>
-			<view class="navigation-buttons">
-				<button @click="prevQuestion()" :disabled="currentQuestionIndex === 0">上一题</button>
-				<button @click="nextQuestion()" :disabled="currentQuestionIndex === questions.length - 1">下一题</button>
-				<button @click="submitExam()" :disabled="isAllAnswered">提交试卷</button>
-			</view>
-		</view>
-	</view>
-</template> -->
-
 <template>
 	<div id="app">
 		<div class="container">
@@ -30,19 +8,19 @@
 					</div>
 					<div class="options">
 						<!-- 是非题 -->
-						<div v-if="currentQuestion.qtype == 0" class="option-container">
+						<div v-if="currentQuestion.qtype === 0" class="option-container">
 							<button @click="selectAnswer('A', currentQuestionIndex)">是</button>
 							<button @click="selectAnswer('B', currentQuestionIndex)">否</button>
 						</div>
 						<!-- 单选题 -->
-						<div v-if="currentQuestion.qtype == 1" class="option-container">
+						<div v-if="currentQuestion.qtype === 1" class="option-container">
 							<button v-for="(option, index) in currentQuestion.qcontent.split('/').slice(1)" :key="index"
 								@click="selectAnswer(option, currentQuestionIndex)">
 								{{ option }}
 							</button>
 						</div>
 						<!-- 多选题 -->
-						<div v-if="currentQuestion.qtype == 2" class="option-container">
+						<div v-if="currentQuestion.qtype === 2" class="option-container">
 							<button v-for="(option, index) in currentQuestion.qcontent.split('/').slice(1)" :key="index"
 								@click="toggleAnswer(option, currentQuestionIndex)">
 								{{ option }}
@@ -53,7 +31,7 @@
 				<div class="navigation-buttons">
 					<button @click="prevQuestion" :disabled="currentQuestionIndex === 0">上一题</button>
 					<button @click="nextQuestion" :disabled="currentQuestionIndex === questions.length - 1">下一题</button>
-					<button @click="submitExam" >提交试卷</button>
+					<button @click="submitExam" :disabled="!isAllAnswered">提交试卷</button>
 				</div>
 			</div>
 		</div>
@@ -62,26 +40,17 @@
 
 <script>
 	import Fly from 'flyio/dist/npm/fly';
+
 	export default {
 		data() {
 			return {
 				isAdmin: false,
-				newQuestionText: '',
-				newQuestionOptions: '',
-				newQuestionAnswer: '',
-				newQuestionImage: null,
-				deleteQuestionId: '',
-				updateQuestionId: '',
-				updateQuestionText: '',
-				updateQuestionOptions: '',
-				updateQuestionAnswer: '',
-				updateQuestionImage: null,
 				questions: [],
 				currentQuestionIndex: 0,
 				userAnswers: [],
 				currentQuestion: null,
 				totalQuestions: 0,
-				isAllAnswered: true,
+				isAllAnswered: false,
 			};
 		},
 		created() {
@@ -91,15 +60,16 @@
 		methods: {
 			checkUserRole() {
 				const userid = localStorage.getItem('userid');
+				this.isAdmin = userid && userid === '1000000';
 			},
 			fetchQuestions() {
-				var formData = new FormData();
-				formData.append("userid", parseInt(localStorage.getItem("userId")))
-				let fly = new Fly;
+				const formData = new FormData();
+				formData.append("userid", parseInt(localStorage.getItem("userid")));
+				const fly = new Fly;
 				fly.config.headers = {
 					JWT: localStorage.getItem("JWT")
-				}
-				fly.post('http://localhost:81/Test/paperFetch', formData)
+				};
+				fly.post('http://localhost:81/Question/qSelect', formData)
 					.then(res => {
 						if (res.data.success === 1) {
 							console.log(res.data.data);
@@ -133,7 +103,6 @@
 					this.currentQuestion = this.questions[this.currentQuestionIndex];
 				}
 			},
-
 			selectAnswer(answer, index) {
 				this.$set(this.userAnswers, index, answer);
 				this.saveAnswer(index);
@@ -144,7 +113,7 @@
 				}
 				const answers = this.userAnswers[index];
 				const answerIndex = answers.indexOf(option);
-				if (answerIndex == -1) {
+				if (answerIndex === -1) {
 					answers.push(option);
 				} else {
 					answers.splice(answerIndex, 1);
@@ -181,52 +150,36 @@
 					console.log('请先选择答案');
 				}
 			},
-
 			submitExam() {
-				if (true) {
-					this.saveAnswer(this.currentQuestionIndex);
+				if (this.isAllAnswered) {
+					for (let i = 0; i < this.questions.length; i++) {
+						this.saveAnswer(i);
+					}
+
+					const userId = parseInt(localStorage.getItem('userid'));
+					const formData = new FormData();
+					formData.append("userid", userId);
 					const fly = new Fly;
-					const userId = localStorage.getItem('userid');
-					const userAnswers = this.userAnswers.map((answer, index) => ({
-						qid: this.questions[index].id,
-						answer,
-					}));
-					var formData = new FormData();
-					formData.append("userid", localStorage.getItem("userId"))
 					fly.config.headers = {
 						JWT: localStorage.getItem("JWT")
-					}
-					fly.post('http://localhost:81/Test/paperSubmit', formData, )
+					};
+					fly.post('http://localhost:81/Test/paperSubmit', formData)
 						.then(res => {
 							if (res.data.success === 1) {
-								var score = res.data.data
-								console.log(score)
-								alert("提交成功，您的分数是" + score.toString())
-								uni.navigateTo({
-									url: '/pages/index/index',
-								})
+								const score = res.data.data;
+								console.log(score);
+								alert("提交成功，您的分数是" + score.toString());
+								window.location.href = '/index';
 							} else {
-								uni.showToast({
-									title: '提交失败',
-									icon: 'none',
-									duration: 2000
-								});
+								console.log('提交失败');
 							}
 						})
 						.catch(err => {
 							console.error(err);
-							uni.showToast({
-								title: '提交失败',
-								icon: 'none',
-								duration: 2000
-							});
+							console.log('提交失败');
 						});
 				} else {
-					uni.showToast({
-						title: '请回答所有题目后提交',
-						icon: 'none',
-						duration: 2000
-					});
+					console.log('请回答所有题目后提交');
 				}
 			},
 			checkIfAllAnswered() {
@@ -244,86 +197,6 @@
 	};
 </script>
 
-// <style lang="scss">
-	// 	.container {
-	// 		padding: 10px;
-	// 		background-image: url(../../static/images/restaurant.webp);
-	// 		background-size: cover;
-	// 		width: 100vw;
-	// 		height: 100vh;
-	// 	}
-
-	// 	.admin-section,
-	// 	.user-section {
-	// 		padding: 20px;
-	// 	}
-
-	// 	.section {
-	// 		margin-bottom: 20px;
-	// 	}
-
-	// 	.section-title {
-	// 		font-size: 24px;
-	// 		font-weight: bold;
-	// 		margin-bottom: 10px;
-	// 	}
-
-	// 	.input-group {
-	// 		margin-bottom: 10px;
-	// 	}
-
-	// 	input[type="text"],
-	// 	input[type="number"],
-	// 	input[type="file"],
-	// 	input[type="email"],
-	// 	input[type="tel"] {
-	// 		width: 100%;
-	// 		padding: 8px;
-	// 		box-sizing: border-box;
-	// 	}
-
-	// 	button {
-	// 		width: 100%;
-	// 		padding: 10px;
-	// 		background-color: #3498db;
-	// 		color: #fff;
-	// 		border: none;
-	// 		border-radius: 5px;
-	// 		cursor: pointer;
-	// 		transition: background-color 0.3s ease;
-	// 	}
-
-	// 	button:hover {
-	// 		background-color: #2980b9;
-	// 	}
-
-	// 	.question-section {
-	// 		padding: 20px;
-	// 		background-color: rgba(255, 255, 255, 0.8);
-	// 		border-radius: 10px;
-	// 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	// 	}
-
-	// 	.question-text {
-	// 		font-size: 20px;
-	// 		font-weight: bold;
-	// 		margin-bottom: 10px;
-	// 	}
-
-	// 	.options {
-	// 		margin-bottom: 20px;
-	// 	}
-
-	// 	.navigation-buttons {
-	// 		display: flex;
-	// 		justify-content: space-between;
-	// 	}
-
-	// 	.navigation-buttons button {
-	// 		width: 30%;
-	// 	}
-	// 
-</style>
 <style scoped>
 	.container {
 		padding: 10px;
