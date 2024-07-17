@@ -4,7 +4,7 @@
 			<div class="user-section">
 				<div class="question-section" v-if="currentQuestion">
 					<div class="question-text">
-						题目{{ currentQuestionIndex + 1 }}/{{ questions.length }}：{{ currentQuestion.qcontent.split('/')[0] }}
+						题目{{ currentQuestionIndex + 1 }}/{{ questions.length }}：{{ currentQuestion.qcontent }}
 					</div>
 					<div class="options">
 						<!-- 是非题 -->
@@ -14,14 +14,14 @@
 						</div>
 						<!-- 单选题 -->
 						<div v-if="currentQuestion.qtype === 1" class="option-container">
-							<button v-for="(option, index) in currentQuestion.qcontent.split('/').slice(1)" :key="index"
+							<button v-for="(option, index) in currentQuestion.qchoice" :key="index"
 								@click="selectAnswer(option, currentQuestionIndex)">
 								{{ option }}
 							</button>
 						</div>
 						<!-- 多选题 -->
 						<div v-if="currentQuestion.qtype === 2" class="option-container">
-							<button v-for="(option, index) in currentQuestion.qcontent.split('/').slice(1)" :key="index"
+							<button v-for="(option, index) in currentQuestion.qchoice" :key="index"
 								@click="toggleAnswer(option, currentQuestionIndex)">
 								{{ option }}
 							</button>
@@ -44,7 +44,6 @@
 	export default {
 		data() {
 			return {
-				isAdmin: false,
 				questions: [],
 				currentQuestionIndex: 0,
 				userAnswers: [],
@@ -54,29 +53,32 @@
 			};
 		},
 		created() {
-			this.checkUserRole();
 			this.fetchQuestions();
 		},
 		methods: {
-			checkUserRole() {
-				const userid = localStorage.getItem('userid');
-				this.isAdmin = userid && userid === '1000000';
-			},
 			fetchQuestions() {
+				const userId = localStorage.getItem("userId");
+				console.log("userid from localStorage ", userId);
+
+				if (!userId) {
+					console.error('无法获取userid，用户可能未登录或未正确存储userid');
+					return;
+				}
+
 				const formData = new FormData();
-				formData.append("userid", parseInt(localStorage.getItem("userid")));
-				const fly = new Fly;
+				formData.append("userid", parseInt(userId));
+				console.log("userid after parseInt:", userId);
+
+				const fly = new Fly();
 				fly.config.headers = {
 					JWT: localStorage.getItem("JWT")
 				};
-				fly.post('http://localhost:81/Question/qSelect', formData)
+
+				fly.post('http://localhost:81/Test/paperFetch', formData)
 					.then(res => {
 						if (res.data.success === 1) {
 							console.log(res.data.data);
-							this.questions = res.data.data.map(q => ({
-								...q,
-								options: q.qcontent.split('/').slice(1) // 分割题目选项
-							}));
+							this.questions = res.data.data;
 							this.userAnswers = new Array(this.questions.length).fill(null);
 							this.totalQuestions = this.questions.length;
 							this.currentQuestion = this.questions[this.currentQuestionIndex];
@@ -88,20 +90,6 @@
 						console.error(err);
 						alert('获取题目失败');
 					});
-			},
-			prevQuestion() {
-				if (this.currentQuestionIndex > 0) {
-					this.saveAnswer(this.currentQuestionIndex);
-					this.currentQuestionIndex--;
-					this.currentQuestion = this.questions[this.currentQuestionIndex];
-				}
-			},
-			nextQuestion() {
-				if (this.currentQuestionIndex < this.questions.length - 1) {
-					this.saveAnswer(this.currentQuestionIndex);
-					this.currentQuestionIndex++;
-					this.currentQuestion = this.questions[this.currentQuestionIndex];
-				}
 			},
 			selectAnswer(answer, index) {
 				this.$set(this.userAnswers, index, answer);
@@ -124,13 +112,16 @@
 			saveAnswer(index) {
 				const answer = this.userAnswers[index];
 				if (answer !== null) {
-					const userId = parseInt(localStorage.getItem('userid'));
-					const questionId = this.questions[index].qid;
+					const userId = parseInt(localStorage.getItem('userId'));
+					const question = this.questions[index];
 					const formData = new FormData();
-					formData.append("userid", userId);
-					formData.append("qid", questionId);
-					formData.append("answer", Array.isArray(answer) ? answer.join('') : answer);
-					const fly = new Fly;
+					formData.append("rid", question.qid);
+					formData.append("useranswer", Array.isArray(answer) ? answer.join('') : answer);
+					console.log("formData ", formData);
+					for (let pair of formData.entries()) {
+						console.log(pair[0] + ': ' + pair[1]);
+					}
+					const fly = new Fly();
 					fly.config.headers = {
 						JWT: localStorage.getItem("JWT")
 					};
@@ -150,16 +141,30 @@
 					console.log('请先选择答案');
 				}
 			},
+			prevQuestion() {
+				if (this.currentQuestionIndex > 0) {
+					this.saveAnswer(this.currentQuestionIndex);
+					this.currentQuestionIndex--;
+					this.currentQuestion = this.questions[this.currentQuestionIndex];
+				}
+			},
+			nextQuestion() {
+				if (this.currentQuestionIndex < this.questions.length - 1) {
+					this.saveAnswer(this.currentQuestionIndex);
+					this.currentQuestionIndex++;
+					this.currentQuestion = this.questions[this.currentQuestionIndex];
+				}
+			},
 			submitExam() {
 				if (this.isAllAnswered) {
 					for (let i = 0; i < this.questions.length; i++) {
 						this.saveAnswer(i);
 					}
 
-					const userId = parseInt(localStorage.getItem('userid'));
+					const userId = parseInt(localStorage.getItem('userId'));
 					const formData = new FormData();
 					formData.append("userid", userId);
-					const fly = new Fly;
+					const fly = new Fly();
 					fly.config.headers = {
 						JWT: localStorage.getItem("JWT")
 					};
