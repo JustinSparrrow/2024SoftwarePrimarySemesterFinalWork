@@ -110,83 +110,82 @@
 				this.saveAnswer(index);
 			},
 			saveAnswer(index) {
-				const answer = this.userAnswers[index];
-				if (answer !== null) {
-					const userId = parseInt(localStorage.getItem('userId'));
-					const question = this.questions[index];
-					const formData = new FormData();
-					formData.append("rid", question.qid);
-					formData.append("useranswer", Array.isArray(answer) ? answer.join('') : answer);
-					console.log("formData ", formData);
-					for (let pair of formData.entries()) {
-						console.log(pair[0] + ': ' + pair[1]);
-					}
-					const fly = new Fly();
-					fly.config.headers = {
-						JWT: localStorage.getItem("JWT")
-					};
-					fly.post('http://localhost:81/Test/answerSave', formData)
-						.then(res => {
-							if (res.data.success === 1) {
-								console.log('答案保存成功');
-							} else {
-								console.log('答案保存失败');
-							}
-						})
-						.catch(err => {
-							console.error(err);
-							console.log('答案保存失败');
-						});
-				} else {
-					console.log('请先选择答案');
-				}
-			},
-			prevQuestion() {
-				if (this.currentQuestionIndex > 0) {
-					this.saveAnswer(this.currentQuestionIndex);
-					this.currentQuestionIndex--;
-					this.currentQuestion = this.questions[this.currentQuestionIndex];
-				}
-			},
-			nextQuestion() {
-				if (this.currentQuestionIndex < this.questions.length - 1) {
-					this.saveAnswer(this.currentQuestionIndex);
-					this.currentQuestionIndex++;
-					this.currentQuestion = this.questions[this.currentQuestionIndex];
-				}
-			},
-			submitExam() {
-				if (this.isAllAnswered) {
-					for (let i = 0; i < this.questions.length; i++) {
-						this.saveAnswer(i);
-					}
-
-					const userId = parseInt(localStorage.getItem('userId'));
-					const formData = new FormData();
-					formData.append("userid", userId);
-					const fly = new Fly();
-					fly.config.headers = {
-						JWT: localStorage.getItem("JWT")
-					};
-					fly.post('http://localhost:81/Test/paperSubmit', formData)
-						.then(res => {
-							if (res.data.success === 1) {
-								const score = res.data.data;
-								console.log(score);
-								alert("提交成功，您的分数是" + score.toString());
-								window.location.href = '/index';
-							} else {
-								console.log('提交失败');
-							}
-						})
-						.catch(err => {
-							console.error(err);
-							console.log('提交失败');
-						});
-				} else {
-					console.log('请回答所有题目后提交');
-				}
-			},
+			                const answer = this.userAnswers[index];
+			                if (answer !== null) {
+			                    const userId = parseInt(localStorage.getItem('userId'));
+			                    const question = this.questions[index];
+			                    const formData = new FormData();
+			                    formData.append("userid", userId);
+								formData.append("qid",question.qid)
+			                    formData.append("useranswer", Array.isArray(answer) ? answer.join('') : answer);
+			                    console.log("formData ", formData);
+			                    for (let pair of formData.entries()) {
+			                        console.log(pair[0] + ': ' + pair[1]);
+			                    }
+			                    const fly = new Fly();
+			                    fly.config.headers = {
+			                        JWT: localStorage.getItem("JWT")
+			                    };
+			                    fly.post('http://localhost:81/Test/answerSave', formData)
+			                        .then(res => {
+			                            if (res.data.success === 1) {
+			                                console.log('答案保存成功');
+			                            } else {
+			                                console.log('答案保存失败');
+			                            }
+			                        })
+			                        .catch(err => {
+			                            console.error(err);
+			                            console.log('答案保存失败');
+			                        });
+			                } else {
+			                    console.log('请先选择答案');
+			                }
+			            },
+			            prevQuestion() {
+			                if (this.currentQuestionIndex > 0) {
+			                    this.currentQuestionIndex--;
+			                    this.currentQuestion = this.questions[this.currentQuestionIndex];
+			                }
+			            },
+			            nextQuestion() {
+			                if (this.currentQuestionIndex < this.questions.length - 1) {
+			                    this.currentQuestionIndex++;
+			                    this.currentQuestion = this.questions[this.currentQuestionIndex];
+			                }
+			            },
+			            submitExam() {
+			                if (this.isAllAnswered) {
+			                    for (let i = 0; i < this.questions.length; i++) {
+			                        this.saveAnswer(i);
+			                    }
+			
+			                    const userId = parseInt(localStorage.getItem('userId'));
+			                    const formData = new FormData();
+			                    formData.append("userid", userId);
+			                    const fly = new Fly();
+			                    fly.config.headers = {
+			                        JWT: localStorage.getItem("JWT")
+			                    };
+			                    fly.post('http://localhost:81/Test/paperSubmit', formData)
+			                        .then(res => {
+			                            if (res.data.success === 1) {
+			                                const score = res.data.data;
+			                                console.log(score);
+			                                alert("提交成功，您的分数是" + score.toString());
+			                                window.location.href = '/index';
+			                            } else {
+			                                console.log('提交失败');
+			                            }
+			                        })
+			                        .catch(err => {
+			                            console.error(err);
+			                            console.log('提交失败');
+			                        });
+			                } else {
+			                    console.log('请回答所有题目后提交');
+			                }
+			            },
 			checkIfAllAnswered() {
 				this.isAllAnswered = this.userAnswers.every(answer => answer !== null);
 			}

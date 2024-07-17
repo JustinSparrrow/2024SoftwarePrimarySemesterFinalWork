@@ -34,7 +34,7 @@
     </insert>
 
     <update id="answerSave">
-        update test set userAnswer=#{useranswer} where rid=#{rid};
+        update test set userAnswer=#{useranswer} where userid=#{userid} and qid=#{qid};
     </update>
 
     <select id="questionCorrect" resultType="int">

@@ -44,7 +44,7 @@ public interface TestMapper {
      * @param rid 用户答案记录 ID
      * @param useranswer 用户答案
      */
-    public void answerSave(int rid, String useranswer);
+    public void answerSave(int userid,int qid, String useranswer);
 
     /**
      * 计算用户的正确答案数量

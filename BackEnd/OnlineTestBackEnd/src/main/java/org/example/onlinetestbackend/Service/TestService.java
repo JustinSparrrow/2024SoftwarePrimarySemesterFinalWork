@@ -72,7 +72,7 @@ public class TestService {
      * @param userToQuestion 用户回答的问题对象
      */
     public void answerSave(UserToQuestion userToQuestion) {
-        testMapper.answerSave(userToQuestion.getRid(), userToQuestion.getUseranswer());
+        testMapper.answerSave(userToQuestion.getUserid(), userToQuestion.getQid(), userToQuestion.getUseranswer());
     }
 
     /**
