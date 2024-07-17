@@ -64,7 +64,7 @@
 						if (res.data.success === 1) {
 							this.examPapers = res.data.data;
 							uni.navigateTo({
-								url: `/pages/test_page/test_page}`
+								url: `/pages/test_page/test_page`
 							});
 						}
 					},

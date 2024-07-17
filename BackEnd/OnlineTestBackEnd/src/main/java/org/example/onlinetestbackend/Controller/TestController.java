@@ -52,9 +52,8 @@ public class TestController {
      * @return 生成的试卷，成功返回1和试卷信息，失败返回0
      */
     @RequestMapping("/Test/paperFetch")
-    public Result paperFetch(@RequestParam JSONObject jsonObject) {
+    public Result paperFetch(Integer userid) {
         try{
-            int userid = jsonObject.getInteger("userid");
             return new Result(1 ,testService.paperFetch(userid));
         }catch (Exception e){
             e.printStackTrace();

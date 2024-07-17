@@ -42,7 +42,6 @@ public class TestService {
         random.setSeed(System.currentTimeMillis());
         Collections.shuffle(storageQuestions, random);
         int count = 0;
-        System.out.println(Arrays.toString(storageQuestions.toArray()));
         while (count < quantity && count < storageQuestions.size()) {
             questionsResult.add(storageQuestions.get(count++));
         }
