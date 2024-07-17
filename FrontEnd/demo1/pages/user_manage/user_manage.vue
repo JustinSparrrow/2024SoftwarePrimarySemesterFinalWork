@@ -11,7 +11,7 @@
 		<view class="user-list">
 			<view v-for="(user, index) in paginatedUsers" :key="user.id" class="user-item">
 				<!-- 添加选项框 -->
-				<checkbox-group v-model="selectedUsers">
+				<checkbox-group v-model="selectedUsers" @change="handleCheckboxChange(user.userid)">
 					<checkbox :value="user.id"></checkbox>
 				</checkbox-group>
 				<view class="user-info">
@@ -24,7 +24,7 @@
 				<!-- 其他用户信息根据需求展示-->
 				<view class="actions">
 					<button @click="navigateToEditUser(user)">编辑</button>
-					<button @click="confirmDelete(user.id)">删除</button>
+					<button @click="confirmDelete(user.userid)">删除</button>
 				</view>
 			</view>
 		</view>
@@ -62,6 +62,9 @@
 </template>
 
 <script>
+	import Fly from 'flyio/dist/npm/fly';
+	// 初始化 Fly 实例
+	const fly = new Fly();
 	export default {
 		data() {
 			return {
@@ -140,6 +143,10 @@
 					this.selectedUsers = [];
 				}
 			},
+			// 处理复选框变化
+			handleCheckboxChange(userId) {
+				this.currentUserToDelete = userId;
+			},
 			// 删除选中用户
 			deleteSelected() {
 				const token = localStorage.getItem('JWT');
@@ -153,12 +160,12 @@
 							"JWT": localStorage.getItem("JWT")
 						},
 						data: JSON.stringify({
-							ids: this.selectedUsers.map(String) // 转换为字符串数组
+							userid: this.selectedUsers // 不需要转换为字符串数组
 						}),
 						success: (res) => {
 							if (res.data.success === 1) {
 								this.users = this.users.filter(
-									user => !this.selectedUsers.includes(user.id)
+									user => !this.selectedUsers.includes(user.userid)
 								);
 								this.selectedUsers = [];
 							} else {
@@ -181,6 +188,7 @@
 				this.showDeleteConfirm = false;
 				this.currentUserToDelete = null;
 			},
+
 			// 删除单个用户
 			deleteUser(userId) {
 				const token = localStorage.getItem('JWT');
@@ -192,30 +200,25 @@
 					console.log('Request data:', requestData); // 打印请求数据
 					console.log('JWT token:', token); // 打印JWT token
 
-					uni.request({
-						method: 'POST',
-						url: 'http://localhost:81/User/userDelete',
-						header: {
+					fly.post('http://localhost:81/User/userDelete', requestData, {
+						headers: {
 							'Authorization': token,
 							'Content-Type': 'application/json',
 							"JWT": token
-						},
-						data: requestData,
-						success: (res) => {
-							console.log('Response:', res); // 添加调试信息
-							if (res.data.success === 1) {
-								this.users = this.users.filter(user => user.id !== userId);
-								this.showDeleteConfirm = false; // 关闭弹窗
-							} else {
-								console.error('删除用户失败:', res.data.data);
-								// 添加更多调试信息
-								console.log('Failed to delete user:', userId);
-								console.log('Server response:', res.data);
-							}
-						},
-						fail: (err) => {
-							console.error('请求失败:', err);
 						}
+					}).then((res) => {
+						console.log('Response:', res); // 添加调试信息
+						if (res.data.success === 1) {
+							this.users = this.users.filter(user => user.userid !== userId); // 使用userid而不是id
+							this.showDeleteConfirm = false; // 关闭弹窗
+						} else {
+							console.error('删除用户失败:', res.data.data);
+							// 添加更多调试信息
+							console.log('Failed to delete user:', userId);
+							console.log('Server response:', res.data);
+						}
+					}).catch((err) => {
+						console.error('请求失败:', err);
 					});
 				}
 			},
