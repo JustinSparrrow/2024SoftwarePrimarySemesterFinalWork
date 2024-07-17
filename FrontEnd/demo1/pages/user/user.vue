@@ -118,54 +118,57 @@
 					// 在此处添加保存用户信息的逻辑，可以通过 API 将修改后的数据提交给后端
 					const token = localStorage.getItem('JWT');
 					if (token) {
-						var formData = new FormData();
-						formData.append("userid", localStorage.getItem("userId"))
-						let fly = new Fly;
-						fly.post('http://localhost:81/login', formData, )
-							.then(res => {
-									if (res.data.success === 1) {
-										uni.showToast({
-											title: '保存成功',
-											duration: 1000
-										});
-									} else {
-										uni.showToast({
-											title: '保存失败',
-											icon: 'none',
-											duration: 1000
-										});
-										console.error('保存用户信息失败:', res.data.data);
-									}
-								} 
-							)
-					// uni.request({
-					// 	method: 'POST',
-					// 	url: 'http://localhost:81/User/userUpdate', // 假设有一个后端接口可以更新用户信息
-					// 	header: {
-					// 		'Authorization': token,
-					// 		'Content-Type': 'application/json',
-					// 		"JWT":localStorage.getItem("JWT")
-					// 	},
-					// 	data: JSON.stringify(this.userData),
-					// 	success: res => {
-					// 		if (res.data.success === 1) {
-					// 			uni.showToast({
-					// 				title: '保存成功',
-					// 				duration: 1000
-					// 			});
-					// 		} else {
-					// 			uni.showToast({
-					// 				title: '保存失败',
-					// 				icon: 'none',
-					// 				duration: 1000
-					// 			});
-					// 			console.error('保存用户信息失败:', res.data.data);
-					// 		}
-					// 	},
-					// 	fail: err => {
-					// 		console.error('请求失败:', err);
-					// 	}
-					// });
+						// var formData = new FormData();
+						// formData.append("userid", localStorage.getItem("userId"))
+						// let fly = new Fly;
+						// fly.config.headers={
+						// 	JWT:localStorage.getItem("JWT")
+						// }
+						// fly.post('http://localhost:81/User/userUpdate', formData, )
+						// 	.then(res => {
+						// 			if (res.data.success === 1) {
+						// 				uni.showToast({
+						// 					title: '保存成功',
+						// 					duration: 1000
+						// 				});
+						// 			} else {
+						// 				uni.showToast({
+						// 					title: '保存失败',
+						// 					icon: 'none',
+						// 					duration: 1000
+						// 				});
+						// 				console.error('保存用户信息失败:', res.data.data);
+						// 			}
+						// 		} 
+						// 	)
+					uni.request({
+						method: 'POST',
+						url: 'http://localhost:81/User/userUpdate', // 假设有一个后端接口可以更新用户信息
+						header: {
+							'Authorization': token,
+							'Content-Type': 'application/json',
+							"JWT":localStorage.getItem("JWT")
+						},
+						data: JSON.stringify(this.userData),
+						success: res => {
+							if (res.data.success === 1) {
+								uni.showToast({
+									title: '保存成功',
+									duration: 1000
+								});
+							} else {
+								uni.showToast({
+									title: '保存失败',
+									icon: 'none',
+									duration: 1000
+								});
+								console.error('保存用户信息失败:', res.data.data);
+							}
+						},
+						fail: err => {
+							console.error('请求失败:', err);
+						}
+					});
 				}
 			},
 			showChangePasswordModal() {
