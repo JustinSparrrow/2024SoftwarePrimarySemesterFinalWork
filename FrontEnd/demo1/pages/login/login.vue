@@ -124,6 +124,7 @@
 					.then(res => {
 						if (res.data.success == 1) {
 							localStorage.setItem("JWT", res.data.data)
+							localStorage.setItem("userId",this.username)
 							this.isLoggedIn = true;
 							uni.showToast({
 								title: '成功登录',
@@ -162,7 +163,8 @@
 					method: 'POST',
 					url: "http://localhost:81/register",
 					header: {
-						'Content-Type': 'application/json'
+						'Content-Type': 'application/json',
+						"JWT":localStorage.getItem("JWT")
 					},
 					data: {
 						username: this.regUsername,

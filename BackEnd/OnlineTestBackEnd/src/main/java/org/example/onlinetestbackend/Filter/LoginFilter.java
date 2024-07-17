@@ -20,7 +20,7 @@ public class LoginFilter implements Filter {
             }
 
             // 获取请求头中的 JWT 令牌
-            String jwt = request.getHeader("Authorization");
+            String jwt = request.getHeader("JWT");
             if (jwt != null) {
                 // 校验 JWT 令牌，校验成功则放行
                 try {

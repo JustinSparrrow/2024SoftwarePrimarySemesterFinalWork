@@ -86,10 +86,11 @@
 					if (token) {
 						uni.request({
 							method: 'GET',
-							url: 'http://119.3.215.15:81/User/userSelect', // 假设有一个后端接口可以获取用户信息
+							url: 'http://localhost:81/User/userSelect', // 假设有一个后端接口可以获取用户信息
 							header: {
 								'Authorization': token,
-								'Content-Type': 'application/json'
+								'Content-Type': 'application/json',
+								"JWT":localStorage.getItem("JWT")
 							},
 							success: res => {
 								if (res.data.success === 1) {
@@ -115,10 +116,11 @@
 					if (token) {
 						uni.request({
 							method: 'POST',
-							url: 'http://119.3.215.15:81/User/userUpdate', // 假设有一个后端接口可以更新用户信息
+							url: 'http://localhost:81/User/userUpdate', // 假设有一个后端接口可以更新用户信息
 							header: {
 								'Authorization': token,
-								'Content-Type': 'application/json'
+								'Content-Type': 'application/json',
+								"JWT":localStorage.getItem("JWT")
 							},
 							data: this.userData,
 							success: res => {
@@ -154,10 +156,11 @@
 					if (token) {
 						uni.request({
 							method: 'POST',
-							url: 'http://119.3.215.15:81/User/changePassword', // 假设有一个后端接口可以更改密码
+							url: 'http://localhost:81/User/changePassword', // 假设有一个后端接口可以更改密码
 							header: {
 								'Authorization': token,
-								'Content-Type': 'application/json'
+								'Content-Type': 'application/json',
+								"JWT":localStorage.getItem("JWT")
 							},
 							data: this.passwordData,
 							success: res => {

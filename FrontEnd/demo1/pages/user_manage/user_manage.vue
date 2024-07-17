@@ -91,10 +91,11 @@
 				if (token) {
 					uni.request({
 						method: 'GET',
-						url: 'http://119.3.215.15:81/User/userSelect',
+						url: 'http://localhost:81/User/userSelect',
 						header: {
 							'Authorization': token,
-							'Content-Type': 'application/json'
+							'Content-Type': 'application/json',
+							"JWT":localStorage.getItem("JWT")
 						},
 						success: (res) => {
 							if (res.data.success === 1) {
@@ -127,10 +128,11 @@
 				if (token && this.selectedUsers.length > 0) {
 					uni.request({
 						method: 'POST',
-						url: 'http://119.3.215.15:81/User/uDelete',
+						url: 'http://localhost:81/User/userDelete',
 						header: {
 							'Authorization': token,
-							'Content-Type': 'application/json'
+							'Content-Type': 'application/json',
+							"JWT":localStorage.getItem("JWT")
 						},
 						data: {
 							ids: this.selectedUsers
@@ -157,10 +159,11 @@
 				if (token) {
 					uni.request({
 						method: 'POST',
-						url: 'http://119.3.215.15:81/User/uDelete',
+						url: 'http://localhost:81/User/userDelete',
 						header: {
 							'Authorization': token,
-							'Content-Type': 'application/json'
+							'Content-Type': 'application/json',
+							"JWT":localStorage.getItem("JWT")
 						},
 						data: {
 							ids: [userId]

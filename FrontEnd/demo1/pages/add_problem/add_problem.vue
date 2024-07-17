@@ -83,11 +83,12 @@
 				const token = localStorage.getItem('JWT');
 				if (token) {
 					uni.request({
-						url: 'http://119.3.215.15:81/Question/qInsert',
+						url: 'http://localhost:81/Question/qInsert',
 						method: 'POST',
 						header: {
 							'Authorization': token,
-							'Content-Type': 'application/json'
+							'Content-Type': 'application/json',
+							"JWT":localStorage.getItem("JWT")
 						},
 						data: this.question,
 						success: (res) => {

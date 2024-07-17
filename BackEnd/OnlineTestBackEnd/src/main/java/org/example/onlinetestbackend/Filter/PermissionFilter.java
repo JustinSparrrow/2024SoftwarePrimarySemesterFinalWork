@@ -20,7 +20,7 @@ public class PermissionFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         String url = request.getRequestURL().toString();
-        String jwt = request.getHeader("Authorization");
+        String jwt = request.getHeader("JWT");
 
         try {
             // 解析 JWT 令牌

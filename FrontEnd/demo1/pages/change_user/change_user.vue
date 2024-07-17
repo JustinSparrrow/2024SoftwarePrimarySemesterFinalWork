@@ -40,8 +40,11 @@ export default {
   methods: {
     updateUser() {
       uni.request({
-        url: 'http://119.3.215.15:81/User/userUpdate',
+        url: 'http://localhost:81/User/userUpdate',
         method: 'POST',
+		header:{
+			"JWT":localStorage.getItem("JWT")
+		},
         data: this.user,
         success: (res) => {
           this.message = '用户修改成功';

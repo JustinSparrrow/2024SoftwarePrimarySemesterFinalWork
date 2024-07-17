@@ -115,7 +115,7 @@
 			},
 			fetchQuestions() {
 				const fly = new Fly;
-				fly.get('http://119.3.215.15:81/Question/qSelect')
+				fly.get('http://localhost:81/Question/qSelect')
 					.then(res => {
 						if (res.data.success === 1) {
 							this.questions = res.data.data;
@@ -155,7 +155,7 @@
 				}
 
 				const fly = new Fly;
-				fly.post('http://119.3.215.15:81/Question/qInsert', formData)
+				fly.post('http://localhost:81/Question/qInsert', formData)
 					.then(res => {
 						if (res.data.success === 1) {
 							uni.showToast({
@@ -183,7 +183,7 @@
 			},
 			deleteQuestion() {
 				const fly = new Fly;
-				fly.post('http://119.3.215.15:81/Question/qDelete', {
+				fly.post('http://localhost:81/Question/qDelete', {
 						qid: this.deleteQuestionId
 					})
 					.then(res => {
@@ -222,7 +222,7 @@
 				}
 
 				const fly = new Fly;
-				fly.post('http://119.3.215.15:81/Question/qUpdate', formData)
+				fly.post('http://localhost:81/Question/qUpdate', formData)
 					.then(res => {
 						if (res.data.success === 1) {
 							uni.showToast({
@@ -269,10 +269,12 @@
 						answer,
 					}));
 
-					fly.post('http://119.3.215.15:81/Test/paperSubmit', {
+					fly.post('http://localhost:81/Test/paperSubmit', {
 							userid: userId,
 							answers: userAnswers
-						})
+						},{Headers:{
+						"JWT":localStorage.getItem("JWT")
+					}})
 						.then(res => {
 							if (res.data.success === 1) {
 								uni.showToast({

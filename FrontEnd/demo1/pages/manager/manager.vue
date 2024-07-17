@@ -134,10 +134,11 @@
 				if (token) {
 					uni.request({
 						method: 'GET',
-						url: 'http://119.3.215.15:81/Question/qSelect',
+						url: 'http://localhost:81/Question/qSelect',
 						header: {
 							'Authorization': token,
-							'Content-Type': 'application/json'
+							'Content-Type': 'application/json',
+							"JWT":localStorage.getItem("JWT")
 						},
 						success: (res) => {
 							if (res.data.success === 1) {
@@ -179,10 +180,11 @@
 				if (token && this.selectedQuestionIds.length > 0) {
 					uni.request({
 						method: 'POST',
-						url: 'http://119.3.215.15:81/Question/qDelete',
+						url: 'http://localhost:81/Question/qDelete',
 						header: {
 							'Authorization': token,
-							'Content-Type': 'application/json'
+							'Content-Type': 'application/json',
+							"JWT":localStorage.getItem("JWT")
 						},
 						data: JSON.stringify({
 							qids: this.selectedQuestionIds
@@ -216,10 +218,11 @@
 				if (token) {
 					uni.request({
 						method: 'POST',
-						url: 'http://119.3.215.15:81/Question/qDelete',
+						url: 'http://localhost:81/Question/qDelete',
 						header: {
 							'Authorization': token,
-							'Content-Type': 'application/json'
+							'Content-Type': 'application/json',
+							"JWT":localStorage.getItem("JWT")
 						},
 						data: JSON.stringify({
 							qids: [String(qid)]
@@ -247,10 +250,11 @@
 					};
 					uni.request({
 						method: 'POST',
-						url: 'http://119.3.215.15:81/Question/qUpdate',
+						url: 'http://localhost:81/Question/qUpdate',
 						header: {
 							'Authorization': token,
-							'Content-Type': 'application/json'
+							'Content-Type': 'application/json',
+							"JWT":localStorage.getItem("JWT")
 						},
 						data: JSON.stringify(updateData),
 						success: (res) => {

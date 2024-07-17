@@ -52,8 +52,14 @@
 		methods: {
 			fetchExamPapers() {
 				uni.request({
-					url: 'http://119.3.215.15:81//Test/paperExistCheck',
+					url: 'http://localhost:81/Test/paperExistCheck',
 					method: 'GET',
+					header:{
+						"JWT":localStorage.getItem("JWT")
+					},
+					data:{
+						"userid":parseInt(localStorage.getItem("userId"))
+					},
 					success: (res) => {
 						if (res.data.success === 1) {
 							this.examPapers = res.data.data;
@@ -93,8 +99,11 @@
 				}
 				const selectedMajor = `${this.multiArry[0][this.multiIndex[0]]}/${this.multiArry[1][this.multiIndex[1]]}`;
 				uni.request({
-					url: 'http://119.3.215.15:81/Test/testEnter',
+					url: 'http://localhost:81/Test/testEnter',
 					method: 'POST',
+					header:{
+						"JWT":localStorage.getItem("JWT")
+					},
 					data: {
 						userid: this.userId, // 使用实际用户ID
 						major: selectedMajor
