@@ -25,8 +25,8 @@ public class TestController {
     public Result paperExistCheck(int userid) {
         try{
             List<PostQuestion> resultQuestion = testService.paperExistCheck(userid);
-            if(resultQuestion == null) return new Result(0, "不存在已创建的试卷");
-            return new Result(1, resultQuestion);
+            if(resultQuestion.isEmpty()) return new Result(0, "不存在已创建的试卷");
+            return new Result(1);
         }catch (Exception e){
             e.printStackTrace();
             return new Result(0);
@@ -39,10 +39,27 @@ public class TestController {
      * @param major 专业
      * @return 生成的试卷，成功返回1和试卷信息，失败返回0
      */
-    @RequestMapping("/Test/testEnter")
-    public Result testEnter(int userid, String major) {
+    @RequestMapping("/Test/testCreate")
+    public Result testCreate(int userid, String major) {
         try{
-            return new Result(1, testService.testEnter(userid, major));
+            testService.testCreate(userid, major);
+            return new Result(1 );
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(0);
+        }
+    }
+
+    /**
+     * 进入考试，生成试卷
+     * @param userid 用户ID
+     * @return 生成的试卷，成功返回1和试卷信息，失败返回0
+     */
+    @RequestMapping("/Test/paperFetch")
+    public Result paperFetch(int userid) {
+        try{
+            testService.paperFetch(userid);
+            return new Result(1 );
         }catch (Exception e){
             e.printStackTrace();
             return new Result(0);

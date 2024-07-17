@@ -93,7 +93,7 @@
 						"JWT":localStorage.getItem("JWT")
 					},
 					data: {
-						userid: this.userId, // 使用实际用户ID
+						userid: localStorage.getItem("userId"), // 使用实际用户ID
 						major: selectedMajor
 					},
 					success: (res) => {
