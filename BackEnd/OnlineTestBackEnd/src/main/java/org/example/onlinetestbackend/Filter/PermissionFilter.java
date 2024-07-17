@@ -10,6 +10,8 @@ import org.example.onlinetestbackend.Utils.JWTUtils;
 import org.example.onlinetestbackend.pojo.Result;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
@@ -25,11 +27,10 @@ public class PermissionFilter implements Filter {
         try {
             // 解析 JWT 令牌
             Claims claims = JWTUtils.parseToken(jwt);
-
             // 检查是否为管理员或者用户更新自己的信息
             if (claims.get("admin", Integer.class) == 1 // 如果是管理员，直接放行
                     || (url.contains("User/userUpdate") && parseInt(request.getParameter("userid")) == claims.get("userid", Integer.class)
-                    && claims.get("admin", Integer.class) == null)  // 用户更新自己的信息也放行（但不能更改管理员权限）
+                    && claims.get("admin", Integer.class) == 0)  // 用户更新自己的信息也放行（但不能更改管理员权限）
                     ||(url.contains("User/userSelect") && parseInt(request.getParameter("userid")) == claims.get("userid", Integer.class)))
                     //用户查询自己的信息也放行
             {

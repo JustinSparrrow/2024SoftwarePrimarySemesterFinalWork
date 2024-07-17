@@ -43,7 +43,6 @@ public class UserService {
             // 对密码进行MD5加密
             user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         }
-        System.out.println(user.getUserid() + " is changing: " + user.getEmail());
         userMapper.userUpdate(user);
     }
 
