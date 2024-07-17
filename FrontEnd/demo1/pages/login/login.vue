@@ -42,7 +42,7 @@
 					<form @submit.prevent="handleRegister">
 						<!-- 昵称 -->
 						<view class="input-group">
-							<label for="nickname">ID</label>
+							<label for="nickname">昵称</label>
 							<input type="text" v-model="regUsername" id="nickname" placeholder="昵称" required />
 						</view>
 						<!-- 密码 -->

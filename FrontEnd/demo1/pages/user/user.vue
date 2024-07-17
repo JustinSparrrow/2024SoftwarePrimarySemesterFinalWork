@@ -92,6 +92,9 @@
 								'Content-Type': 'application/json',
 								"JWT":localStorage.getItem("JWT")
 							},
+							data:{
+								'userid':parseInt(localStorage.getItem("userId"))
+							},
 							success: res => {
 								if (res.data.success === 1) {
 									this.userData = res.data.data[0]; // 假设返回的用户信息在data.data数组中
