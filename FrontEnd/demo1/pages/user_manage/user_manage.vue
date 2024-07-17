@@ -191,41 +191,40 @@
 
 			// 删除单个用户
 			deleteUser(userId) {
-			    const token = localStorage.getItem('JWT');
-			    if (token) {
-			        // 创建请求数据对象
-			        let requestData = [];
-					console.log('userId.length = ',userId.length);
-			        // 将数组中的每个元素单独添加为 userid 字段
-			        for (let i = 0; i < userId.length; i++) {
-			            requestData.push({ userid: userId[i] });
-						console.log('userId:', userId[i]);
-			        }
-			
-			        console.log('Request data:', requestData); // 打印请求数据
-			        console.log('JWT token:', token); // 打印JWT token
-			
-			        fly.post('http://localhost:81/User/userDelete', requestData, {
-			            headers: {
-			                'Authorization': token,
-			                'Content-Type': 'application/json',
-			                "JWT": token
-			            }
-			        }).then((res) => {
-			            console.log('Response:', res); // 添加调试信息
-			            if (res.data.success === 1) {
-			                this.users = this.users.filter(user => user.userid !== userId); // 使用userid而不是id
-			                this.showDeleteConfirm = false; // 关闭弹窗
-			            } else {
-			                console.error('删除用户失败:', res.data.data);
-			                // 添加更多调试信息
-			                console.log('Failed to delete user:', userId);
-			                console.log('Server response:', res.data);
-			            }
-			        }).catch((err) => {
-			            console.error('请求失败:', err);
-			        });
-			    }
+				const token = localStorage.getItem('JWT');
+				if (token) {
+					// 使用FormData进行添加
+					var requestData = new FormData();
+					// 将 userId 分割成单个字符，并逐个添加到 FormData 对象中
+					const userIdStr = userId.toString();
+					for (let i = 0; i < userIdStr.length; i++) {
+						requestData.append("userid", userIdStr[i]);
+					}
+
+					console.log('Request data:', requestData); // 打印请求数据
+					console.log('JWT token:', token); // 打印JWT token
+
+					fly.post('http://localhost:81/User/userDelete', requestData, {
+						headers: {
+							'Authorization': token,
+							// 'Content-Type': 'application/json', // 不设置 Content-Type，浏览器会自动处理
+							"JWT": token
+						}
+					}).then((res) => {
+						console.log('Response:', res); // 添加调试信息
+						if (res.data.success === 1) {
+							this.users = this.users.filter(user => user.userid !== userId); // 使用userid而不是id
+							this.showDeleteConfirm = false; // 关闭弹窗
+						} else {
+							console.error('删除用户失败:', res.data.data);
+							// 添加更多调试信息
+							console.log('Failed to delete user:', userId);
+							console.log('Server response:', res.data);
+						}
+					}).catch((err) => {
+						console.error('请求失败:', err);
+					});
+				}
 			},
 			// 跳转到编辑页面并传递用户数据
 			navigateToEditUser(user) {
